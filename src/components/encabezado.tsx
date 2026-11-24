@@ -18,6 +18,7 @@ export async function Encabezado() {
       ]
     : [
         { href: "/guia", txt: "Guía del examen" },
+        { href: "/areas", txt: "Áreas" },
         { href: "/planes", txt: t.nav.planes },
         { href: "/preguntas-frecuentes", txt: "Preguntas" },
         { href: "/entrar", txt: t.nav.entrar },

@@ -45,6 +45,9 @@ export default async function Guia() {
         Todas las preguntas son de opción múltiple con tres respuestas y una sola correcta. No se resta por equivocarte, así que conviene no dejar
         ninguna en blanco. La estructura exacta, el número de preguntas y el tiempo vienen en la guía oficial del sustentante, que publica el CENEVAL.
       </p>
+      <p>
+        <Link href="/areas">Ve el temario, la bibliografía y una pregunta resuelta de cada área y de los 18 módulos</Link>.
+      </p>
       <h2>Un plan que sí se sostiene</h2>
       <ol>
         <li>
