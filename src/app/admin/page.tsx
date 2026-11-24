@@ -35,7 +35,7 @@ export default async function Admin() {
   return (
     <>
       <h1 style={{ fontSize: 40 }}>Resumen</h1>
-      <div className="rejilla">
+      <div className="rejilla rejilla-4">
         {datos.map(([t, v]) => (
           <div key={t} className="tarjeta-dato">
             <span className="small">{t}</span>

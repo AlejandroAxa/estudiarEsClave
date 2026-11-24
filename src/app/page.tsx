@@ -51,7 +51,7 @@ export default async function Portada() {
         <div className="wrap">
           <h2>Cuatro cuartos, un mismo objetivo</h2>
           <p className="lead">Todo el contenido es de autoría propia y cada pregunta trae la argumentación de sus 3 opciones.</p>
-          <div className="rejilla" style={{ marginTop: 24 }}>
+          <div className="rejilla rejilla-4" style={{ marginTop: 24 }}>
             {cuartos.map((c) => (
               <div className="hoja" key={c.titulo}>
                 <c.icono size={28} strokeWidth={1.75} color="var(--ciruela)" aria-hidden />

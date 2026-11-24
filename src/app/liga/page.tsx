@@ -50,7 +50,7 @@ export default async function Liga() {
         Compites solo con tu alias, contra unas 30 personas de tu división. Los puntos salen de estudiar, no de pagar: secciones terminadas,
         aciertos en práctica y días seguidos.
       </p>
-      <div className="rejilla">
+      <div className="rejilla rejilla-4">
         <div className="tarjeta-dato">
           <span className="small">Esta semana</span>
           <span className="cifra">{semanaPts}</span>

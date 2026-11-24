@@ -44,6 +44,18 @@ Comandos útiles:
 | `npm run db:configurar` | Configuración base (exámenes, límites, insignias, promoción). Segura en producción |
 | `npm run db:sembrar` | Todo lo anterior más el banco semilla sin validar. Solo desarrollo y vistas previas |
 
+## Verlo con Docker
+
+Si tienes Docker Desktop, no necesitas instalar nada más ni poner claves:
+
+```bash
+docker compose up --build
+```
+
+Abre http://localhost:3000. La primera vez tarda unos minutos en compilar; luego carga Postgres con el banco semilla. Para entrar con tu cuenta, escribe cualquier correo en «Entrar» y copia el enlace que aparece en la terminal (no se manda correo real). Los pagos son simulados. Para el panel, entra con `admin@ejemplo.mx` y usa la clave TOTP que está en `docker-compose.yml`. Esa configuración es solo para tu computadora: no la uses en producción.
+
+Para borrar los datos y empezar de cero: `docker compose down -v`.
+
 ## Publicar en Vercel
 
 1. Importa este repositorio en Vercel.

@@ -983,3 +983,28 @@ textarea:focus {
     background: #fff;
   }
 }
+
+/* ── Ajustes tras revisar capturas ── */
+.membrete svg {
+  width: 14px;
+  height: 22px;
+  flex: none;
+}
+/* Una hoja blanca dentro de una banda oscura vuelve al texto oscuro. */
+.noche .hoja,
+.noche .hoja .small {
+  color: var(--tinta);
+}
+.noche .hoja .small {
+  color: var(--gris);
+}
+.tarjeta-dato {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+@media (min-width: 1000px) {
+  .rejilla-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

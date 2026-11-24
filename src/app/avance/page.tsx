@@ -32,7 +32,7 @@ export default async function Avance() {
   return (
     <div className="wrap band pila">
       <h1 style={{ fontSize: "clamp(32px,5vw,56px)" }}>Tu expediente</h1>
-      <div className="rejilla">
+      <div className="rejilla rejilla-4">
         <div className="tarjeta-dato">
           <span className="small">Último diagnóstico</span>
           <span className="cifra">{d.ultimoGlobal == null ? "—" : Math.round(d.ultimoGlobal)}</span>

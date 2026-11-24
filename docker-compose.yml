@@ -1,0 +1,36 @@
+# Vista local del sitio: docker compose up --build  →  http://localhost:3000
+# No necesita claves externas: los correos se imprimen en el log y los pagos son simulados.
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: clave
+      POSTGRES_PASSWORD: clave
+      POSTGRES_DB: clave
+    volumes:
+      - datos:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U clave"]
+      interval: 2s
+      retries: 30
+
+  web:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgres://clave:clave@db:5432/clave
+      BETTER_AUTH_URL: http://localhost:3000
+      BETTER_AUTH_SECRET: solo-para-docker-local-cambiar-en-produccion-0000
+      PASARELA: simulada
+      ADMIN_EMAILS: admin@ejemplo.mx
+      # Código del panel: agrega esta clave a tu app autenticadora (solo para Docker local).
+      ADMIN_TOTP_SECRET: JBSWY3DPEHPK3PXPJBSWY3DPEHPK3PXP
+      CRON_SECRET: docker-local
+      FECHA_EXAMEN_DEMO: "2027-05-30"
+
+volumes:
+  datos:
