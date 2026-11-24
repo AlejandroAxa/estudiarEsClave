@@ -1,6 +1,7 @@
 node_modules
 .next
 .git
+.gitattributes
 .datos-local
 .env
 .env.local

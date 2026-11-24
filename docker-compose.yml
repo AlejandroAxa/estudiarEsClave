@@ -1,8 +1,12 @@
 # Vista local del sitio: docker compose up --build  →  http://localhost:3000
 # No necesita claves externas: los correos se imprimen en el log y los pagos son simulados.
+# Si el puerto 3000 está ocupado:  PUERTO_WEB=3100 docker compose up --build
+name: estudiar-es-clave
+
 services:
   db:
     image: postgres:17-alpine
+    restart: unless-stopped
     environment:
       POSTGRES_USER: clave
       POSTGRES_PASSWORD: clave
@@ -10,20 +14,23 @@ services:
     volumes:
       - datos:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U clave"]
-      interval: 2s
-      retries: 30
+      test: ["CMD-SHELL", "pg_isready -U clave -d clave"]
+      interval: 3s
+      timeout: 3s
+      retries: 40
+      start_period: 10s
 
   web:
     build: .
+    restart: unless-stopped
     depends_on:
       db:
         condition: service_healthy
     ports:
-      - "3000:3000"
+      - "${PUERTO_WEB:-3000}:3000"
     environment:
       DATABASE_URL: postgres://clave:clave@db:5432/clave
-      BETTER_AUTH_URL: http://localhost:3000
+      BETTER_AUTH_URL: http://localhost:${PUERTO_WEB:-3000}
       BETTER_AUTH_SECRET: solo-para-docker-local-cambiar-en-produccion-0000
       PASARELA: simulada
       ADMIN_EMAILS: admin@ejemplo.mx
