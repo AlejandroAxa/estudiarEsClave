@@ -1277,3 +1277,83 @@ textarea:focus {
     display: none;
   }
 }
+
+/* Ilustración propia de cada área */
+.area-hero-rejilla {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: 1fr;
+  align-items: center;
+}
+@media (min-width: 960px) {
+  .area-hero-rejilla {
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  }
+}
+.area-hero .area-icono {
+  border-color: color-mix(in srgb, var(--acento) 55%, transparent);
+  box-shadow: 0 0 40px color-mix(in srgb, var(--acento) 35%, transparent);
+}
+.area-hero .area-lema {
+  color: var(--acento);
+}
+.area-hero .area-cifras div {
+  border-color: color-mix(in srgb, var(--acento) 35%, transparent);
+}
+.area-hero .ecg-fondo path {
+  stroke: var(--acento);
+  opacity: 0.55;
+}
+.ilustracion {
+  width: 100%;
+  max-width: 440px;
+  justify-self: center;
+  overflow: visible;
+}
+.ilustracion path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 6px color-mix(in srgb, currentColor 55%, transparent));
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: latido 1.6s ease-out forwards;
+}
+@media (max-width: 959px) {
+  .area-hero .ilustracion {
+    max-width: 320px;
+    order: -1;
+    justify-self: start;
+    margin-bottom: -8px;
+  }
+}
+.tarjeta-mini {
+  display: block;
+  margin: calc(-1 * clamp(18px, 3vw, 28px)) calc(-1 * clamp(18px, 3vw, 28px)) 16px;
+  background: var(--noche);
+  border-radius: var(--r-hoja) var(--r-hoja) 0 0;
+  padding: 14px 24px 8px;
+}
+.ilustracion.mini {
+  display: block;
+  height: 104px;
+  max-width: none;
+}
+.ilustracion.mini path {
+  stroke-width: 4;
+  animation: none;
+  stroke-dashoffset: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ilustracion path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}
+@media (min-width: 960px) {
+  .area-hero-rejilla .area-titulo h1 {
+    font-size: clamp(34px, 4vw, 52px);
+  }
+}

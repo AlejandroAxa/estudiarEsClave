@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { AREAS, TIPOS, areaPorSlug } from "@/lib/areas-exani";
 import { BIBLIOGRAFIA } from "@/lib/bibliografia-exani";
 import { IconoArea, TrazoArea } from "@/components/area-exani";
+import { IlustracionArea, acentoDe } from "@/components/ilustracion-area";
 
 export const dynamicParams = false;
 
@@ -30,9 +31,10 @@ export default async function PaginaArea({ params }: { params: Promise<{ slug: s
   const letras = ["A", "B", "C"];
 
   return (
-    <>
+    <div style={{ "--acento": acentoDe(a.slug) } as React.CSSProperties}>
       <section className="noche band area-hero">
-        <div className="wrap" style={{ position: "relative", zIndex: 1 }}>
+        <div className="wrap area-hero-rejilla" style={{ position: "relative", zIndex: 1 }}>
+          <div>
           <nav className="migas" aria-label="Ruta">
             <Link href="/areas">Áreas del EXANI-II</Link> <span aria-hidden>/</span> <span>{a.nombre}</span>
           </nav>
@@ -42,7 +44,7 @@ export default async function PaginaArea({ params }: { params: Promise<{ slug: s
           </div>
           <div className="area-titulo">
             <span className="area-icono">
-              <IconoArea nombre={a.icono} size={40} color="var(--lc)" />
+              <IconoArea nombre={a.icono} size={40} color="var(--acento)" />
             </span>
             <h1>{a.nombre}</h1>
           </div>
@@ -67,6 +69,8 @@ export default async function PaginaArea({ params }: { params: Promise<{ slug: s
           <p className="small" style={{ marginTop: 12 }}>
             {tipo.nota}
           </p>
+          </div>
+          <IlustracionArea slug={a.slug} />
         </div>
         <TrazoArea slug={a.slug} />
       </section>
@@ -222,6 +226,6 @@ export default async function PaginaArea({ params }: { params: Promise<{ slug: s
           <p className="xs">Estudiar es Clave no tiene relación con el CENEVAL. Las preguntas de esta página son originales.</p>
         </div>
       </section>
-    </>
+    </div>
   );
 }

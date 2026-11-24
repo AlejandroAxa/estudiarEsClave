@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AREAS, TIPOS, type TipoArea } from "@/lib/areas-exani";
 import { IconoArea, TrazoArea } from "@/components/area-exani";
+import { IlustracionArea } from "@/components/ilustracion-area";
 
 export const metadata: Metadata = {
   title: "Áreas y módulos del EXANI-II: temarios y bibliografía",
@@ -51,6 +52,9 @@ export default function Areas() {
               <div className="rejilla" style={{ marginTop: 20 }}>
                 {AREAS.filter((a) => g.tipo.includes(a.tipo)).map((a) => (
                   <Link key={a.slug} href={`/areas/${a.slug}`} className="hoja tarjeta-area">
+                    <span className="tarjeta-mini">
+                      <IlustracionArea slug={a.slug} className="ilustracion mini" />
+                    </span>
                     <span className="fila entre">
                       <IconoArea nombre={a.icono} />
                       <span className="xs">
