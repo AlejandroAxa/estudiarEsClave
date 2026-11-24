@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Estudiar es Clave
 
-## Getting Started
+Simulador del EXANI-II para la ruta de Medicina (BUAP): mini diagnóstico sin registro, diagnóstico por subáreas, práctica diaria con repaso de errores, simulacro con tiempo, liga semanal por alias y pases de pago único.
 
-First, run the development server:
+La calificación es determinista (algoritmo `diag-1`, textos `txt-1`): no hay inteligencia artificial en tiempo de ejecución. Las fuentes de verdad del diseño están en la carpeta del proyecto (`modelado/modelo-ingenieria-software.md`, `identidad/DESIGN-F.md` y el formato del banco en `bancos/LEEME-formato-banco.md`).
+
+## Tecnología
+
+- Next.js 16 (App Router) en Vercel, con Fluid Compute.
+- PostgreSQL en Neon (Vercel Marketplace) con Drizzle ORM. Las reglas del dominio que no caben en restricciones (D3, D8, D18) son disparadores en `drizzle/0001_reglas_dominio.sql`.
+- Better Auth: enlace mágico por correo y Google opcional. El panel de administración pide además un código TOTP.
+- Upstash Redis para límites de uso, Vercel Blob para las gráficas compartidas, Resend para correo y Mercado Pago (Checkout Pro) para cobrar.
+- Vercel Cron para cerrar intentos vencidos, cerrar ligas, calibrar el banco y limpiar datos viejos (`vercel.ts`).
+
+## Probar en tu computadora
+
+Necesitas Node 22 o más nuevo. No hace falta instalar PostgreSQL: en local se usa PGlite.
 
 ```bash
+npm install
+cp .env.example .env.local
+# En .env.local pon al menos:
+#   DATABASE_URL=pglite:./.datos-local
+#   BETTER_AUTH_SECRET=(salida de: openssl rand -hex 32)
+#   BETTER_AUTH_URL=http://localhost:3000
+#   PASARELA=simulada
+npm run db:sembrar     # migra, configura, importa el banco semilla y publica 1.0.0-dev
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Sin `RESEND_API_KEY`, el enlace para entrar aparece en la terminal donde corre `npm run dev`. Con `PASARELA=simulada` los pagos se aprueban o rechazan desde una pantalla de prueba.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Para el panel en `/admin`: pon tu correo en `ADMIN_EMAILS` antes de registrarte, corre `npm run admin:totp`, guarda el secreto en `ADMIN_TOTP_SECRET` y agrégalo a tu app autenticadora.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Comandos útiles:
 
-## Learn More
+| Comando | Qué hace |
+| --- | --- |
+| `npm test` | Pruebas (calificación, importador, flujo de examen, ARCO) sobre PGlite en memoria |
+| `npm run typecheck` | Revisión de tipos |
+| `npm run lint` | ESLint |
+| `npm run db:generar` | Genera una migración nueva tras cambiar `src/db/schema.ts` |
+| `npm run db:migrar` | Aplica migraciones a `DATABASE_URL` |
+| `npm run db:configurar` | Configuración base (exámenes, límites, insignias, promoción). Segura en producción |
+| `npm run db:sembrar` | Todo lo anterior más el banco semilla sin validar. Solo desarrollo y vistas previas |
 
-To learn more about Next.js, take a look at the following resources:
+## Publicar en Vercel
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Importa este repositorio en Vercel.
+2. En Storage / Marketplace agrega **Neon** (pone `DATABASE_URL`), **Upstash Redis** y **Vercel Blob**.
+3. Agrega las variables de `.env.example` que faltan: `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `ADMIN_EMAILS`, `ADMIN_TOTP_SECRET`, `RESEND_API_KEY`, `CORREO_REMITENTE`, `PASARELA=mercadopago`, `MERCADOPAGO_ACCESS_TOKEN`, `MERCADOPAGO_WEBHOOK_SECRET`, `CRON_SECRET` y, si quieres, `GOOGLE_CLIENT_ID` y `GOOGLE_CLIENT_SECRET`.
+4. Despliega. Cada compilación aplica las migraciones y la configuración base.
+5. En Mercado Pago, configura la notificación de pagos (webhook) a `https://TU-DOMINIO/api/pagos/webhook` con el evento «Pagos» y copia su clave secreta a `MERCADOPAGO_WEBHOOK_SECRET`.
+6. En Google Cloud (si usas Google), la URL de redirección es `https://TU-DOMINIO/api/auth/callback/google`.
+7. Entra con tu correo de administrador, pasa el segundo factor y, en **Admin → Banco**, importa el banco **ya validado** y publica el release `1.0.0`. En **Admin → Precios** pon la fecha del examen cuando salga la convocatoria.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## El banco de preguntas
 
-## Deploy on Vercel
+El banco llega como un archivo JSON validado fuera del sitio (no hay editor en línea). El importador rechaza el archivo completo si una sola pregunta tiene un error. En producción solo acepta reactivos en estado `validado` con `validado_por` y `validado_en`; el banco semilla de 93 preguntas está en `revisado_ia` y solo se puede cargar en desarrollo, marcado «SIN VALIDAR».
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Un release congela las versiones validadas y es inmutable. La calibración nocturna (R10) manda a revisión las preguntas con 100 respuestas o más que salen demasiado difíciles, no distinguen entre quien sabe y quien no, o tienen un distractor que casi nadie elige.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Planes
+
+| Plan | Qué incluye |
+| --- | --- |
+| Gratis | 1 diagnóstico por temporada, 15 preguntas de práctica al día, 1 protección de racha al mes |
+| Prueba | 3 días con todo, sin tarjeta, una vez por cuenta |
+| Pase Básico ($299) | Áreas generales sin límite: Comprensión lectora, Redacción indirecta y Pensamiento matemático |
+| Paquete Medicina ($599) | Todo, incluidos Biología, Química, Premedicina y simulacros |
+
+Los límites se editan en **Admin → Límites del plan**. Los precios incluyen IVA. Se aplica un solo descuento por compra: el mejor entre la promoción del último mes (40 %), un cupón o un código de referido (15 %).
+
+## Estructura
+
+```
+src/app/            páginas y acciones del servidor
+src/app/admin/      panel con segundo factor
+src/app/api/cron/   tareas programadas
+src/db/             esquema y conexión
+src/lib/            reglas: diagnostico, evaluacion, banco, comercio, motivacion, planes, arco
+drizzle/            migraciones
+bancos/             banco semilla y su formato
+scripts/            migrar, configurar, sembrar, secreto TOTP
+```

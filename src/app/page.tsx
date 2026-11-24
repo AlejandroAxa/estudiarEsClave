@@ -1,69 +1,136 @@
-import Image from "next/image";
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { Activity, FlaskConical, Pill, Stethoscope } from "lucide-react";
+import { Logotipo } from "@/components/marca";
+import { CuentaRegresiva } from "@/components/cuenta-regresiva";
+import { Semaforo, BarraRango } from "@/components/semaforo";
+import { ciclo } from "@/lib/consultas";
+import { sesionActual } from "@/lib/sesion";
+import { t } from "@/textos/es-MX";
 
-export default function Home() {
+export default async function Portada() {
+  const ses = await sesionActual().catch(() => null);
+  if (ses?.perfil) redirect("/inicio");
+  const c = await ciclo().catch(() => null);
+  const cuartos = [
+    { icono: Stethoscope, titulo: "Consulta", texto: "Una pregunta por pantalla, con la lectura al lado. Como el examen, pero con alguien que te explica." },
+    { icono: FlaskConical, titulo: "Laboratorio", texto: "Tu diagnóstico por área, subárea y tema, con tus 3 prioridades según lo que más pesa en el EXANI-II." },
+    { icono: Pill, titulo: "Farmacia", texto: "Tu dosis diaria de 10 preguntas. Cada opción trae su porqué, también las incorrectas." },
+    { icono: Activity, titulo: "Pulso", texto: "Tu racha de estudio como un electrocardiograma. Un latido por cada día que estudias." },
+  ];
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <>
+      <section className="noche band" style={{ position: "relative", overflow: "hidden" }}>
+        <div className="wrap" style={{ position: "relative", zIndex: 1 }}>
+          <span className="pastilla oscura">Simulador EXANI-II · Medicina BUAP 2027</span>
+          <div style={{ margin: "28px 0 20px" }}>
+            <Logotipo />
+          </div>
+          <h1 className="sr-only">Estudiar es Clave: simulador del EXANI-II para Medicina BUAP</h1>
+          <p className="disp" style={{ fontWeight: 700, fontStretch: "115%", fontSize: "clamp(22px,2.6vw,32px)", lineHeight: 1.15, maxWidth: "26ch" }}>
+            Entra a consulta, sal con tu diagnóstico y una receta de estudio.
           </p>
+          <p className="lead" style={{ maxWidth: "54ch" }}>
+            18 preguntas, unos 20 minutos y sin crear cuenta. Te decimos en qué área vas bien y dónde está tu mayor margen.
+          </p>
+          <div className="fila" style={{ marginTop: 24 }}>
+            <Link href="/mini" className="btn">
+              Hacer mi mini diagnóstico gratis
+            </Link>
+            <Link href="/entrar" className="btn sec">
+              Ya tengo cuenta
+            </Link>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <svg className="ecg-fondo" viewBox="0 0 1200 160" preserveAspectRatio="none" aria-hidden>
+          <path d="M0 110 H260 L290 110 L310 40 L335 150 L355 85 L380 110 H640 L670 110 L690 30 L715 150 L735 80 L760 110 H1200" />
+        </svg>
+      </section>
+
+      <section className="band">
+        <div className="wrap">
+          <h2>Cuatro cuartos, un mismo objetivo</h2>
+          <p className="lead">Todo el contenido es de autoría propia y cada pregunta trae la argumentación de sus 3 opciones.</p>
+          <div className="rejilla" style={{ marginTop: 24 }}>
+            {cuartos.map((c) => (
+              <div className="hoja" key={c.titulo}>
+                <c.icono size={28} strokeWidth={1.75} color="var(--ciruela)" aria-hidden />
+                <h3 style={{ marginTop: 10 }}>{c.titulo}</h3>
+                <p className="small" style={{ marginBottom: 0 }}>
+                  {c.texto}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
-      </main>
-    </div>
+      </section>
+
+      <section className="band" style={{ paddingTop: 0 }}>
+        <div className="wrap rejilla-2" style={{ alignItems: "center" }}>
+          <div>
+            <h2>Un resultado que sí te dice qué hacer</h2>
+            <p>
+              No te damos solo un número. Ves qué subáreas dominas, cuáles están en desarrollo y cuáles son tu área de oportunidad, ordenadas por lo que más
+              puntos te puede dar.
+            </p>
+            <p className="small">{t.aviso.estimacion}</p>
+          </div>
+          <div className="hoja sin-pad" aria-label="Ejemplo de reporte de laboratorio">
+            <div className="membrete">
+              <b>Laboratorio Estudiar es Clave</b>
+              <span>Ejemplo de resultados</span>
+            </div>
+            <table className="lab">
+              <thead>
+                <tr>
+                  <th>Estudio</th>
+                  <th>Resultado</th>
+                  <th>Rango deseable 80–100 %</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["Anatomía y fisiología", 0.56, "En desarrollo"],
+                  ["Fundamentos de química", 0.43, "Área de oportunidad"],
+                  ["Comprensión de lo matemático", 0.89, "Dominas"],
+                ].map(([n, v, nivel]) => (
+                  <tr key={n as string}>
+                    <td>
+                      {n}
+                      <br />
+                      <Semaforo nivel={nivel as string} />
+                    </td>
+                    <td className="num">{Math.round((v as number) * 100)} %</td>
+                    <td>
+                      <BarraRango valor={v as number} etiqueta={n as string} />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section className="band noche">
+        <div className="wrap rejilla-2" style={{ alignItems: "center" }}>
+          <div>
+            <h2>Gratis para empezar. Un solo pago si quieres todo.</h2>
+            <p className="lead">
+              Con tu cuenta tienes 3 días del pase completo sin tarjeta. Después sigues gratis con 15 preguntas al día, o pagas una vez hasta el día del examen.
+              Sin renovaciones automáticas.
+            </p>
+            <div className="fila">
+              <Link href="/planes" className="btn">
+                Ver planes
+              </Link>
+            </div>
+          </div>
+          <div className="hoja" style={{ color: "var(--tinta)" }}>
+            <CuentaRegresiva fecha={c?.fechaExamen ?? null} examen="EXANI-II" />
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
