@@ -55,7 +55,7 @@ describe("diagnóstico por secciones", () => {
     await iniciarSeccion(db, i.id, 1, { cuentaId });
     await expect(iniciarSeccion(db, i.id, 2, { cuentaId })).rejects.toThrow(/Termina primero/);
     const { items } = await itemsVisibles(db, i.id);
-    expect(items).toHaveLength(93);
+    expect(items).toHaveLength(138);
     const idem = randomUUID();
     await guardarRespuesta(db, { intentoId: i.id, orden: 1, letra: "B", idIdempotencia: idem, cuentaId });
     const dup = await guardarRespuesta(db, { intentoId: i.id, orden: 1, letra: "B", idIdempotencia: idem, cuentaId });

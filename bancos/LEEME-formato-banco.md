@@ -1,10 +1,10 @@
-# Banco semilla — Ruta Medicina BUAP (v1.0.0)
+# Banco semilla — Ruta Medicina BUAP (v1.2.0)
 
 Archivo: `banco-semilla-medicina.json` (JSON en UTF-8, listo para `fetch()` en la web o para importarse a una base de datos).
 
-- **93 reactivos originales**, cada uno con 3 opciones y la argumentación de cada opción.
-- **5 textos base**: artículo de opinión, ensayo, cuento, poema y convocatoria.
-- **87 tipos de error** catalogados.
+- **138 reactivos originales**, cada uno con 3 opciones y la argumentación de cada opción.
+- **6 textos base**: artículo de opinión, ensayo, cuento, poema, convocatoria y noticia.
+- **106 tipos de error** catalogados.
 - **1 plantilla de diagnóstico.**
 
 Todo el contenido es de autoría propia: no reproduce reactivos del CENEVAL ni ejercicios de libros.
@@ -13,14 +13,16 @@ Todo el contenido es de autoría propia: no reproduce reactivos del CENEVAL ni e
 
 | Área | Subárea | En el banco | En el examen |
 |---|---|---|---|
-| Comprensión lectora | Estudio / Literario / Participación social | 6 / 6 / 3 | 12 / 12 / 6 |
-| Redacción indirecta | Estudio / Participación social | 8 / 7 | 15 / 15 |
-| Pensamiento matemático | Comprensión de lo matemático / Matematización | 9 / 6 | 18 / 12 |
-| Biología | La célula / Biodiversidad | 6 / 6 | 12 / 12 |
+| Comprensión lectora | Estudio / Literario / Participación social | 6 / 6 / 6 | 12 / 12 / 6 |
+| Redacción indirecta | Estudio / Participación social | 10 / 10 | 15 / 15 |
+| Pensamiento matemático | Comprensión de lo matemático / Matematización | 14 / 11 | 18 / 12 |
+| Biología | La célula / Biodiversidad | 12 / 10 | 12 / 12 |
 | Química | Fundamentos / Orgánica | 7 / 5 | 14 / 10 |
-| Premedicina | Salud pública / Anatomía / Biol. celular / Bioquímica | 5 / 9 / 5 / 5 | 10 / 18 / 10 / 10 |
+| Premedicina | Salud pública / Anatomía / Biol. celular / Bioquímica | 8 / 21 / 7 / 5 | 10 / 18 / 10 / 10 |
 
-La respuesta correcta está repartida en partes iguales entre A, B y C (31 cada una). Dificultad estimada: 26 fáciles, 58 medias y 9 difíciles.
+La respuesta correcta está repartida en partes iguales entre A, B y C (46 cada una). Dificultad estimada: 29 fáciles, 79 medias y 30 difíciles.
+
+**Cambios de la v1.2.0:** 45 reactivos nuevos (lote 1 de temas pendientes), el texto TX-06 (noticia) y 19 tipos de error. Los 93 reactivos de la v1.1.0 no cambian, así que reimportar sobre una base que ya tenía la v1.1.0 solo agrega los 45 nuevos. El diagnóstico `diagnostico-medicina-v1` pasa de 93 a 138 reactivos y de 97 a 128 minutos.
 
 ## Estructura del archivo
 
@@ -114,11 +116,9 @@ La función de `figura` solo admite números, `t` o `x`, `+ - * / ^` y paréntes
 
 ## Pendientes para la siguiente versión
 
-- **Temas sin cubrir todavía:**
-  - Premedicina: aparato respiratorio, aparato reproductor, sistemas linfático y musculoesquelético, sistema nervioso central y parasitología.
-  - Química: constante de equilibrio.
-  - Biología: funciones del ADN y del ARN, ingeniería genética, mutaciones, ecosistemas de México y reproducción.
-  - Comprensión lectora: noticia (participación social).
-- **Pocos reactivos difíciles** (9 de 93). El examen real discrimina más en la parte alta, así que el siguiente lote debe tener más de nivel 3.
+- **Temas sin cubrir todavía:** Química: constante de equilibrio (el lote 1 no trajo reactivos de Química). La v1.2.0 ya cubre aparato respiratorio y reproductor, sistemas linfático y musculoesquelético, sistema nervioso central, parasitología, ADN y ARN, ingeniería genética, mutaciones, ecosistemas de México, reproducción y la noticia.
+- **Reactivos difíciles:** subieron de 9 a 30 de 138 (22 %). Faltan sobre todo en Química (1), Redacción indirecta (2) y Comprensión lectora (4).
+- **Química es el área más corta:** 12 reactivos (1 difícil) contra 24 en el examen real.
+- **Medidas epidemiológicas:** PRE-039 a PRE-041 (letalidad, prevalencia e incidencia) se clasificaron en «Historia natural de la enfermedad» porque el temario no tiene un tema propio para ellas.
 - **Faltan áreas de la BUAP:** Inglés (diagnóstico) y Habilidades blandas y toma de decisiones. No se incluyeron porque la estructura del EPIU solo se confirmó en fuentes de terceros.
-- **Validación humana:** la revisión registrada es una revisión docente simulada. Antes de publicar, un profesor de cada área debe cambiar `estado` a `validado`. Los 8 reactivos con `observaciones` son los primeros que hay que revisar.
+- **Validación humana:** la revisión registrada es una revisión docente simulada. Antes de publicar, un profesor de cada área debe cambiar `estado` a `validado`. Los 11 reactivos con `observaciones` son los primeros que hay que revisar.
