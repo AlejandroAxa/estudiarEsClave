@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { db } from "@/db";
 import { duenoActual } from "@/lib/dueno";
 import { intentoDe, itemsVisibles, seccionesDe } from "@/lib/evaluacion/evaluacion";
+import { componer, componerDatos } from "@/lib/formulas";
 import { Examen } from "./examen";
 
 export const metadata: Metadata = { title: "Consulta en curso", robots: { index: false } };
@@ -26,7 +27,13 @@ export default async function PaginaExamen({ params }: { params: Promise<{ id: s
         venceEn: x.sec.venceEn?.toISOString() ?? null,
         minutos: x.sec.tiempoLimiteMin,
       }))}
-      items={items}
+      // Las fórmulas se componen aquí, en el servidor: al navegador llega HTML ya escapado.
+      items={items.map((it) => ({
+        ...it,
+        enunciado: componer(it.enunciado),
+        datos: it.datos ? componerDatos(it.datos) : null,
+        opciones: it.opciones.map((o) => ({ ...o, texto: componer(o.texto) })),
+      }))}
       textos={textos}
       ahoraServidor={new Date().toISOString()}
     />

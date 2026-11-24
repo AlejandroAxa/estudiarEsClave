@@ -15,6 +15,13 @@
       "when": 1795492795546,
       "tag": "0001_reglas_dominio",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1795508539047,
+      "tag": "0002_formulas",
+      "breakpoints": true
     }
   ]
 }

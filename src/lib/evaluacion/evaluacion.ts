@@ -344,6 +344,8 @@ export interface ItemVisible {
   reactivoId: string;
   formato: string;
   enunciado: string;
+  /** Ficha de datos opcional (símbolo y descripción, en notación del banco). */
+  datos: { tex: string; desc: string }[] | null;
   textoId: string | null;
   areaId: string;
   opciones: OpcionVisible[];
@@ -385,6 +387,7 @@ export async function itemsVisibles(db: Db, intentoId: string): Promise<{ items:
       reactivoId: it.reactivoId,
       formato: rv.formato,
       enunciado: rv.enunciado,
+      datos: rv.datos ?? null,
       textoId: rv.textoId,
       areaId,
       opciones,

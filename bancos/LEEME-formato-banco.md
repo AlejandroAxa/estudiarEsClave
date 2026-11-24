@@ -88,6 +88,30 @@ prioridad = reactivos_examen × (1 − dominio)
    4. Errores frecuentes.
    5. Revisión pregunta por pregunta, con la argumentación de las 3 opciones y la explicación.
 
+## Fórmulas, ficha de datos, figuras y estructuras (desde la versión 1.1.0)
+
+**Notación.** Las fórmulas se escriben entre signos de pesos y el sitio las compone con KaTeX:
+
+- `$…$` fórmula en línea; `$$…$$` fórmula en su propia línea. Toda fórmula con más de una operación va en su propia línea.
+- Química con mhchem dentro de una fórmula: `$\ce{C3H8 + 5O2 -> 3CO2 + 4H2O}$`, `$\ce{CH3-COOH}$`.
+- Unidades con `\text{}` y un espacio: `$20\ \text{m}$`, `$0.5\ \text{L}$`. Punto decimal.
+- Signo menos real (`-` dentro de la fórmula), multiplicación con `\cdot` o `\times`, fracciones con `\frac` o `\dfrac`.
+- Variables siempre en modo matemático, también en el texto: «donde `$t$` es el tiempo».
+- Para un signo de pesos literal escribe `\$`. Los precios viejos como «$1,200» o «$45» se siguen leyendo como dinero.
+- Los textos sin `$` se ven igual que antes. El importador rechaza el archivo si una fórmula no compila.
+
+**Campos opcionales del reactivo:**
+
+| Campo | Para qué | Ejemplo |
+| --- | --- | --- |
+| `datos` | Ficha con los datos y sus unidades, antes de la pregunta | `[{"tex": "M_r", "desc": "40 g/mol"}]` |
+| `figura` | Gráfica en la revisión (nunca en el examen) | `{"tipo": "parabola", "f": "-5t^2+20t", "dominio": [0, 4], "marcar": [2, 20], "ejes": {"x": "t (s)", "y": "h (m)"}}` |
+| `smiles` | Estructura química dibujada en la revisión | `"CC(C)CC"` |
+
+La función de `figura` solo admite números, `t` o `x`, `+ - * / ^` y paréntesis. `desc` en `datos` admite fórmulas.
+
+**Explicación en pasos.** Si cada línea de `explicacion` empieza con `1)`, `2)`… el sitio la muestra como pasos numerados.
+
 ## Pendientes para la siguiente versión
 
 - **Temas sin cubrir todavía:**

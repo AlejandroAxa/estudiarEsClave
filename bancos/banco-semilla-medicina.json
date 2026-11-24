@@ -1,8 +1,8 @@
 {
   "meta": {
     "nombre": "Banco semilla — Ruta Medicina BUAP",
-    "version": "1.0.0",
-    "fecha": "2026-11-23",
+    "version": "1.1.0",
+    "fecha": "2026-11-24",
     "idioma": "es-MX",
     "examen_referencia": "EXANI-II (CENEVAL); estructura según la Guía para el sustentante del 18 de junio de 2025",
     "total_reactivos": 93,
@@ -3120,7 +3120,7 @@
     },
     {
       "id": "PM-005",
-      "version": 1,
+      "version": 2,
       "examen": "EXANI-II",
       "rutas": [
         "todas"
@@ -3132,31 +3132,31 @@
       "dificultad_estimada": 1,
       "formato": "cuestionamiento_directo",
       "texto_id": null,
-      "enunciado": "¿Cuál es el resultado de (2³ · 2⁵) ÷ 2⁴?",
+      "enunciado": "¿Cuál es el resultado de la siguiente operación?\n$$\\frac{2^3 \\cdot 2^5}{2^4}$$",
       "opciones": [
         {
           "id": "A",
-          "texto": "2⁴",
+          "texto": "$2^4$",
           "correcta": true,
-          "argumentacion": "Correcta. Se suman los exponentes al multiplicar (3 + 5 = 8) y se restan al dividir (8 − 4 = 4).",
+          "argumentacion": "Correcta. Se suman los exponentes al multiplicar ($3 + 5 = 8$) y se restan al dividir ($8 - 4 = 4$).",
           "error_id": null
         },
         {
           "id": "B",
-          "texto": "2¹¹",
+          "texto": "$2^{11}$",
           "correcta": false,
-          "argumentacion": "Incorrecta. Multiplica los exponentes (3 × 5 = 15) y después resta 4; al multiplicar potencias de igual base, los exponentes se suman.",
+          "argumentacion": "Incorrecta. Multiplica los exponentes ($3 \\times 5 = 15$) y después resta 4; al multiplicar potencias de igual base, los exponentes se suman.",
           "error_id": "E-PM-EXP"
         },
         {
           "id": "C",
-          "texto": "2¹²",
+          "texto": "$2^{12}$",
           "correcta": false,
-          "argumentacion": "Incorrecta. Suma todos los exponentes (3 + 5 + 4); al dividir, el exponente del divisor se resta.",
+          "argumentacion": "Incorrecta. Suma todos los exponentes ($3 + 5 + 4$); al dividir, el exponente del divisor se resta.",
           "error_id": "E-PM-EXP"
         }
       ],
-      "explicacion": "aᵐ · aⁿ = aᵐ⁺ⁿ y aᵐ ÷ aⁿ = aᵐ⁻ⁿ. Entonces 2³⁺⁵⁻⁴ = 2⁴ = 16.",
+      "explicacion": "1) Al multiplicar potencias de igual base se suman los exponentes: $a^m \\cdot a^n = a^{m+n}$, así que $2^3 \\cdot 2^5 = 2^8$.\n2) Al dividir se restan: $\\dfrac{a^m}{a^n} = a^{m-n}$, así que $\\dfrac{2^8}{2^4} = 2^4 = 16$.",
       "referencias": [
         {
           "fuente": "Baldor, A. (2019). Álgebra (4.ª ed.). Patria",
@@ -3176,7 +3176,9 @@
           "nivel": 4
         },
         "puntaje": 4.0,
-        "cambios": [],
+        "cambios": [
+          "v2: fórmulas en notación KaTeX y química con \\ce{}; mismo contenido."
+        ],
         "observaciones": null
       }
     },
@@ -3244,7 +3246,7 @@
     },
     {
       "id": "PM-007",
-      "version": 1,
+      "version": 2,
       "examen": "EXANI-II",
       "rutas": [
         "todas"
@@ -3256,31 +3258,31 @@
       "dificultad_estimada": 2,
       "formato": "cuestionamiento_directo",
       "texto_id": null,
-      "enunciado": "¿Cuál es el conjunto solución de la desigualdad 5 − 3x ≥ 11?",
+      "enunciado": "¿Cuál es el conjunto solución de la desigualdad $5 - 3x \\geq 11$?",
       "opciones": [
         {
           "id": "A",
-          "texto": "x ≥ −2",
+          "texto": "$x \\geq -2$",
           "correcta": false,
           "argumentacion": "Incorrecta. Al dividir entre un número negativo no se invirtió el sentido de la desigualdad.",
           "error_id": "E-PM-DESIGUALDAD"
         },
         {
           "id": "B",
-          "texto": "x ≤ 2",
+          "texto": "$x \\leq 2$",
           "correcta": false,
-          "argumentacion": "Incorrecta. Error de signos: 6 ÷ (−3) = −2, no 2.",
+          "argumentacion": "Incorrecta. Error de signos: $6 \\div (-3) = -2$, no $2$.",
           "error_id": "E-PM-SIGNOS"
         },
         {
           "id": "C",
-          "texto": "x ≤ −2",
+          "texto": "$x \\leq -2$",
           "correcta": true,
-          "argumentacion": "Correcta. −3x ≥ 6; al dividir entre −3 se invierte la desigualdad: x ≤ −2.",
+          "argumentacion": "Correcta. $-3x \\geq 6$; al dividir entre $-3$ se invierte la desigualdad: $x \\leq -2$.",
           "error_id": null
         }
       ],
-      "explicacion": "1) Resta 5: −3x ≥ 6.\n2) Divide entre −3 e invierte el signo: x ≤ −2.\nComprobación con x = −3: 5 + 9 = 14 ≥ 11 ✓.",
+      "explicacion": "1) Resta 5 en ambos lados: $-3x \\geq 6$.\n2) Divide entre $-3$ e invierte el sentido: $x \\leq -2$.\n3) Comprueba con $x = -3$: $5 + 9 = 14 \\geq 11$ ✓.",
       "referencias": [
         {
           "fuente": "Baldor, A. (2019). Álgebra (4.ª ed.). Patria",
@@ -3300,7 +3302,9 @@
           "nivel": 4
         },
         "puntaje": 4.0,
-        "cambios": [],
+        "cambios": [
+          "v2: fórmulas en notación KaTeX y química con \\ce{}; mismo contenido."
+        ],
         "observaciones": null
       }
     },
@@ -3432,7 +3436,7 @@
     },
     {
       "id": "PM-010",
-      "version": 1,
+      "version": 2,
       "examen": "EXANI-II",
       "rutas": [
         "todas"
@@ -3444,31 +3448,31 @@
       "dificultad_estimada": 3,
       "formato": "cuestionamiento_directo",
       "texto_id": null,
-      "enunciado": "La altura (en metros) de un balón pateado hacia arriba está dada por h(t) = −5t² + 20t, donde t es el tiempo en segundos. ¿Cuál es la altura máxima que alcanza?",
+      "enunciado": "La altura de un balón pateado hacia arriba está dada por\n$$h(t) = -5t^2 + 20t$$\n¿Cuál es la altura máxima que alcanza?",
       "opciones": [
         {
           "id": "A",
-          "texto": "2 m",
+          "texto": "$2\\ \\text{m}$",
           "correcta": false,
-          "argumentacion": "Incorrecta. 2 es el tiempo (en segundos) en el que se alcanza el máximo, no la altura.",
+          "argumentacion": "Incorrecta. $2$ es el tiempo (en segundos) en el que se alcanza el máximo, no la altura.",
           "error_id": "E-PM-VERTICE"
         },
         {
           "id": "B",
-          "texto": "4 m",
+          "texto": "$4\\ \\text{m}$",
           "correcta": false,
-          "argumentacion": "Incorrecta. 4 es el tiempo en el que el balón vuelve al suelo (h = 0), no una altura.",
+          "argumentacion": "Incorrecta. $4$ es el tiempo en el que el balón vuelve al suelo ($h = 0$), no una altura.",
           "error_id": "E-PM-VERTICE"
         },
         {
           "id": "C",
-          "texto": "20 m",
+          "texto": "$20\\ \\text{m}$",
           "correcta": true,
-          "argumentacion": "Correcta. El máximo ocurre en t = −b/2a = −20/(2·(−5)) = 2 s; h(2) = −5(4) + 20(2) = 20 m.",
+          "argumentacion": "Correcta. El máximo ocurre en $t = -\\frac{b}{2a} = 2\\ \\text{s}$ y $h(2) = -5(4) + 20(2) = 20\\ \\text{m}$.",
           "error_id": null
         }
       ],
-      "explicacion": "1) Vértice: t = −b/(2a) = −20/(−10) = 2.\n2) Evalúa: h(2) = −20 + 40 = 20 m.",
+      "explicacion": "1) Encuentra el tiempo del vértice: $t = -\\dfrac{b}{2a} = -\\dfrac{20}{2(-5)} = 2\\ \\text{s}$.\n2) Evalúa la altura en ese tiempo: $h(2) = -5(2)^2 + 20(2) = -20 + 40 = 20\\ \\text{m}$.",
       "referencias": [
         {
           "fuente": "Stewart, J. et al. (2012). Precálculo. Cengage",
@@ -3488,8 +3492,36 @@
           "nivel": 4
         },
         "puntaje": 4.0,
-        "cambios": [],
+        "cambios": [
+          "v2: fórmulas en notación KaTeX y química con \\ce{}; mismo contenido."
+        ],
         "observaciones": null
+      },
+      "datos": [
+        {
+          "tex": "h",
+          "desc": "altura, en metros"
+        },
+        {
+          "tex": "t",
+          "desc": "tiempo, en segundos"
+        }
+      ],
+      "figura": {
+        "tipo": "parabola",
+        "f": "-5t^2+20t",
+        "dominio": [
+          0,
+          4
+        ],
+        "marcar": [
+          2,
+          20
+        ],
+        "ejes": {
+          "x": "t (s)",
+          "y": "h (m)"
+        }
       }
     },
     {
@@ -4639,7 +4671,7 @@
     },
     {
       "id": "QUI-002",
-      "version": 1,
+      "version": 2,
       "examen": "EXANI-II",
       "rutas": [
         "salud",
@@ -4652,31 +4684,31 @@
       "dificultad_estimada": 2,
       "formato": "cuestionamiento_directo",
       "texto_id": null,
-      "enunciado": "Se disuelven 20 g de NaOH (masa molar 40 g/mol) en agua hasta obtener 500 mL de disolución. ¿Cuál es su molaridad?",
+      "enunciado": "Se disuelven 20 g de $\\ce{NaOH}$ en agua hasta obtener 500 mL de disolución. ¿Cuál es su molaridad?",
       "opciones": [
         {
           "id": "A",
-          "texto": "0.001 M",
+          "texto": "$0.001\\ \\text{M}$",
           "correcta": false,
           "argumentacion": "Incorrecta. Divide entre 500 sin convertir mL a litros.",
           "error_id": "E-QUI-CONC-VOL"
         },
         {
           "id": "B",
-          "texto": "0.5 M",
+          "texto": "$0.5\\ \\text{M}$",
           "correcta": false,
           "argumentacion": "Incorrecta. 0.5 son los moles de soluto; falta dividir entre el volumen en litros.",
           "error_id": "E-QUI-MOL"
         },
         {
           "id": "C",
-          "texto": "1 M",
+          "texto": "$1\\ \\text{M}$",
           "correcta": true,
-          "argumentacion": "Correcta. Moles = 20 ÷ 40 = 0.5 mol; volumen = 0.5 L; M = 0.5 ÷ 0.5 = 1 mol/L.",
+          "argumentacion": "Correcta. $n = 20 \\div 40 = 0.5\\ \\text{mol}$; $V = 0.5\\ \\text{L}$; $M = 0.5 \\div 0.5 = 1\\ \\text{mol/L}$.",
           "error_id": null
         }
       ],
-      "explicacion": "1) n = masa/masa molar = 20/40 = 0.5 mol.\n2) V = 500 mL = 0.5 L.\n3) M = n/V = 0.5/0.5 = 1 M.",
+      "explicacion": "1) Moles de soluto: $n = \\dfrac{m}{M_r} = \\dfrac{20}{40} = 0.5\\ \\text{mol}$.\n2) Volumen en litros: $V = 500\\ \\text{mL} = 0.5\\ \\text{L}$.\n3) Molaridad: $M = \\dfrac{n}{V} = \\dfrac{0.5}{0.5} = 1\\ \\text{M}$.",
       "referencias": [
         {
           "fuente": "Chang, R. y Goldsby, K. (2013). Química (11.ª ed.). McGraw Hill",
@@ -4696,9 +4728,25 @@
           "nivel": 4
         },
         "puntaje": 4.0,
-        "cambios": [],
+        "cambios": [
+          "v2: fórmulas en notación KaTeX y química con \\ce{}; mismo contenido."
+        ],
         "observaciones": null
-      }
+      },
+      "datos": [
+        {
+          "tex": "m",
+          "desc": "20 g de $\\ce{NaOH}$"
+        },
+        {
+          "tex": "M_r",
+          "desc": "40 g/mol"
+        },
+        {
+          "tex": "V",
+          "desc": "500 mL"
+        }
+      ]
     },
     {
       "id": "QUI-003",
@@ -4765,7 +4813,7 @@
     },
     {
       "id": "QUI-004",
-      "version": 1,
+      "version": 2,
       "examen": "EXANI-II",
       "rutas": [
         "salud",
@@ -4778,31 +4826,31 @@
       "dificultad_estimada": 3,
       "formato": "cuestionamiento_directo",
       "texto_id": null,
-      "enunciado": "Al balancear la ecuación C₃H₈ + O₂ → CO₂ + H₂O, ¿qué coeficiente le corresponde al O₂?",
+      "enunciado": "Balancea la combustión del propano:\n$$\\ce{C3H8 + O2 -> CO2 + H2O}$$\n¿Qué coeficiente le corresponde al $\\ce{O2}$?",
       "opciones": [
         {
           "id": "A",
           "texto": "10",
           "correcta": false,
-          "argumentacion": "Incorrecta. 10 es el número de átomos de oxígeno; cada molécula de O₂ aporta dos, así que se necesitan 5.",
+          "argumentacion": "Incorrecta. 10 es el número de átomos de oxígeno; cada molécula de $\\ce{O2}$ aporta dos, así que se necesitan 5.",
           "error_id": "E-QUI-BALANCEO"
         },
         {
           "id": "B",
           "texto": "5",
           "correcta": true,
-          "argumentacion": "Correcta. C₃H₈ + 5O₂ → 3CO₂ + 4H₂O: hay 10 átomos de O a la derecha (6 + 4) y 5 moléculas de O₂ aportan 10.",
+          "argumentacion": "Correcta. $\\ce{C3H8 + 5O2 -> 3CO2 + 4H2O}$: hay 10 átomos de O a la derecha ($6 + 4$) y 5 moléculas de $\\ce{O2}$ aportan 10.",
           "error_id": null
         },
         {
           "id": "C",
           "texto": "7",
           "correcta": false,
-          "argumentacion": "Incorrecta. Suma los coeficientes de los productos (3 + 4) en lugar de contar los átomos de oxígeno.",
+          "argumentacion": "Incorrecta. Suma los coeficientes de los productos ($3 + 4$) en lugar de contar los átomos de oxígeno.",
           "error_id": "E-QUI-BALANCEO"
         }
       ],
-      "explicacion": "1) C: 3 → 3CO₂.\n2) H: 8 → 4H₂O.\n3) O a la derecha: 3(2) + 4(1) = 10 átomos → 5O₂.",
+      "explicacion": "1) Carbono: 3 átomos, así que $\\ce{3CO2}$.\n2) Hidrógeno: 8 átomos, así que $\\ce{4H2O}$.\n3) Oxígeno a la derecha: $3(2) + 4(1) = 10$ átomos, así que $\\ce{5O2}$.",
       "referencias": [
         {
           "fuente": "Chang, R. y Goldsby, K. (2013). Química (11.ª ed.). McGraw Hill",
@@ -4822,13 +4870,15 @@
           "nivel": 4
         },
         "puntaje": 4.0,
-        "cambios": [],
+        "cambios": [
+          "v2: fórmulas en notación KaTeX y química con \\ce{}; mismo contenido."
+        ],
         "observaciones": null
       }
     },
     {
       "id": "QUI-005",
-      "version": 1,
+      "version": 2,
       "examen": "EXANI-II",
       "rutas": [
         "salud",
@@ -4841,31 +4891,31 @@
       "dificultad_estimada": 2,
       "formato": "cuestionamiento_directo",
       "texto_id": null,
-      "enunciado": "Según la ecuación 2H₂ + O₂ → 2H₂O, ¿cuántos gramos de agua se forman a partir de 4 mol de H₂? (masa molar del H₂O = 18 g/mol)",
+      "enunciado": "Según la ecuación\n$$\\ce{2H2 + O2 -> 2H2O}$$\n¿cuántos gramos de agua se forman a partir de 4 mol de $\\ce{H2}$?",
       "opciones": [
         {
           "id": "A",
-          "texto": "36 g",
+          "texto": "$36\\ \\text{g}$",
           "correcta": false,
           "argumentacion": "Incorrecta. Usa 2 mol de agua (el coeficiente de la ecuación) en lugar de aplicar la relación a los 4 mol dados.",
           "error_id": "E-QUI-MOL"
         },
         {
           "id": "B",
-          "texto": "144 g",
+          "texto": "$144\\ \\text{g}$",
           "correcta": false,
-          "argumentacion": "Incorrecta. Duplica los moles de agua (8 mol); la relación molar H₂ : H₂O es 1 : 1.",
+          "argumentacion": "Incorrecta. Duplica los moles de agua (8 mol); la relación molar $\\ce{H2}:\\ce{H2O}$ es $1 : 1$.",
           "error_id": "E-QUI-MOL"
         },
         {
           "id": "C",
-          "texto": "72 g",
+          "texto": "$72\\ \\text{g}$",
           "correcta": true,
-          "argumentacion": "Correcta. La relación H₂ : H₂O es 2 : 2 (1 : 1); 4 mol de H₂ producen 4 mol de H₂O: 4 × 18 = 72 g.",
+          "argumentacion": "Correcta. La relación $\\ce{H2}:\\ce{H2O}$ es $2 : 2$ ($1 : 1$); 4 mol de $\\ce{H2}$ producen 4 mol de $\\ce{H2O}$: $4 \\times 18 = 72\\ \\text{g}$.",
           "error_id": null
         }
       ],
-      "explicacion": "1) Relación molar: 2 mol H₂ → 2 mol H₂O.\n2) 4 mol H₂ × (2/2) = 4 mol H₂O.\n3) Masa = 4 × 18 = 72 g.",
+      "explicacion": "1) Relación molar: 2 mol de $\\ce{H2}$ producen 2 mol de $\\ce{H2O}$.\n2) $4\\ \\text{mol}\\ \\ce{H2} \\times \\dfrac{2}{2} = 4\\ \\text{mol}\\ \\ce{H2O}$.\n3) Masa: $4 \\times 18 = 72\\ \\text{g}$.",
       "referencias": [
         {
           "fuente": "Chang, R. y Goldsby, K. (2013). Química (11.ª ed.). McGraw Hill",
@@ -4885,13 +4935,21 @@
           "nivel": 4
         },
         "puntaje": 4.0,
-        "cambios": [],
+        "cambios": [
+          "v2: fórmulas en notación KaTeX y química con \\ce{}; mismo contenido."
+        ],
         "observaciones": null
-      }
+      },
+      "datos": [
+        {
+          "tex": "M_r(\\ce{H2O})",
+          "desc": "18 g/mol"
+        }
+      ]
     },
     {
       "id": "QUI-006",
-      "version": 1,
+      "version": 2,
       "examen": "EXANI-II",
       "rutas": [
         "salud",
@@ -4904,13 +4962,13 @@
       "dificultad_estimada": 1,
       "formato": "cuestionamiento_directo",
       "texto_id": null,
-      "enunciado": "La reacción Zn + 2HCl → ZnCl₂ + H₂ es de tipo:",
+      "enunciado": "La reacción\n$$\\ce{Zn + 2HCl -> ZnCl2 + H2}$$\nes de tipo:",
       "opciones": [
         {
           "id": "A",
           "texto": "Sustitución simple (desplazamiento)",
           "correcta": true,
-          "argumentacion": "Correcta. El zinc desplaza al hidrógeno del ácido: A + BC → AC + B.",
+          "argumentacion": "Correcta. El zinc desplaza al hidrógeno del ácido: $\\ce{A + BC -> AC + B}$.",
           "error_id": null
         },
         {
@@ -4924,7 +4982,7 @@
           "id": "C",
           "texto": "Doble sustitución (metátesis)",
           "correcta": false,
-          "argumentacion": "Incorrecta. En la doble sustitución dos compuestos intercambian iones (AB + CD → AD + CB); aquí reacciona un elemento.",
+          "argumentacion": "Incorrecta. En la doble sustitución dos compuestos intercambian iones ($\\ce{AB + CD -> AD + CB}$); aquí reacciona un elemento.",
           "error_id": "E-QUI-TIPO-REAC"
         }
       ],
@@ -4949,14 +5007,15 @@
         },
         "puntaje": 4.0,
         "cambios": [
-          "Se equilibró la longitud de las opciones: la correcta era notablemente más larga que los distractores (pista involuntaria)."
+          "Se equilibró la longitud de las opciones: la correcta era notablemente más larga que los distractores (pista involuntaria).",
+          "v2: fórmulas en notación KaTeX y química con \\ce{}; mismo contenido."
         ],
         "observaciones": null
       }
     },
     {
       "id": "QUI-007",
-      "version": 1,
+      "version": 2,
       "examen": "EXANI-II",
       "rutas": [
         "salud",
@@ -4969,31 +5028,31 @@
       "dificultad_estimada": 2,
       "formato": "cuestionamiento_directo",
       "texto_id": null,
-      "enunciado": "La combustión del metano tiene un ΔH = −890 kJ/mol. ¿Qué indica el signo negativo?",
+      "enunciado": "La combustión del metano tiene un $\\Delta H = -890\\ \\text{kJ/mol}$. ¿Qué indica el signo negativo?",
       "opciones": [
         {
           "id": "A",
           "texto": "Que la reacción absorbe calor del entorno.",
           "correcta": false,
-          "argumentacion": "Incorrecta. Eso corresponde a ΔH > 0 (reacción endotérmica).",
+          "argumentacion": "Incorrecta. Eso corresponde a $\\Delta H > 0$ (reacción endotérmica).",
           "error_id": "E-QUI-ENTALPIA"
         },
         {
           "id": "B",
           "texto": "Que la reacción libera calor al entorno (es exotérmica).",
           "correcta": true,
-          "argumentacion": "Correcta. ΔH < 0 significa que la entalpía de los productos es menor que la de los reactivos: se libera energía.",
+          "argumentacion": "Correcta. $\\Delta H < 0$ significa que la entalpía de los productos es menor que la de los reactivos: se libera energía.",
           "error_id": null
         },
         {
           "id": "C",
           "texto": "Que la reacción no puede ocurrir de manera espontánea.",
           "correcta": false,
-          "argumentacion": "Incorrecta. El signo de ΔH indica intercambio de calor, no espontaneidad (que depende de la energía libre).",
+          "argumentacion": "Incorrecta. El signo de $\\Delta H$ indica intercambio de calor, no espontaneidad (que depende de la energía libre).",
           "error_id": "E-QUI-ENTALPIA"
         }
       ],
-      "explicacion": "ΔH negativo = exotérmica (libera calor), como las combustiones; ΔH positivo = endotérmica.",
+      "explicacion": "$\\Delta H$ negativo: exotérmica (libera calor), como las combustiones. $\\Delta H$ positivo: endotérmica.",
       "referencias": [
         {
           "fuente": "Chang, R. y Goldsby, K. (2013). Química (11.ª ed.). McGraw Hill",
@@ -5013,7 +5072,9 @@
           "nivel": 4
         },
         "puntaje": 4.0,
-        "cambios": [],
+        "cambios": [
+          "v2: fórmulas en notación KaTeX y química con \\ce{}; mismo contenido."
+        ],
         "observaciones": null
       }
     },
@@ -5084,7 +5145,7 @@
     },
     {
       "id": "QUI-009",
-      "version": 1,
+      "version": 2,
       "examen": "EXANI-II",
       "rutas": [
         "salud",
@@ -5097,7 +5158,7 @@
       "dificultad_estimada": 1,
       "formato": "cuestionamiento_directo",
       "texto_id": null,
-      "enunciado": "¿Qué tipo de hidrocarburo es CH₂=CH–CH₃ y cuál es su nombre IUPAC?",
+      "enunciado": "¿Qué tipo de hidrocarburo es $\\ce{CH2=CH-CH3}$ y cuál es su nombre IUPAC?",
       "opciones": [
         {
           "id": "A",
@@ -5110,14 +5171,14 @@
           "id": "B",
           "texto": "Alcano; propano",
           "correcta": false,
-          "argumentacion": "Incorrecta. El propano (CH₃–CH₂–CH₃) solo tiene enlaces sencillos.",
+          "argumentacion": "Incorrecta. El propano ($\\ce{CH3-CH2-CH3}$) solo tiene enlaces sencillos.",
           "error_id": "E-QUI-HIDROCARBURO"
         },
         {
           "id": "C",
           "texto": "Alquino; propino",
           "correcta": false,
-          "argumentacion": "Incorrecta. Un alquino tiene un triple enlace (CH≡C–CH₃).",
+          "argumentacion": "Incorrecta. Un alquino tiene un triple enlace ($\\ce{CH#C-CH3}$).",
           "error_id": "E-QUI-HIDROCARBURO"
         }
       ],
@@ -5141,13 +5202,16 @@
           "nivel": 4
         },
         "puntaje": 4.0,
-        "cambios": [],
+        "cambios": [
+          "v2: fórmulas en notación KaTeX y química con \\ce{}; mismo contenido."
+        ],
         "observaciones": null
-      }
+      },
+      "smiles": "C=CC"
     },
     {
       "id": "QUI-010",
-      "version": 1,
+      "version": 2,
       "examen": "EXANI-II",
       "rutas": [
         "salud",
@@ -5160,7 +5224,7 @@
       "dificultad_estimada": 2,
       "formato": "cuestionamiento_directo",
       "texto_id": null,
-      "enunciado": "¿Cuál es el nombre IUPAC de CH₃–CH(CH₃)–CH₂–CH₃?",
+      "enunciado": "¿Cuál es el nombre IUPAC de $\\ce{CH3-CH(CH3)-CH2-CH3}$?",
       "opciones": [
         {
           "id": "A",
@@ -5204,13 +5268,16 @@
           "nivel": 4
         },
         "puntaje": 4.0,
-        "cambios": [],
+        "cambios": [
+          "v2: fórmulas en notación KaTeX y química con \\ce{}; mismo contenido."
+        ],
         "observaciones": null
-      }
+      },
+      "smiles": "CC(C)CC"
     },
     {
       "id": "QUI-011",
-      "version": 1,
+      "version": 2,
       "examen": "EXANI-II",
       "rutas": [
         "salud",
@@ -5223,31 +5290,31 @@
       "dificultad_estimada": 2,
       "formato": "cuestionamiento_directo",
       "texto_id": null,
-      "enunciado": "El ácido acético (CH₃–COOH), presente en el vinagre, pertenece a la familia de los:",
+      "enunciado": "El ácido acético ($\\ce{CH3-COOH}$), presente en el vinagre, pertenece a la familia de los:",
       "opciones": [
         {
           "id": "A",
           "texto": "Alcoholes",
           "correcta": false,
-          "argumentacion": "Incorrecta. Aunque el carboxilo contiene un –OH, este está unido a un carbono con doble enlace a oxígeno; un alcohol tiene el –OH unido a un carbono saturado.",
+          "argumentacion": "Incorrecta. Aunque el carboxilo contiene un $\\ce{-OH}$, este está unido a un carbono con doble enlace a oxígeno; un alcohol tiene el $\\ce{-OH}$ unido a un carbono saturado.",
           "error_id": "E-QUI-GRUPO"
         },
         {
           "id": "B",
           "texto": "Cetonas",
           "correcta": false,
-          "argumentacion": "Incorrecta. Las cetonas tienen un C=O entre dos carbonos; aquí el C=O forma parte del grupo carboxilo.",
+          "argumentacion": "Incorrecta. Las cetonas tienen un $\\ce{C=O}$ entre dos carbonos; aquí el $\\ce{C=O}$ forma parte del grupo carboxilo.",
           "error_id": "E-QUI-GRUPO"
         },
         {
           "id": "C",
           "texto": "Ácidos carboxílicos",
           "correcta": true,
-          "argumentacion": "Correcta. El grupo –COOH (carboxilo) caracteriza a los ácidos carboxílicos.",
+          "argumentacion": "Correcta. El grupo $\\ce{-COOH}$ (carboxilo) caracteriza a los ácidos carboxílicos.",
           "error_id": null
         }
       ],
-      "explicacion": "Grupos clave: –OH alcohol; –CHO aldehído; R–CO–R cetona; –COOH ácido carboxílico; –COO– éster; –NH₂ amina.",
+      "explicacion": "Grupos clave: $\\ce{-OH}$ alcohol; $\\ce{-CHO}$ aldehído; $\\ce{R-CO-R}$ cetona; $\\ce{-COOH}$ ácido carboxílico; $\\ce{-COO-}$ éster; $\\ce{-NH2}$ amina.",
       "referencias": [
         {
           "fuente": "Gutiérrez, M. et al. (2009). Química orgánica. Aprende haciendo. Pearson",
@@ -5267,9 +5334,12 @@
           "nivel": 4
         },
         "puntaje": 4.0,
-        "cambios": [],
+        "cambios": [
+          "v2: fórmulas en notación KaTeX y química con \\ce{}; mismo contenido."
+        ],
         "observaciones": null
-      }
+      },
+      "smiles": "CC(=O)O"
     },
     {
       "id": "QUI-012",

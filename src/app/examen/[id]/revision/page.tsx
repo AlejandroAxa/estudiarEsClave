@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
+import { Enunciado, Explicacion, FichaDatos, FiguraRevision, Formula } from "@/components/formula";
+import { Estructura } from "@/components/estructura";
 import { Lock } from "lucide-react";
 import { db } from "@/db";
 import { duenoActual } from "@/lib/dueno";
@@ -54,22 +56,21 @@ export default async function Revision({ params }: { params: Promise<{ id: strin
                 </div>
               </details>
             )}
-            <p className="pregunta" style={{ fontSize: 20 }}>
-              {x.enunciado}
-            </p>
+            <FichaDatos datos={x.datos} />
+            <Enunciado texto={x.enunciado} />
             <ul className="opciones">
               {x.opciones.map((o) => (
                 <li key={o.letra}>
                   <div className={`opcion ${o.correcta ? "correcta" : x.elegida === o.letra ? "incorrecta" : ""}`} style={{ cursor: "default" }}>
                     <span className="burbuja">{o.letra}</span>
                     <span>
-                      {o.texto}
+                      <Formula texto={o.texto} />
                       {x.elegida === o.letra && <span className="xs"> · tu respuesta</span>}
                       <span className="porque">
                         {abierto || o.correcta ? (
                           <>
                             <span className="etiqueta">{o.correcta ? "Por qué sí: " : "Por qué no: "}</span>
-                            {o.argumentacion}
+                            <Formula texto={o.argumentacion} />
                           </>
                         ) : (
                           <>
@@ -84,7 +85,9 @@ export default async function Revision({ params }: { params: Promise<{ id: strin
             </ul>
             <div>
               <h3>Procedimiento</h3>
-              <p style={{ whiteSpace: "pre-line" }}>{x.explicacion}</p>
+              <Explicacion texto={x.explicacion} />
+              <FiguraRevision figura={x.figura} />
+              {x.smiles && <Estructura smiles={x.smiles} nombre="la molécula" />}
             </div>
             {abierto && x.referencias.length > 0 && (
               <p className="xs">

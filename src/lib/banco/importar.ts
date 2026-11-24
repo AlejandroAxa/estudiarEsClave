@@ -7,6 +7,8 @@ import { createHash } from "node:crypto";
 import { and, eq, inArray } from "drizzle-orm";
 import type { Db } from "@/db/conexion";
 import * as s from "@/db/schema";
+import { erroresFormula } from "@/lib/formulas";
+import { analizar } from "@/lib/figura";
 import { bancoJson, GRUPOS_RUTA, RUTAS_CONOCIDAS, type BancoJson, type ReactivoJson } from "./formato";
 
 export const VALIDADOR_DESARROLLO = "SIN VALIDAR (solo desarrollo)";
@@ -76,6 +78,23 @@ export function validarBanco(banco: BancoJson, permitirSinValidar: boolean): str
       if (!o.argumentacion.trim()) errores.push(`${p}: la opción ${o.id} no tiene argumentación.`);
     }
 
+    // Fórmulas: si KaTeX no puede componer una, se rechaza el archivo.
+    const textosReactivo = [
+      r.enunciado,
+      r.explicacion,
+      ...r.opciones.flatMap((o) => [o.texto, o.argumentacion]),
+      ...(r.datos ?? []).flatMap((d) => ["$" + d.tex + "$", d.desc]),
+    ];
+    for (const e of textosReactivo.flatMap(erroresFormula)) errores.push(`${p}: fórmula inválida ${e}`);
+    if (r.figura) {
+      try {
+        const f = analizar(r.figura.f);
+        if (!Number.isFinite(f((r.figura.dominio[0] + r.figura.dominio[1]) / 2))) throw new Error("no da un número en el dominio");
+      } catch (e) {
+        errores.push(`${p}: la función de la figura no es válida (${(e as Error).message}).`);
+      }
+    }
+
     // D10
     const validado = ["validado", "publicado"].includes(r.estado) && r.validado_por && r.validado_en;
     if (!validado) {
@@ -94,9 +113,16 @@ export function validarBanco(banco: BancoJson, permitirSinValidar: boolean): str
   return errores;
 }
 
+/** JSON con las llaves ordenadas: jsonb de Postgres no conserva el orden original. */
+function canonico(v: unknown): string {
+  return JSON.stringify(v, (_k, x) =>
+    x && typeof x === "object" && !Array.isArray(x) ? Object.fromEntries(Object.entries(x).sort(([p], [q]) => p.localeCompare(q))) : x,
+  );
+}
+
 function mismoContenido(a: ReactivoJson, b: ReactivoJson) {
   const limpio = (r: ReactivoJson) =>
-    JSON.stringify([r.tema, r.texto_id, r.enunciado, r.explicacion, r.opciones, r.referencias, r.dificultad_estimada, r.formato]);
+    canonico([r.tema, r.texto_id, r.enunciado, r.explicacion, r.opciones, r.referencias, r.dificultad_estimada, r.formato, r.datos ?? null, r.figura ?? null, r.smiles ?? null]);
   return limpio(a) === limpio(b);
 }
 
@@ -248,7 +274,7 @@ export async function importarBanco(db: Db, contenido: string, op: OpcionesImpor
         .filter((o) => o.reactivoId === r.id && o.version === r.version)
         .sort((a, b) => a.opcionId.localeCompare(b.opcionId))
         .map((o) => ({ id: o.opcionId.trim(), texto: o.texto, correcta: o.correcta, argumentacion: o.argumentacion, error_id: o.errorId }));
-      const previo = { ...r, tema: igual.temaId, texto_id: igual.textoId, enunciado: igual.enunciado, explicacion: igual.explicacion, opciones: ops };
+      const previo = { ...r, tema: igual.temaId, texto_id: igual.textoId, enunciado: igual.enunciado, explicacion: igual.explicacion, opciones: ops, datos: igual.datos ?? undefined, figura: igual.figura ?? undefined, smiles: igual.smiles ?? undefined };
       const actual = { ...r, opciones: [...r.opciones].sort((a, b) => a.id.localeCompare(b.id)) };
       if (!mismoContenido(previo as ReactivoJson, { ...actual, referencias: previo.referencias } as ReactivoJson)) {
         errores.push(`${r.id} v${r.version}: ya existe con otro contenido; sube «version» para publicar el cambio.`);
@@ -338,6 +364,9 @@ export async function importarBanco(db: Db, contenido: string, op: OpcionesImpor
         tiempoEstimadoSeg: r.tiempo_estimado_seg,
         estado: "validado",
         revision: r.revision ?? null,
+        datos: r.datos ?? null,
+        figura: r.figura ?? null,
+        smiles: r.smiles ?? null,
       });
       await tx.insert(s.opcion).values(
         r.opciones.map((o) => ({

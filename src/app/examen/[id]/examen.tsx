@@ -355,9 +355,18 @@ export function Examen({ intento, secciones, items, textos, ahoraServidor }: Pro
                 </button>
               )}
             </div>
-            <p className="pregunta" id="enunciado">
-              {actual.enunciado}
-            </p>
+            {actual.datos && actual.datos.length > 0 && (
+              <dl className="ficha" aria-label="Datos">
+                {actual.datos.map((d, k) => (
+                  <div key={k}>
+                    <dt dangerouslySetInnerHTML={{ __html: d.tex }} />
+                    <dd dangerouslySetInnerHTML={{ __html: d.desc }} />
+                  </div>
+                ))}
+              </dl>
+            )}
+            {/* HTML compuesto en el servidor (src/lib/formulas.ts): texto escapado y fórmulas de KaTeX. */}
+            <div className="pregunta" id="enunciado" dangerouslySetInnerHTML={{ __html: actual.enunciado }} />
             <ul className="opciones" role="radiogroup" aria-labelledby="enunciado">
               {actual.opciones.map((o) => {
                 const sel = elegida === o.letra;
@@ -379,14 +388,14 @@ export function Examen({ intento, secciones, items, textos, ahoraServidor }: Pro
                           </svg>
                         )}
                       </span>
-                      <span style={{ whiteSpace: "pre-line" }}>
-                        {o.texto}
+                      <span>
+                        <span dangerouslySetInnerHTML={{ __html: o.texto }} />
                         {r && (
                           <span className="porque">
                             {r.argumentaciones[o.letra] ? (
                               <>
                                 <span className="etiqueta">{o.letra === r.letraCorrecta ? "Por qué sí: " : "Por qué no: "}</span>
-                                {r.argumentaciones[o.letra]}
+                                <span dangerouslySetInnerHTML={{ __html: r.argumentaciones[o.letra]! }} />
                               </>
                             ) : (
                               <>
@@ -410,7 +419,7 @@ export function Examen({ intento, secciones, items, textos, ahoraServidor }: Pro
                 </p>
                 <div>
                   <h3>Procedimiento</h3>
-                  <p style={{ whiteSpace: "pre-line" }}>{r.explicacion}</p>
+                  <div className="explicacion" dangerouslySetInnerHTML={{ __html: r.explicacion }} />
                 </div>
                 {r.recomendacion && (
                   <p className="small">

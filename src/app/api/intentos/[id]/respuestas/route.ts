@@ -9,6 +9,7 @@ import { db } from "@/db";
 import { duenoActual } from "@/lib/dueno";
 import { ErrorEvaluacion, guardarRespuesta } from "@/lib/evaluacion/evaluacion";
 import { ipDe, limitar } from "@/lib/limites";
+import { componer, componerExplicacion } from "@/lib/formulas";
 
 const cuerpo = z.object({
   orden: z.number().int().positive(),
@@ -30,7 +31,13 @@ export async function PUT(req: Request, ctx: { params: Promise<{ id: string }> }
   try {
     const r = await guardarRespuesta(db, { intentoId: id, ...p.data, ...d });
     if (!r.retro) return new NextResponse(null, { status: 204 });
-    return NextResponse.json({ retro: r.retro });
+    // La retroalimentación sale como HTML compuesto (fórmulas con KaTeX, resto escapado).
+    const retro = {
+      ...r.retro,
+      explicacion: componerExplicacion(r.retro.explicacion),
+      argumentaciones: Object.fromEntries(Object.entries(r.retro.argumentaciones).map(([k, v]) => [k, v == null ? null : componer(v)])),
+    };
+    return NextResponse.json({ retro });
   } catch (e) {
     if (e instanceof ErrorEvaluacion) return NextResponse.json({ error: e.message, codigo: e.codigo, ...e.extra }, { status: estados[e.codigo] });
     console.error("guardar_respuesta_fallo", { intento: id, error: (e as Error).message });

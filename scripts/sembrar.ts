@@ -22,8 +22,11 @@ async function main() {
   }
   console.log(`Banco importado: ${r.versionesNuevas} versiones nuevas, ${r.sinCambios} sin cambios. Plantillas: ${r.plantillas.join(", ")}`);
   await sembrarProductos(db);
-  if (!(await releaseVigente(db, "EXANI-II"))) {
-    const rel = await publicarRelease(db, { examenId: "EXANI-II", version: "1.0.0-dev", notas: "Banco semilla sin validar (desarrollo)" });
+  const vigente = await releaseVigente(db, "EXANI-II");
+  if (!vigente || r.versionesNuevas > 0) {
+    // Si el banco trae versiones nuevas (p. ej. una corrección de notación), se publica otro release de desarrollo.
+    const version = vigente ? `1.0.0-dev.${Date.now().toString(36)}` : "1.0.0-dev";
+    const rel = await publicarRelease(db, { examenId: "EXANI-II", version, notas: "Banco semilla sin validar (desarrollo)" });
     console.log(`Release ${rel.version} publicado con ${rel.reactivos} reactivos.`);
   }
   process.exit(0);

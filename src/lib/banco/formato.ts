@@ -62,6 +62,20 @@ export const reactivoJson = z.object({
   enunciado: z.string().min(1),
   opciones: z.array(opcionJson),
   explicacion: z.string(),
+  /** Ficha de datos opcional: [{ tex: "t", desc: "tiempo, en segundos" }]. */
+  datos: z.array(z.object({ tex: z.string().min(1).max(80), desc: z.string().min(1).max(200) })).max(8).optional(),
+  /** Gráfica opcional para la revisión. La función solo admite números, t o x, + - * / ^ y paréntesis. */
+  figura: z
+    .object({
+      tipo: z.enum(["parabola", "funcion"]),
+      f: z.string().regex(/^[0-9tx+\-−*·×/^(). ]{1,80}$/, "La función de la figura solo admite números, t o x, operaciones y paréntesis"),
+      dominio: z.tuple([z.number(), z.number()]).refine(([a, b]) => a < b, "El dominio debe ir de menor a mayor"),
+      marcar: z.tuple([z.number(), z.number()]).optional(),
+      ejes: z.object({ x: z.string().max(30).optional(), y: z.string().max(30).optional() }).optional(),
+    })
+    .optional(),
+  /** Estructura química opcional en SMILES, para la revisión. */
+  smiles: z.string().regex(/^[A-Za-z0-9@+\-\[\]()=#$\\/%.:*]{1,200}$/, "SMILES inválido").optional(),
   referencias: z.array(z.object({ fuente: z.string(), ubicacion: z.string() })).default([]),
   tiempo_estimado_seg: z.number().int().positive(),
   estado: z.string(),

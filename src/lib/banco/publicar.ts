@@ -166,6 +166,9 @@ export async function exportarRelease(db: Db, version: string) {
           .sort((a, b) => a.opcionId.localeCompare(b.opcionId))
           .map((o) => ({ id: o.opcionId, texto: o.texto, correcta: o.correcta, argumentacion: o.argumentacion, error_id: o.errorId })),
         explicacion: v.explicacion,
+        ...(v.datos ? { datos: v.datos } : {}),
+        ...(v.figura ? { figura: v.figura } : {}),
+        ...(v.smiles ? { smiles: v.smiles } : {}),
         referencias: refs
           .filter((r) => r.reactivoId === v.reactivoId && r.version === v.version)
           .sort((a, b) => a.orden - b.orden)

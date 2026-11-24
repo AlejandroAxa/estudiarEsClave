@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Enunciado, Explicacion, Formula } from "@/components/formula";
 import { muestrasPublicas } from "@/lib/consultas";
 
 export const metadata: Metadata = {
@@ -23,19 +24,19 @@ export default async function Medicina() {
           <span className="membrete">
             Pregunta {i + 1} · {m.area}
           </span>
-          <p className="pregunta">{m.enunciado}</p>
+          <Enunciado texto={m.enunciado} />
           <ol className="opciones" type="A">
             {m.opciones.map((o) => (
               <li key={o.opcionId} className={`opcion${o.correcta ? " correcta" : ""}`}>
-                {o.texto}
+                <Formula texto={o.texto} />
                 {o.correcta && <span className="sem ok"> Correcta</span>}
-                {!o.correcta && o.argumentacion && <span className="small"> · {o.argumentacion}</span>}
+                {!o.correcta && o.argumentacion && <span className="small"> · <Formula texto={o.argumentacion} /></span>}
               </li>
             ))}
           </ol>
           {m.explicacion && (
             <div className="porque">
-              <b>Por qué:</b> {m.explicacion}
+              <b>Por qué:</b> <Explicacion texto={m.explicacion} />
             </div>
           )}
         </article>

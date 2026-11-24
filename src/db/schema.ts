@@ -256,6 +256,12 @@ export const reactivoVersion = pgTable(
     estado: varchar("estado", { length: 14 }).notNull(),
     /** Datos de revisión que trae el JSON (rúbrica, cambios); se conservan para exportar sin pérdida. */
     revision: jsonb("revision"),
+    /** Ficha de datos: variables con su descripción, mostradas antes de la pregunta. */
+    datos: jsonb("datos").$type<{ tex: string; desc: string }[]>(),
+    /** Gráfica para la revisión (nunca en el examen). */
+    figura: jsonb("figura").$type<import("@/lib/figura").Figura>(),
+    /** Estructura química en SMILES para la revisión. */
+    smiles: text("smiles"),
     creadoEn: creado(),
   },
   (t) => [

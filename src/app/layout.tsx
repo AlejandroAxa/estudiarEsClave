@@ -3,6 +3,7 @@ import { Anybody, Red_Hat_Text } from "next/font/google";
 import { cookies } from "next/headers";
 import { Encabezado } from "@/components/encabezado";
 import { Pie } from "@/components/pie";
+import "katex/dist/katex.min.css";
 import "./globals.css";
 
 const anybody = Anybody({ subsets: ["latin"], axes: ["wdth"], variable: "--font-anybody", display: "swap" });
