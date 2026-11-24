@@ -1,12 +1,12 @@
 {
   "meta": {
     "nombre": "Banco semilla — Ruta Medicina BUAP",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "fecha": "2026-11-24",
     "idioma": "es-MX",
     "examen_referencia": "EXANI-II (CENEVAL); estructura según la Guía para el sustentante del 18 de junio de 2025",
-    "total_reactivos": 93,
-    "total_textos": 5,
+    "total_reactivos": 138,
+    "total_textos": 6,
     "autoria": "Contenido original. No reproduce reactivos del CENEVAL ni ejercicios de libros.",
     "estado_general": "revisado_ia: pendiente de validación por docente humano antes de publicar"
   },
@@ -899,6 +899,120 @@
       "area": "PRE",
       "descripcion": "Confunde vías de administración o ramas de la farmacología",
       "recomendacion": "Farmacocinética: lo que el cuerpo hace al fármaco (ADME); farmacodinamia: lo que el fármaco hace al cuerpo."
+    },
+    {
+      "id": "E-RI-PARONIMO",
+      "area": "RI",
+      "descripcion": "Confunde parónimos (palabras de forma parecida y significado distinto)",
+      "recomendacion": "Infligir es causar un daño; infringir, quebrantar una norma. Actitud es disposición; aptitud, capacidad."
+    },
+    {
+      "id": "E-RI-REGIMEN",
+      "area": "RI",
+      "descripcion": "Usa un verbo con un significado o una construcción que la norma culta desaconseja",
+      "recomendacion": "Adolecer de = padecer un defecto (no 'carecer'). Cesar es intransitivo: alguien cesa en un cargo; a otro se le destituye."
+    },
+    {
+      "id": "E-RI-CONJUG",
+      "area": "RI",
+      "descripcion": "Conjuga mal un verbo irregular",
+      "recomendacion": "Prever se conjuga como ver: prevé, previó, previendo. No existe 'preveer'."
+    },
+    {
+      "id": "E-PM-CRECIMIENTO",
+      "area": "PM",
+      "descripcion": "Trata un crecimiento exponencial como si fuera lineal",
+      "recomendacion": "Si algo se duplica cada periodo, tras n periodos se multiplica por 2ⁿ, no por 2 × n."
+    },
+    {
+      "id": "E-PM-PROB-COND",
+      "area": "PM",
+      "descripcion": "Usa el total equivocado en una probabilidad condicional",
+      "recomendacion": "En P(A | B) el denominador es solo el grupo que cumple la condición B."
+    },
+    {
+      "id": "E-PM-PROB-REGLA",
+      "area": "PM",
+      "descripcion": "Suma probabilidades que deben multiplicarse (o al revés)",
+      "recomendacion": "«Y» con eventos independientes: multiplica. «O» con eventos excluyentes: suma."
+    },
+    {
+      "id": "E-PM-NORMAL",
+      "area": "PM",
+      "descripcion": "Aplica mal la regla empírica de la distribución normal",
+      "recomendacion": "68 % de los datos está a ±1σ, 95 % a ±2σ y 99.7 % a ±3σ; lo que queda fuera se reparte por mitad en cada cola."
+    },
+    {
+      "id": "E-PM-DESPEJE",
+      "area": "PM",
+      "descripcion": "Despeja mal una variable",
+      "recomendacion": "Aplica las operaciones inversas en ambos lados y en orden inverso al de la fórmula."
+    },
+    {
+      "id": "E-PM-VAR-INVERSA",
+      "area": "PM",
+      "descripcion": "Trata una variación inversa como directa",
+      "recomendacion": "Si al aumentar una cantidad la otra disminuye en la misma proporción, su producto es constante."
+    },
+    {
+      "id": "E-PM-DISCRIMINANTE",
+      "area": "PM",
+      "descripcion": "Interpreta o calcula mal el discriminante",
+      "recomendacion": "Δ = b² − 4ac. Δ > 0: dos soluciones reales; Δ = 0: una; Δ < 0: ninguna real."
+    },
+    {
+      "id": "E-PM-SUCESION",
+      "area": "PM",
+      "descripcion": "Calcula mal el término de una sucesión aritmética",
+      "recomendacion": "aₙ = a₁ + (n − 1)d: del primer término al n-ésimo hay n − 1 incrementos."
+    },
+    {
+      "id": "E-BIO-ADN-ARN",
+      "area": "BIO",
+      "descripcion": "Confunde la estructura, la replicación o la transcripción del ADN y el ARN",
+      "recomendacion": "El ARN lleva uracilo en lugar de timina; la transcripción es complementaria y antiparalela a la cadena molde."
+    },
+    {
+      "id": "E-BIO-MUTACION",
+      "area": "BIO",
+      "descripcion": "Confunde los tipos de mutación y sus efectos",
+      "recomendacion": "Insertar o quitar una base corre el marco de lectura; una sustitución afecta a un solo codón."
+    },
+    {
+      "id": "E-BIO-BIOTEC",
+      "area": "BIO",
+      "descripcion": "Confunde las herramientas de la ingeniería genética",
+      "recomendacion": "Enzimas de restricción: cortan. ADN ligasa: une. PCR: copia. Electroforesis: separa por tamaño."
+    },
+    {
+      "id": "E-BIO-REPRODUCCION",
+      "area": "BIO",
+      "descripcion": "Confunde mitosis y meiosis, o reproducción sexual y asexual",
+      "recomendacion": "Meiosis: 4 células haploides distintas. Mitosis: 2 células idénticas a la original."
+    },
+    {
+      "id": "E-BIO-ECOSISTEMA",
+      "area": "BIO",
+      "descripcion": "Confunde biomas o el flujo de energía entre niveles tróficos",
+      "recomendacion": "De un nivel trófico al siguiente pasa cerca del 10 % de la energía."
+    },
+    {
+      "id": "E-BIO-CICLO",
+      "area": "BIO",
+      "descripcion": "Confunde los procesos de los ciclos biogeoquímicos",
+      "recomendacion": "Solo ciertas bacterias fijan el N₂ del aire; las plantas absorben nitrógeno como amonio o nitrato."
+    },
+    {
+      "id": "E-PRE-EPIDEMIO",
+      "area": "PRE",
+      "descripcion": "Confunde las medidas de frecuencia epidemiológica",
+      "recomendacion": "Incidencia: casos nuevos. Prevalencia: casos existentes. Mortalidad: muertes / población. Letalidad: muertes / enfermos."
+    },
+    {
+      "id": "E-PRE-PARASITO",
+      "area": "PRE",
+      "descripcion": "Confunde los ciclos de vida o las vías de transmisión de los parásitos",
+      "recomendacion": "Teniasis: comer cerdo con cisticercos. Cisticercosis: ingerir huevos de T. solium (vía fecal-oral)."
     }
   ],
   "textos": [
@@ -982,6 +1096,20 @@
         "Notas: Las solicitudes incompletas no serán consideradas. Tendrán prioridad los solicitantes cuyo ingreso familiar mensual sea menor a dos salarios mínimos. La beca se cancelará si el beneficiario abandona sus estudios."
       ],
       "autoria": "original (municipio y datos ficticios)"
+    },
+    {
+      "id": "TX-06",
+      "ambito": "participacion_social",
+      "tipo_texto": "noticia",
+      "titulo": "Suspenden clases en primaria de San Miguel del Valle por brote de hepatitis A",
+      "parrafos": [
+        "San Miguel del Valle, 14 de octubre de 2026. La Jurisdicción Sanitaria número 3 suspendió por diez días las clases en la primaria «Benito Juárez» después de confirmar 18 casos de hepatitis A entre alumnos de tercero a sexto grado, informó su titular, la doctora Elena Ruiz Cano.",
+        "De acuerdo con la funcionaria, los análisis de laboratorio señalan como fuente probable el agua de la cisterna escolar, que no se había limpiado desde febrero. «La hepatitis A se transmite por agua o alimentos contaminados con heces; por eso lo primero es desinfectar la cisterna y reforzar el lavado de manos», explicó.",
+        "Ninguno de los menores ha requerido hospitalización. Los síntomas más frecuentes han sido fiebre, cansancio, dolor abdominal y coloración amarillenta de la piel y los ojos.",
+        "Durante la suspensión, personal de salud vacunará contra la hepatitis A a los 412 alumnos y a los 23 trabajadores del plantel, y visitará los domicilios de los niños enfermos para revisar a sus familiares.",
+        "La Asociación de Padres de Familia criticó que la escuela no hubiera dado mantenimiento a la cisterna, pese a que lo solicitó por escrito en abril. La dirección del plantel no respondió a las preguntas de este diario."
+      ],
+      "autoria": "original (municipio, escuela y personas ficticios)"
     }
   ],
   "reactivos": [
@@ -1912,6 +2040,192 @@
       "revision": {
         "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
         "fecha": "2026-11-23",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "CL-016",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "todas"
+      ],
+      "area": "CL",
+      "subarea": "CL-PS",
+      "tema": "CL-PS-ID",
+      "habilidad": "identificar",
+      "dificultad_estimada": 1,
+      "formato": "cuestionamiento_directo",
+      "texto_id": "TX-06",
+      "enunciado": "Según la noticia, ¿qué hará el personal de salud mientras estén suspendidas las clases?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "Vacunar a los alumnos y trabajadores, y revisar a las familias de los niños enfermos.",
+          "correcta": true,
+          "argumentacion": "Correcta. El cuarto párrafo menciona la vacunación de 412 alumnos y 23 trabajadores, y las visitas a los domicilios.",
+          "error_id": null
+        },
+        {
+          "id": "B",
+          "texto": "Hospitalizar a los 18 alumnos que resultaron positivos a la hepatitis A.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. La noticia aclara que ninguno de los menores ha requerido hospitalización.",
+          "error_id": "E-CL-DATO"
+        },
+        {
+          "id": "C",
+          "texto": "Construir una cisterna nueva para sustituir la que estaba contaminada.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Se habla de desinfectar la cisterna, no de construir otra.",
+          "error_id": "E-CL-EXTRAPOLA"
+        }
+      ],
+      "explicacion": "Localiza el párrafo que habla de lo que ocurrirá «durante la suspensión» (el cuarto) y compáralo con cada opción.",
+      "referencias": [
+        {
+          "fuente": "Guía para el sustentante EXANI-II (CENEVAL, 2025)",
+          "ubicacion": "Área de Comprensión lectora: ámbito de participación social"
+        }
+      ],
+      "tiempo_estimado_seg": 60,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "CL-017",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "todas"
+      ],
+      "area": "CL",
+      "subarea": "CL-PS",
+      "tema": "CL-PS-IN",
+      "habilidad": "interpretar",
+      "dificultad_estimada": 2,
+      "formato": "cuestionamiento_directo",
+      "texto_id": "TX-06",
+      "enunciado": "¿Por qué la autoridad sanitaria considera que lo primero es desinfectar la cisterna?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "Porque los padres de familia lo solicitaron por escrito en abril.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. La solicitud de abril es el reclamo de los padres, no la razón que da la autoridad sanitaria.",
+          "error_id": "E-CL-DATO"
+        },
+        {
+          "id": "B",
+          "texto": "Porque la vacuna no protege a quienes ya tienen la enfermedad.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. La noticia no dice nada sobre el efecto de la vacuna en los enfermos.",
+          "error_id": "E-CL-EXTRAPOLA"
+        },
+        {
+          "id": "C",
+          "texto": "Porque el agua de la cisterna es la fuente probable del contagio.",
+          "correcta": true,
+          "argumentacion": "Correcta. La funcionaria relaciona la vía de transmisión (agua contaminada con heces) con los análisis que apuntan a la cisterna.",
+          "error_id": null
+        }
+      ],
+      "explicacion": "Busca la explicación que da la propia funcionaria (segundo párrafo): une la causa probable con la forma de transmisión.",
+      "referencias": [
+        {
+          "fuente": "Guía para el sustentante EXANI-II (CENEVAL, 2025)",
+          "ubicacion": "Área de Comprensión lectora: ámbito de participación social"
+        }
+      ],
+      "tiempo_estimado_seg": 75,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "CL-018",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "todas"
+      ],
+      "area": "CL",
+      "subarea": "CL-PS",
+      "tema": "CL-PS-EV",
+      "habilidad": "evaluar",
+      "dificultad_estimada": 3,
+      "formato": "cuestionamiento_directo",
+      "texto_id": "TX-06",
+      "enunciado": "¿Qué rasgo del último párrafo muestra que el texto es una noticia y no un artículo de opinión?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "Expresa la postura del periodista sobre la negligencia de la escuela.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Es lo contrario: la crítica se atribuye a la Asociación de Padres, no al periodista.",
+          "error_id": "E-CL-CONTRARIO"
+        },
+        {
+          "id": "B",
+          "texto": "Atribuye la crítica a los padres y señala que la escuela no respondió, sin tomar postura.",
+          "correcta": true,
+          "argumentacion": "Correcta. El periodista informa quién critica y registra la falta de respuesta de la otra parte; no emite un juicio propio.",
+          "error_id": null
+        },
+        {
+          "id": "C",
+          "texto": "Presenta cifras verificables sobre el número de alumnos contagiados.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Las cifras están en el primero y el cuarto párrafos; el último no contiene datos numéricos.",
+          "error_id": "E-CL-DATO"
+        }
+      ],
+      "explicacion": "La noticia informa con objetividad: atribuye las opiniones a sus fuentes y busca la versión de las partes involucradas.",
+      "referencias": [
+        {
+          "fuente": "Guía para el sustentante EXANI-II (CENEVAL, 2025)",
+          "ubicacion": "Área de Comprensión lectora: ámbito de participación social"
+        }
+      ],
+      "tiempo_estimado_seg": 75,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
         "rubrica": {
           "exactitud": 4,
           "claridad": 4,
@@ -2856,6 +3170,316 @@
       "revision": {
         "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
         "fecha": "2026-11-23",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "RI-016",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "todas"
+      ],
+      "area": "RI",
+      "subarea": "RI-EST",
+      "tema": "RI-EST-GS",
+      "habilidad": "aplicar",
+      "dificultad_estimada": 3,
+      "formato": "seleccion_fragmento",
+      "texto_id": null,
+      "enunciado": "Elige la oración en la que el verbo «adolecer» se usa como recomienda la norma culta.",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "El informe adolece de errores de cálculo en la segunda tabla.",
+          "correcta": true,
+          "argumentacion": "Correcta. «Adolecer de» significa tener un defecto o padecer un mal; aquí el defecto son los errores.",
+          "error_id": null
+        },
+        {
+          "id": "B",
+          "texto": "La clínica adolece de personal suficiente para el turno nocturno.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Usa «adolecer» con el sentido de «carecer», uso que el DPD considera impropio; lo adecuado es «carece de personal».",
+          "error_id": "E-RI-REGIMEN"
+        },
+        {
+          "id": "C",
+          "texto": "El proyecto adolece en la falta de un presupuesto definido.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. El verbo se construye con la preposición «de», no con «en».",
+          "error_id": "E-RI-REGIMEN"
+        }
+      ],
+      "explicacion": "«Adolecer de» = tener un defecto o sufrir un mal. No significa «carecer»: «adolece de personal» debe decirse «carece de personal».",
+      "referencias": [
+        {
+          "fuente": "RAE y ASALE (2005). Diccionario panhispánico de dudas, 1.ª ed.",
+          "ubicacion": "Entrada: adolecer"
+        }
+      ],
+      "tiempo_estimado_seg": 45,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "RI-017",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "todas"
+      ],
+      "area": "RI",
+      "subarea": "RI-PS",
+      "tema": "RI-PS-GS",
+      "habilidad": "aplicar",
+      "dificultad_estimada": 2,
+      "formato": "completar",
+      "texto_id": null,
+      "enunciado": "Elige la palabra que completa correctamente la oración: «Los conductores que ___ el reglamento de tránsito recibirán una multa».",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "inflijan",
+          "correcta": false,
+          "argumentacion": "Incorrecta. «Infligir» significa causar un daño o imponer un castigo; no tiene sentido con «el reglamento».",
+          "error_id": "E-RI-PARONIMO"
+        },
+        {
+          "id": "B",
+          "texto": "infringan",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Es el verbo correcto, pero mal escrito: ante a y o se escribe j (infrinja, infrinjan).",
+          "error_id": "E-RI-GRAFIA"
+        },
+        {
+          "id": "C",
+          "texto": "infrinjan",
+          "correcta": true,
+          "argumentacion": "Correcta. «Infringir» es quebrantar una norma; ante a y o, la g cambia a j (infrinjan).",
+          "error_id": null
+        }
+      ],
+      "explicacion": "Infringir = quebrantar una ley; infligir = causar un daño. En los verbos terminados en -gir, la g cambia a j ante a y o.",
+      "referencias": [
+        {
+          "fuente": "RAE y ASALE (2005). Diccionario panhispánico de dudas, 1.ª ed.",
+          "ubicacion": "Entradas: infligir(se); infringir"
+        }
+      ],
+      "tiempo_estimado_seg": 40,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "RI-018",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "todas"
+      ],
+      "area": "RI",
+      "subarea": "RI-EST",
+      "tema": "RI-EST-GS",
+      "habilidad": "aplicar",
+      "dificultad_estimada": 2,
+      "formato": "seleccion_fragmento",
+      "texto_id": null,
+      "enunciado": "Elige la oración correcta.",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "El comité preveyó que las vacunas llegarían en marzo.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. «Preveyó» viene de la forma inexistente «preveer», cruce con «proveer».",
+          "error_id": "E-RI-CONJUG"
+        },
+        {
+          "id": "B",
+          "texto": "El comité previó que las vacunas llegarían en marzo.",
+          "correcta": true,
+          "argumentacion": "Correcta. «Prever» se conjuga como «ver»: vio → previó.",
+          "error_id": null
+        },
+        {
+          "id": "C",
+          "texto": "El comité proveyó que las vacunas llegarían en marzo.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. «Proveer» significa suministrar; no tiene el sentido de anticipar algo.",
+          "error_id": "E-RI-PARONIMO"
+        }
+      ],
+      "explicacion": "Prever (ver con anticipación) se conjuga como ver: prevé, previó, previendo. Proveer (suministrar) es otro verbo.",
+      "referencias": [
+        {
+          "fuente": "RAE y ASALE (2005). Diccionario panhispánico de dudas, 1.ª ed.",
+          "ubicacion": "Entrada: prever"
+        }
+      ],
+      "tiempo_estimado_seg": 40,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "RI-019",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "todas"
+      ],
+      "area": "RI",
+      "subarea": "RI-PS",
+      "tema": "RI-PS-GS",
+      "habilidad": "aplicar",
+      "dificultad_estimada": 3,
+      "formato": "seleccion_fragmento",
+      "texto_id": null,
+      "enunciado": "Elige la oración que usa el verbo «cesar» como recomienda la norma culta.",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "El director de Obras Públicas cesó en su cargo tras la auditoría.",
+          "correcta": true,
+          "argumentacion": "Correcta. «Cesar» es intransitivo: la persona cesa en el cargo.",
+          "error_id": null
+        },
+        {
+          "id": "B",
+          "texto": "El ayuntamiento cesó al director de Obras Públicas tras la auditoría.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Usa «cesar» como transitivo; en el habla esmerada debe decirse «destituyó al director».",
+          "error_id": "E-RI-REGIMEN"
+        },
+        {
+          "id": "C",
+          "texto": "El director de Obras Públicas fue cesado de su cargo tras la auditoría.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. La voz pasiva supone el uso transitivo de «cesar», que el DPD recomienda evitar.",
+          "error_id": "E-RI-REGIMEN"
+        }
+      ],
+      "explicacion": "Uno cesa en un cargo (intransitivo). Si otro lo saca del puesto, se usa «destituir».",
+      "referencias": [
+        {
+          "fuente": "RAE y ASALE (2005). Diccionario panhispánico de dudas, 1.ª ed.",
+          "ubicacion": "Entrada: cesar"
+        }
+      ],
+      "tiempo_estimado_seg": 45,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "RI-020",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "todas"
+      ],
+      "area": "RI",
+      "subarea": "RI-PS",
+      "tema": "RI-PS-GS",
+      "habilidad": "aplicar",
+      "dificultad_estimada": 2,
+      "formato": "completar",
+      "texto_id": null,
+      "enunciado": "Elige la palabra que completa la oración: «La convocatoria pide voluntarios con ___ para atender a adultos mayores, es decir, con la capacidad necesaria para hacerlo».",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "actitud",
+          "correcta": false,
+          "argumentacion": "Incorrecta. «Actitud» es una disposición de ánimo o una postura, no una capacidad.",
+          "error_id": "E-RI-PARONIMO"
+        },
+        {
+          "id": "B",
+          "texto": "aptitúd",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Es aguda terminada en d; no lleva tilde.",
+          "error_id": "E-RI-ACENTO"
+        },
+        {
+          "id": "C",
+          "texto": "aptitud",
+          "correcta": true,
+          "argumentacion": "Correcta. «Aptitud» es la capacidad o idoneidad para algo, como aclara la propia oración.",
+          "error_id": null
+        }
+      ],
+      "explicacion": "Aptitud = capacidad; actitud = disposición o postura. Las agudas solo llevan tilde si terminan en vocal, n o s.",
+      "referencias": [
+        {
+          "fuente": "RAE y ASALE (2005). Diccionario panhispánico de dudas, 1.ª ed.",
+          "ubicacion": "Entradas: actitud; aptitud"
+        }
+      ],
+      "tiempo_estimado_seg": 35,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
         "rubrica": {
           "exactitud": 4,
           "claridad": 4,
@@ -3839,6 +4463,666 @@
       }
     },
     {
+      "id": "PM-016",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "todas"
+      ],
+      "area": "PM",
+      "subarea": "PM-MAT",
+      "tema": "PM-MAT-DU",
+      "habilidad": "aplicar",
+      "dificultad_estimada": 3,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "Un cultivo de bacterias duplica su número cada 20 minutos. Si al inicio hay 500 bacterias, ¿cuánto tiempo pasará hasta que haya 16 000?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "$640\\ \\text{min}$",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Multiplica $32 \\times 20$, como si el cultivo creciera de forma lineal; 32 veces más bacterias son solo 5 duplicaciones.",
+          "error_id": "E-PM-CRECIMIENTO"
+        },
+        {
+          "id": "B",
+          "texto": "$100\\ \\text{min}$",
+          "correcta": true,
+          "argumentacion": "Correcta. $16\\,000 \\div 500 = 32 = 2^5$: se necesitan 5 duplicaciones de 20 minutos.",
+          "error_id": null
+        },
+        {
+          "id": "C",
+          "texto": "$80\\ \\text{min}$",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Cuenta 4 duplicaciones ($500 \\cdot 2^4 = 8\\,000$); falta una más para llegar a 16 000.",
+          "error_id": "E-PM-OPER"
+        }
+      ],
+      "explicacion": "1) Modelo: $N(t) = 500 \\cdot 2^{t/20}$.\n2) Iguala: $500 \\cdot 2^{t/20} = 16\\,000$, así que $2^{t/20} = 32 = 2^5$.\n3) $t/20 = 5$, de donde $t = 100\\ \\text{min}$.",
+      "referencias": [
+        {
+          "fuente": "Stewart, J., Redlin, L. y Watson, S. (2012). Precálculo. Matemáticas para el cálculo (6.ª ed.). Cengage",
+          "ubicacion": "Cap. 4: Funciones exponenciales y logarítmicas (4.6 Modelado con funciones exponenciales)"
+        }
+      ],
+      "tiempo_estimado_seg": 120,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      },
+      "datos": [
+        {
+          "tex": "N_0",
+          "desc": "500 bacterias"
+        },
+        {
+          "tex": "T_d",
+          "desc": "20 min (tiempo de duplicación)"
+        }
+      ]
+    },
+    {
+      "id": "PM-017",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "todas"
+      ],
+      "area": "PM",
+      "subarea": "PM-CM",
+      "tema": "PM-CM-CON",
+      "habilidad": "analizar",
+      "dificultad_estimada": 3,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "En un estudio con 200 personas, 120 estaban vacunadas contra la influenza y 80 no. Durante el invierno enfermaron 6 vacunadas y 16 no vacunadas. Si se elige al azar a una de las personas que enfermaron, ¿cuál es la probabilidad de que esté vacunada?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "$\\dfrac{3}{11}$",
+          "correcta": true,
+          "argumentacion": "Correcta. Hubo $6 + 16 = 22$ enfermos y 6 de ellos estaban vacunados: $\\frac{6}{22} = \\frac{3}{11}$.",
+          "error_id": null
+        },
+        {
+          "id": "B",
+          "texto": "$\\dfrac{1}{20}$",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Calcula $\\frac{6}{120}$: la probabilidad de enfermar siendo vacunado. La condición es haber enfermado, no estar vacunado.",
+          "error_id": "E-PM-PROB-COND"
+        },
+        {
+          "id": "C",
+          "texto": "$\\dfrac{3}{100}$",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Divide entre las 200 personas del estudio; la condición limita el total a las 22 que enfermaron.",
+          "error_id": "E-PM-PROB-COND"
+        }
+      ],
+      "explicacion": "1) La condición es «enfermó»: el nuevo total es $6 + 16 = 22$.\n2) Casos favorables (vacunados que enfermaron): 6.\n3) $P(\\text{vacunado} \\mid \\text{enfermó}) = \\dfrac{6}{22} = \\dfrac{3}{11} \\approx 0.27$.",
+      "referencias": [
+        {
+          "fuente": "Johnson, R. y Kuby, P. (2012). Estadística elemental (11.ª ed.). Cengage",
+          "ubicacion": "Cap. 4: Probabilidad (4.2 Probabilidad condicional de eventos)"
+        }
+      ],
+      "tiempo_estimado_seg": 120,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "PM-018",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "todas"
+      ],
+      "area": "PM",
+      "subarea": "PM-CM",
+      "tema": "PM-CM-CON",
+      "habilidad": "aplicar",
+      "dificultad_estimada": 2,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "En cierta población, el 40 % de las personas tiene sangre tipo O+. Si se eligen al azar dos donadores sin relación entre sí, ¿cuál es la probabilidad de que ambos sean O+?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "$0.80$",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Suma las probabilidades; para que ocurran ambos eventos independientes se multiplican.",
+          "error_id": "E-PM-PROB-REGLA"
+        },
+        {
+          "id": "B",
+          "texto": "$0.40$",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Es la probabilidad para un solo donador; falta considerar el segundo.",
+          "error_id": "E-PM-OMITE-PASO"
+        },
+        {
+          "id": "C",
+          "texto": "$0.16$",
+          "correcta": true,
+          "argumentacion": "Correcta. Son eventos independientes: $0.4 \\times 0.4 = 0.16$.",
+          "error_id": null
+        }
+      ],
+      "explicacion": "1) Los donadores no tienen relación: los eventos son independientes.\n2) $P(A \\text{ y } B) = P(A) \\cdot P(B) = 0.4 \\cdot 0.4 = 0.16$, es decir, 16 %.",
+      "referencias": [
+        {
+          "fuente": "Johnson, R. y Kuby, P. (2012). Estadística elemental (11.ª ed.). Cengage",
+          "ubicacion": "Cap. 4: Probabilidad (4.5 Eventos independientes)"
+        }
+      ],
+      "tiempo_estimado_seg": 60,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "PM-019",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "todas"
+      ],
+      "area": "PM",
+      "subarea": "PM-CM",
+      "tema": "PM-CM-SN",
+      "habilidad": "aplicar",
+      "dificultad_estimada": 2,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "La calificación de un curso se calcula así: exámenes 50 %, tareas 30 % y proyecto 20 %. Un alumno obtuvo 7 en exámenes, 10 en tareas y 8 en el proyecto. ¿Cuál es su calificación final?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "$8.3$",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Es el promedio simple $(7 + 10 + 8) \\div 3 \\approx 8.3$; no toma en cuenta el peso de cada rubro.",
+          "error_id": "E-PM-ESTAD-CONCEPTO"
+        },
+        {
+          "id": "B",
+          "texto": "$8.1$",
+          "correcta": true,
+          "argumentacion": "Correcta. $7(0.5) + 10(0.3) + 8(0.2) = 3.5 + 3 + 1.6 = 8.1$.",
+          "error_id": null
+        },
+        {
+          "id": "C",
+          "texto": "$8.8$",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Asigna los pesos a los rubros equivocados ($7 \\cdot 0.2 + 10 \\cdot 0.5 + 8 \\cdot 0.3$).",
+          "error_id": "E-PM-OPER"
+        }
+      ],
+      "explicacion": "1) Multiplica cada calificación por su peso: $7 \\cdot 0.5 = 3.5$; $10 \\cdot 0.3 = 3$; $8 \\cdot 0.2 = 1.6$.\n2) Suma: $3.5 + 3 + 1.6 = 8.1$. Como los pesos suman 1, no hace falta dividir.",
+      "referencias": [
+        {
+          "fuente": "Johnson, R. y Kuby, P. (2012). Estadística elemental (11.ª ed.). Cengage",
+          "ubicacion": "Cap. 2: Análisis descriptivo (2.3 Medidas de tendencia central)"
+        }
+      ],
+      "tiempo_estimado_seg": 75,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "PM-020",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "todas"
+      ],
+      "area": "PM",
+      "subarea": "PM-CM",
+      "tema": "PM-CM-SN",
+      "habilidad": "aplicar",
+      "dificultad_estimada": 2,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "Un paciente en rehabilitación camina 400 m el primer día y, cada día, 150 m más que el anterior. ¿Cuántos metros caminará el día 15?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "$2\\,500\\ \\text{m}$",
+          "correcta": true,
+          "argumentacion": "Correcta. $a_{15} = 400 + (15 - 1)(150) = 400 + 2\\,100 = 2\\,500$.",
+          "error_id": null
+        },
+        {
+          "id": "B",
+          "texto": "$2\\,650\\ \\text{m}$",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Suma 15 incrementos; del día 1 al día 15 solo hay 14.",
+          "error_id": "E-PM-SUCESION"
+        },
+        {
+          "id": "C",
+          "texto": "$2\\,250\\ \\text{m}$",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Multiplica $15 \\times 150$ y olvida los 400 m del primer día.",
+          "error_id": "E-PM-OMITE-PASO"
+        }
+      ],
+      "explicacion": "1) Es una sucesión aritmética con $a_1 = 400$ y $d = 150$.\n2) $a_n = a_1 + (n - 1)d$.\n3) $a_{15} = 400 + 14 \\cdot 150 = 2\\,500\\ \\text{m}$.",
+      "referencias": [
+        {
+          "fuente": "Ibáñez Carrasco, P. Matemáticas I. Cengage",
+          "ubicacion": "Sucesiones y series: sucesiones aritméticas"
+        },
+        {
+          "fuente": "Aguilar Márquez, A. et al. (2009). Matemáticas simplificadas (2.ª ed.). Pearson",
+          "ubicacion": "Progresión aritmética: n-ésimo término"
+        }
+      ],
+      "tiempo_estimado_seg": 75,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "PM-021",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "todas"
+      ],
+      "area": "PM",
+      "subarea": "PM-MAT",
+      "tema": "PM-MAT-LM",
+      "habilidad": "analizar",
+      "dificultad_estimada": 3,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "¿Cuántas soluciones reales tiene la ecuación\n$$2x^2 - 4x + 5 = 0$$",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "Dos",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Calcula $16 + 40$; el discriminante resta $4ac$.",
+          "error_id": "E-PM-DISCRIMINANTE"
+        },
+        {
+          "id": "B",
+          "texto": "Una",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Hay una sola solución real cuando $\\Delta = 0$; aquí $\\Delta = -24$.",
+          "error_id": "E-PM-DISCRIMINANTE"
+        },
+        {
+          "id": "C",
+          "texto": "Ninguna",
+          "correcta": true,
+          "argumentacion": "Correcta. $\\Delta = (-4)^2 - 4(2)(5) = 16 - 40 = -24 < 0$: no hay soluciones reales.",
+          "error_id": null
+        }
+      ],
+      "explicacion": "1) Identifica $a = 2$, $b = -4$, $c = 5$.\n2) $\\Delta = b^2 - 4ac = 16 - 40 = -24$.\n3) $\\Delta < 0$: la parábola no corta el eje $x$; no hay soluciones reales.",
+      "referencias": [
+        {
+          "fuente": "Angel, A. R. y Runde, D. C. (2013). Álgebra intermedia (8.ª ed.). Pearson",
+          "ubicacion": "Cap. 8: Funciones cuadráticas (fórmula cuadrática y discriminante)"
+        }
+      ],
+      "tiempo_estimado_seg": 75,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      },
+      "figura": {
+        "tipo": "parabola",
+        "f": "2*x^2-4*x+5",
+        "dominio": [
+          -1,
+          3
+        ],
+        "marcar": [
+          1,
+          3
+        ],
+        "ejes": {
+          "x": "x",
+          "y": "y"
+        }
+      }
+    },
+    {
+      "id": "PM-022",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "todas"
+      ],
+      "area": "PM",
+      "subarea": "PM-MAT",
+      "tema": "PM-MAT-LM",
+      "habilidad": "aplicar",
+      "dificultad_estimada": 3,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "El índice de masa corporal se calcula con\n$$I = \\frac{m}{h^2}$$\ndonde $m$ es la masa en kilogramos y $h$ la estatura en metros. ¿Qué expresión da la estatura?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "$h = \\sqrt{m \\cdot I}$",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Al pasar $h^2$ al otro lado, $I$ debe dividir a $m$, no multiplicarla.",
+          "error_id": "E-PM-DESPEJE"
+        },
+        {
+          "id": "B",
+          "texto": "$h = \\sqrt{\\dfrac{m}{I}}$",
+          "correcta": true,
+          "argumentacion": "Correcta. $I h^2 = m$, luego $h^2 = \\frac{m}{I}$ y, como la estatura es positiva, $h = \\sqrt{m / I}$.",
+          "error_id": null
+        },
+        {
+          "id": "C",
+          "texto": "$h = \\dfrac{m}{2I}$",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Trata el exponente 2 como un factor; para quitar un cuadrado se saca raíz cuadrada.",
+          "error_id": "E-PM-DESPEJE"
+        }
+      ],
+      "explicacion": "1) Multiplica ambos lados por $h^2$: $I h^2 = m$.\n2) Divide entre $I$: $h^2 = \\dfrac{m}{I}$.\n3) Saca raíz cuadrada (valor positivo): $h = \\sqrt{\\dfrac{m}{I}}$.",
+      "referencias": [
+        {
+          "fuente": "Aguilar Márquez, A. et al. (2009). Matemáticas simplificadas (2.ª ed.). Pearson",
+          "ubicacion": "Despejes de fórmulas"
+        }
+      ],
+      "tiempo_estimado_seg": 75,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "PM-023",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "todas"
+      ],
+      "area": "PM",
+      "subarea": "PM-MAT",
+      "tema": "PM-MAT-DU",
+      "habilidad": "aplicar",
+      "dificultad_estimada": 3,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "Cuatro bombas iguales vacían una cisterna en 9 horas. ¿Cuánto tardarán 6 bombas iguales en vaciar la misma cisterna?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "$6\\ \\text{h}$",
+          "correcta": true,
+          "argumentacion": "Correcta. El trabajo total es $4 \\times 9 = 36$ horas-bomba; con 6 bombas: $36 \\div 6 = 6\\ \\text{h}$.",
+          "error_id": null
+        },
+        {
+          "id": "B",
+          "texto": "$13.5\\ \\text{h}$",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Plantea una proporción directa ($\\frac{4}{9} = \\frac{6}{x}$); con más bombas el tiempo disminuye.",
+          "error_id": "E-PM-VAR-INVERSA"
+        },
+        {
+          "id": "C",
+          "texto": "$7\\ \\text{h}$",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Resta 2 horas por las 2 bombas extra; el tiempo no disminuye restando, sino de forma inversamente proporcional.",
+          "error_id": "E-PM-OPER"
+        }
+      ],
+      "explicacion": "1) Tiempo y número de bombas varían inversamente: $b \\cdot t = k$.\n2) $k = 4 \\cdot 9 = 36$.\n3) $t = \\dfrac{36}{6} = 6\\ \\text{h}$.",
+      "referencias": [
+        {
+          "fuente": "Angel, A. R. y Runde, D. C. (2013). Álgebra intermedia (8.ª ed.). Pearson",
+          "ubicacion": "Cap. 6: Expresiones racionales y ecuaciones (variación inversa)"
+        }
+      ],
+      "tiempo_estimado_seg": 90,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "PM-024",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "todas"
+      ],
+      "area": "PM",
+      "subarea": "PM-MAT",
+      "tema": "PM-MAT-RES",
+      "habilidad": "aplicar",
+      "dificultad_estimada": 2,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "La concentración de un fármaco en sangre se midió a distintas horas tras su aplicación:\n1 h: 8 mg/L · 3 h: 14 mg/L · 5 h: 11 mg/L.\n¿Cuál es la razón de cambio promedio de la concentración entre la hora 1 y la hora 3?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "$6\\ \\text{mg/L por hora}$",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Es el cambio total de concentración; falta dividir entre las 2 horas transcurridas.",
+          "error_id": "E-PM-RAZON-CAMBIO"
+        },
+        {
+          "id": "B",
+          "texto": "$-1.5\\ \\text{mg/L por hora}$",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Es la razón de cambio entre la hora 3 y la 5; se pidió el intervalo de 1 a 3.",
+          "error_id": "E-PM-VARIABLE"
+        },
+        {
+          "id": "C",
+          "texto": "$3\\ \\text{mg/L por hora}$",
+          "correcta": true,
+          "argumentacion": "Correcta. $\\dfrac{14 - 8}{3 - 1} = \\dfrac{6}{2} = 3$.",
+          "error_id": null
+        }
+      ],
+      "explicacion": "1) Razón de cambio promedio = $\\dfrac{f(b) - f(a)}{b - a}$.\n2) $\\dfrac{14 - 8}{3 - 1} = 3\\ \\text{mg/L por hora}$: la concentración subió en promedio 3 mg/L cada hora.",
+      "referencias": [
+        {
+          "fuente": "Stewart, J., Redlin, L. y Watson, S. (2012). Precálculo. Matemáticas para el cálculo (6.ª ed.). Cengage",
+          "ubicacion": "Cap. 2: Funciones (razón de cambio promedio)"
+        }
+      ],
+      "tiempo_estimado_seg": 75,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "PM-025",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "todas"
+      ],
+      "area": "PM",
+      "subarea": "PM-CM",
+      "tema": "PM-CM-EST",
+      "habilidad": "analizar",
+      "dificultad_estimada": 3,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "La estatura de las mujeres adultas de una región sigue aproximadamente una distribución normal con media de 158 cm y desviación estándar de 6 cm. ¿Qué porcentaje aproximado mide más de 170 cm?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "$5\\ \\%$",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Es lo que queda fuera de ±2σ en ambas colas; solo se pide la cola superior.",
+          "error_id": "E-PM-NORMAL"
+        },
+        {
+          "id": "B",
+          "texto": "$2.5\\ \\%$",
+          "correcta": true,
+          "argumentacion": "Correcta. $170 = 158 + 2(6)$: está a 2 desviaciones sobre la media. Fuera de ±2σ queda 5 %, y la mitad (2.5 %) está arriba.",
+          "error_id": null
+        },
+        {
+          "id": "C",
+          "texto": "$16\\ \\%$",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Corresponde a la cola superior de ±1σ (más de 164 cm), no de ±2σ.",
+          "error_id": "E-PM-NORMAL"
+        }
+      ],
+      "explicacion": "1) Distancia a la media: $170 - 158 = 12 = 2\\sigma$.\n2) Regla empírica: 95 % de los datos está entre $\\mu - 2\\sigma$ y $\\mu + 2\\sigma$.\n3) Queda 5 % fuera, repartido en dos colas: $5 \\div 2 = 2.5\\ \\%$ mide más de 170 cm.",
+      "referencias": [
+        {
+          "fuente": "Johnson, R. y Kuby, P. (2012). Estadística elemental (11.ª ed.). Cengage",
+          "ubicacion": "Cap. 2 (2.6 Interpretación de la desviación estándar: regla empírica) y Cap. 6: Distribución normal"
+        }
+      ],
+      "tiempo_estimado_seg": 90,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      },
+      "datos": [
+        {
+          "tex": "\\mu",
+          "desc": "158 cm"
+        },
+        {
+          "tex": "\\sigma",
+          "desc": "6 cm"
+        }
+      ]
+    },
+    {
       "id": "BIO-001",
       "version": 1,
       "examen": "EXANI-II",
@@ -4603,6 +5887,636 @@
         "cambios": [
           "Se equilibró la longitud de las opciones: la correcta era notablemente más larga que los distractores (pista involuntaria)."
         ],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "BIO-013",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "salud",
+        "medicina"
+      ],
+      "area": "BIO",
+      "subarea": "BIO-CEL",
+      "tema": "BIO-CEL-GEN",
+      "habilidad": "comprender",
+      "dificultad_estimada": 2,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "Al terminar la replicación del ADN, ¿cómo está formada cada una de las dos moléculas hijas?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "Por una cadena de la molécula original y una cadena recién sintetizada.",
+          "correcta": true,
+          "argumentacion": "Correcta. La replicación es semiconservativa: cada cadena original sirve de molde para una nueva.",
+          "error_id": null
+        },
+        {
+          "id": "B",
+          "texto": "Una molécula conserva las dos cadenas originales y la otra tiene dos nuevas.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Ese sería un modelo conservativo, descartado experimentalmente.",
+          "error_id": "E-BIO-ADN-ARN"
+        },
+        {
+          "id": "C",
+          "texto": "Por dos cadenas nuevas, porque las originales se degradan al separarse.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Las cadenas originales no se degradan: funcionan como molde y permanecen en las moléculas hijas.",
+          "error_id": "E-BIO-ADN-ARN"
+        }
+      ],
+      "explicacion": "Replicación semiconservativa: la doble hélice se abre y cada cadena guía el ensamble de una complementaria.",
+      "referencias": [
+        {
+          "fuente": "Audesirk, T., Audesirk, G. y Byers, B. E. (2013). Biología: la vida en la Tierra con fisiología (9.ª ed.). Pearson",
+          "ubicacion": "Cap. 11: ADN, la molécula de la herencia (estructura y replicación del ADN)"
+        }
+      ],
+      "tiempo_estimado_seg": 45,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "BIO-014",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "salud",
+        "medicina"
+      ],
+      "area": "BIO",
+      "subarea": "BIO-CEL",
+      "tema": "BIO-CEL-GEN",
+      "habilidad": "aplicar",
+      "dificultad_estimada": 3,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "Una cadena molde de ADN tiene la secuencia 3′–TACGGATTC–5′. ¿Qué secuencia tendrá el ARNm transcrito a partir de ella?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "5′–ATGCCTAAG–3′",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Es complementaria, pero contiene timina; el ARN usa uracilo en lugar de timina.",
+          "error_id": "E-BIO-ADN-ARN"
+        },
+        {
+          "id": "B",
+          "texto": "5′–UACGGAUUC–3′",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Copia la cadena molde cambiando T por U; el ARNm es complementario a la molde, no idéntico.",
+          "error_id": "E-BIO-ADN-ARN"
+        },
+        {
+          "id": "C",
+          "texto": "5′–AUGCCUAAG–3′",
+          "correcta": true,
+          "argumentacion": "Correcta. Se aparea cada base con su complementaria (A–U, T–A, G–C, C–G) en sentido antiparalelo.",
+          "error_id": null
+        }
+      ],
+      "explicacion": "1) Aparea: T→A, A→U, C→G, G→C.\n2) 3′–TAC GGA TTC–5′ → 5′–AUG CCU AAG–3′.\n3) El primer codón, AUG, es el codón de inicio.",
+      "referencias": [
+        {
+          "fuente": "Audesirk, T., Audesirk, G. y Byers, B. E. (2013). Biología: la vida en la Tierra con fisiología (9.ª ed.). Pearson",
+          "ubicacion": "Cap. 12: Expresión y regulación de los genes (transcripción)"
+        }
+      ],
+      "tiempo_estimado_seg": 75,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "BIO-015",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "salud",
+        "medicina"
+      ],
+      "area": "BIO",
+      "subarea": "BIO-CEL",
+      "tema": "BIO-CEL-GEN",
+      "habilidad": "analizar",
+      "dificultad_estimada": 3,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "¿Cuál de estas mutaciones en la región codificante de un gen suele alterar MÁS la proteína resultante?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "Una sustitución que cambia un codón por otro del mismo aminoácido.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Es una mutación silenciosa: por la redundancia del código genético, la proteína no cambia.",
+          "error_id": "E-BIO-MUTACION"
+        },
+        {
+          "id": "B",
+          "texto": "La inserción de un nucleótido cerca del inicio del gen.",
+          "correcta": true,
+          "argumentacion": "Correcta. Corre el marco de lectura: todos los codones posteriores cambian y suele aparecer un codón de paro prematuro.",
+          "error_id": null
+        },
+        {
+          "id": "C",
+          "texto": "Una sustitución que cambia un aminoácido por otro de propiedades similares.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Afecta a un solo aminoácido y, al ser similar, la proteína suele conservar buena parte de su función.",
+          "error_id": "E-BIO-MUTACION"
+        }
+      ],
+      "explicacion": "El código se lee de tres en tres bases. Insertar o eliminar una base cambia todos los codones siguientes; una sustitución cambia, como mucho, uno.",
+      "referencias": [
+        {
+          "fuente": "Audesirk, T., Audesirk, G. y Byers, B. E. (2013). Biología: la vida en la Tierra con fisiología (9.ª ed.). Pearson",
+          "ubicacion": "Cap. 12: Expresión y regulación de los genes (efectos de las mutaciones)"
+        }
+      ],
+      "tiempo_estimado_seg": 60,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "BIO-016",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "salud",
+        "medicina"
+      ],
+      "area": "BIO",
+      "subarea": "BIO-CEL",
+      "tema": "BIO-CEL-GEN",
+      "habilidad": "comprender",
+      "dificultad_estimada": 2,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "Para que una bacteria produzca insulina humana, se inserta el gen de la insulina en un plásmido. ¿Qué enzimas cortan el gen y el plásmido en secuencias específicas?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "Las enzimas de restricción",
+          "correcta": true,
+          "argumentacion": "Correcta. Reconocen secuencias específicas y cortan el ADN, dejando extremos que pueden unirse entre sí.",
+          "error_id": null
+        },
+        {
+          "id": "B",
+          "texto": "Las enzimas ADN ligasas",
+          "correcta": false,
+          "argumentacion": "Incorrecta. La ligasa une los fragmentos ya cortados; no corta.",
+          "error_id": "E-BIO-BIOTEC"
+        },
+        {
+          "id": "C",
+          "texto": "Las enzimas ADN polimerasas",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Sintetiza nuevas cadenas de ADN (por ejemplo, en la replicación y la PCR); no corta.",
+          "error_id": "E-BIO-BIOTEC"
+        }
+      ],
+      "explicacion": "ADN recombinante: 1) cortar gen y plásmido con la misma enzima de restricción; 2) unirlos con ligasa; 3) introducir el plásmido en la bacteria.",
+      "referencias": [
+        {
+          "fuente": "Audesirk, T., Audesirk, G. y Byers, B. E. (2013). Biología: la vida en la Tierra con fisiología (9.ª ed.). Pearson",
+          "ubicacion": "Cap. 13: Biotecnología (ADN recombinante)"
+        }
+      ],
+      "tiempo_estimado_seg": 45,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "BIO-017",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "salud",
+        "medicina"
+      ],
+      "area": "BIO",
+      "subarea": "BIO-CEL",
+      "tema": "BIO-CEL-GEN",
+      "habilidad": "comprender",
+      "dificultad_estimada": 2,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "En una prueba diagnóstica, ¿para qué sirve la reacción en cadena de la polimerasa (PCR)?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "Para separar fragmentos de ADN según su tamaño en un gel con corriente eléctrica.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Eso hace la electroforesis en gel, que a menudo se usa después de la PCR.",
+          "error_id": "E-BIO-BIOTEC"
+        },
+        {
+          "id": "B",
+          "texto": "Para cortar el ADN del agente infeccioso en secuencias específicas y destruirlo.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Cortar en secuencias específicas es la función de las enzimas de restricción; la PCR copia.",
+          "error_id": "E-BIO-BIOTEC"
+        },
+        {
+          "id": "C",
+          "texto": "Para obtener millones de copias de un fragmento específico de ADN a partir de poca muestra.",
+          "correcta": true,
+          "argumentacion": "Correcta. La PCR amplifica una secuencia elegida, lo que permite detectar material genético escaso, como el de un virus.",
+          "error_id": null
+        }
+      ],
+      "explicacion": "PCR = copiar (amplificar). Electroforesis = separar por tamaño. Enzimas de restricción = cortar.",
+      "referencias": [
+        {
+          "fuente": "Audesirk, T., Audesirk, G. y Byers, B. E. (2013). Biología: la vida en la Tierra con fisiología (9.ª ed.). Pearson",
+          "ubicacion": "Cap. 13: Biotecnología (PCR y electroforesis)"
+        }
+      ],
+      "tiempo_estimado_seg": 45,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "BIO-018",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "salud",
+        "medicina"
+      ],
+      "area": "BIO",
+      "subarea": "BIO-CEL",
+      "tema": "BIO-CEL-GEN",
+      "habilidad": "aplicar",
+      "dificultad_estimada": 2,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "Un espermatocito primario humano (2n = 46) completa la meiosis. ¿Qué resultado se obtiene?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "Dos células diploides, cada una con 46 cromosomas.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Es el resultado de la mitosis, que produce células idénticas a la original.",
+          "error_id": "E-BIO-REPRODUCCION"
+        },
+        {
+          "id": "B",
+          "texto": "Cuatro células haploides, cada una con 23 cromosomas.",
+          "correcta": true,
+          "argumentacion": "Correcta. La meiosis tiene dos divisiones y reduce a la mitad el número de cromosomas.",
+          "error_id": null
+        },
+        {
+          "id": "C",
+          "texto": "Cuatro células diploides, cada una con 46 cromosomas.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Si los gametos tuvieran 46 cromosomas, el cigoto tendría 92; la meiosis los reduce a 23.",
+          "error_id": "E-BIO-REPRODUCCION"
+        }
+      ],
+      "explicacion": "Meiosis: 1 célula 2n → 4 células n, genéticamente distintas. En el humano, n = 23.",
+      "referencias": [
+        {
+          "fuente": "Audesirk, T., Audesirk, G. y Byers, B. E. (2013). Biología: la vida en la Tierra con fisiología (9.ª ed.). Pearson",
+          "ubicacion": "Cap. 9: La continuidad de la vida: reproducción celular (meiosis)"
+        }
+      ],
+      "tiempo_estimado_seg": 45,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "BIO-019",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "salud",
+        "medicina"
+      ],
+      "area": "BIO",
+      "subarea": "BIO-DIV",
+      "tema": "BIO-DIV-SV",
+      "habilidad": "comprender",
+      "dificultad_estimada": 2,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "¿Qué ventaja ofrece la reproducción sexual a una población, en comparación con la asexual?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "Genera variabilidad genética que favorece la adaptación a ambientes cambiantes.",
+          "correcta": true,
+          "argumentacion": "Correcta. La meiosis y la fecundación combinan genes de dos progenitores, de modo que cada descendiente es distinto.",
+          "error_id": null
+        },
+        {
+          "id": "B",
+          "texto": "Produce más descendientes en menos tiempo y sin buscar pareja.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Esa es una ventaja de la reproducción asexual.",
+          "error_id": "E-BIO-REPRODUCCION"
+        },
+        {
+          "id": "C",
+          "texto": "Asegura que los descendientes sean idénticos a un progenitor bien adaptado.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Los descendientes idénticos (clones) son propios de la reproducción asexual.",
+          "error_id": "E-BIO-REPRODUCCION"
+        }
+      ],
+      "explicacion": "Asexual: rápida, sin pareja, descendientes idénticos. Sexual: más lenta y costosa, pero con variabilidad genética.",
+      "referencias": [
+        {
+          "fuente": "Audesirk, T., Audesirk, G. y Byers, B. E. (2013). Biología: la vida en la Tierra con fisiología (9.ª ed.). Pearson",
+          "ubicacion": "Cap. 41: Reproducción animal (reproducción sexual y asexual)"
+        }
+      ],
+      "tiempo_estimado_seg": 45,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "BIO-020",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "salud",
+        "medicina"
+      ],
+      "area": "BIO",
+      "subarea": "BIO-DIV",
+      "tema": "BIO-DIV-EST",
+      "habilidad": "aplicar",
+      "dificultad_estimada": 2,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "En amplias zonas de Sonora y Chihuahua llueven menos de 25 cm al año y predominan plantas con tallos suculentos, espinas y raíces extensas. ¿Qué bioma es?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "Pastizal",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Los pastizales reciben más lluvia y en ellos dominan los pastos, no las plantas suculentas.",
+          "error_id": "E-BIO-ECOSISTEMA"
+        },
+        {
+          "id": "B",
+          "texto": "Bosque tropical caducifolio",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Tiene lluvias estacionales más abundantes y árboles que pierden las hojas en la temporada seca.",
+          "error_id": "E-BIO-ECOSISTEMA"
+        },
+        {
+          "id": "C",
+          "texto": "Desierto",
+          "correcta": true,
+          "argumentacion": "Correcta. Se define como el bioma con menos de 25 cm de lluvia anual; sus plantas están adaptadas a conservar agua.",
+          "error_id": null
+        }
+      ],
+      "explicacion": "Los biomas se distinguen sobre todo por la temperatura y la lluvia. Menos de 25 cm de lluvia al año: desierto.",
+      "referencias": [
+        {
+          "fuente": "Audesirk, T., Audesirk, G. y Byers, B. E. (2013). Biología: la vida en la Tierra con fisiología (9.ª ed.). Pearson",
+          "ubicacion": "Cap. 29: Diversos ecosistemas de la Tierra (biomas terrestres)"
+        }
+      ],
+      "tiempo_estimado_seg": 40,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "BIO-021",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "salud",
+        "medicina"
+      ],
+      "area": "BIO",
+      "subarea": "BIO-DIV",
+      "tema": "BIO-DIV-EST",
+      "habilidad": "analizar",
+      "dificultad_estimada": 3,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "En un ecosistema, los productores captan 50 000 kcal. Si en cada nivel trófico pasa al siguiente cerca del 10 % de la energía, ¿cuánta energía llega a los carnívoros secundarios?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "$500\\ \\text{kcal}$",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Es la energía de los carnívoros primarios; falta un paso más.",
+          "error_id": "E-BIO-ECOSISTEMA"
+        },
+        {
+          "id": "B",
+          "texto": "$50\\ \\text{kcal}$",
+          "correcta": true,
+          "argumentacion": "Correcta. Productores → herbívoros (5 000) → carnívoros primarios (500) → carnívoros secundarios (50).",
+          "error_id": null
+        },
+        {
+          "id": "C",
+          "texto": "$5\\,000\\ \\text{kcal}$",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Es la energía de los herbívoros (consumidores primarios).",
+          "error_id": "E-BIO-ECOSISTEMA"
+        }
+      ],
+      "explicacion": "1) Niveles: productores (50 000) → herbívoros → carnívoros primarios → carnívoros secundarios.\n2) Cada paso multiplica por 0.1: $50\\,000 \\times 0.1^3 = 50\\ \\text{kcal}$.",
+      "referencias": [
+        {
+          "fuente": "Audesirk, T., Audesirk, G. y Byers, B. E. (2013). Biología: la vida en la Tierra con fisiología (9.ª ed.). Pearson",
+          "ubicacion": "Cap. 28: ¿Cómo funcionan los ecosistemas? (flujo de energía)"
+        }
+      ],
+      "tiempo_estimado_seg": 60,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "BIO-022",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "salud",
+        "medicina"
+      ],
+      "area": "BIO",
+      "subarea": "BIO-DIV",
+      "tema": "BIO-DIV-EST",
+      "habilidad": "comprender",
+      "dificultad_estimada": 2,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "En el ciclo del nitrógeno, ¿quiénes convierten el nitrógeno gaseoso (N₂) del aire en compuestos que las plantas pueden aprovechar?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "Bacterias fijadoras, algunas en nódulos de las raíces de leguminosas.",
+          "correcta": true,
+          "argumentacion": "Correcta. Transforman el N₂ en amoniaco, que pasa a formas que las plantas absorben.",
+          "error_id": null
+        },
+        {
+          "id": "B",
+          "texto": "Hongos descomponedores que degradan restos de organismos muertos.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Los descomponedores liberan amonio de la materia orgánica, pero no fijan el N₂ del aire.",
+          "error_id": "E-BIO-CICLO"
+        },
+        {
+          "id": "C",
+          "texto": "Las propias plantas, que absorben el N₂ a través de sus estomas.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Las plantas no pueden usar el N₂ atmosférico; lo absorben como amonio o nitrato del suelo.",
+          "error_id": "E-BIO-CICLO"
+        }
+      ],
+      "explicacion": "Fijación (bacterias: N₂ → NH₃) → nitrificación → absorción por plantas → descomposición → desnitrificación (regreso a N₂).",
+      "referencias": [
+        {
+          "fuente": "Audesirk, T., Audesirk, G. y Byers, B. E. (2013). Biología: la vida en la Tierra con fisiología (9.ª ed.). Pearson",
+          "ubicacion": "Cap. 28: ¿Cómo funcionan los ecosistemas? (ciclo del nitrógeno)"
+        }
+      ],
+      "tiempo_estimado_seg": 45,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
         "observaciones": null
       }
     },
@@ -6919,6 +8833,1102 @@
         "cambios": [],
         "observaciones": null
       }
+    },
+    {
+      "id": "PRE-025",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "medicina"
+      ],
+      "area": "PRE",
+      "subarea": "PRE-AF",
+      "tema": "PRE-AF-CAR",
+      "habilidad": "recordar",
+      "dificultad_estimada": 2,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "¿Cuál es el principal músculo de la inspiración en reposo y qué nervio lo inerva?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "Los intercostales internos, inervados por los nervios intercostales.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Los intercostales internos participan sobre todo en la espiración forzada.",
+          "error_id": "E-PRE-ANAT-FUNC"
+        },
+        {
+          "id": "B",
+          "texto": "Los músculos abdominales, inervados por los nervios toracoabdominales.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Los abdominales intervienen en la espiración forzada, no en la inspiración en reposo.",
+          "error_id": "E-PRE-ANAT-FUNC"
+        },
+        {
+          "id": "C",
+          "texto": "El diafragma, inervado por el nervio frénico.",
+          "correcta": true,
+          "argumentacion": "Correcta. Al contraerse desciende y aumenta el volumen del tórax; el frénico nace de las raíces C3 a C5.",
+          "error_id": null
+        }
+      ],
+      "explicacion": "Inspiración en reposo: diafragma (nervio frénico) con apoyo de los intercostales externos. La espiración en reposo es pasiva.",
+      "referencias": [
+        {
+          "fuente": "Netter, F. H. (2007). Atlas de anatomía humana (4.ª ed.). Elsevier Masson",
+          "ubicacion": "Sección 3, Tórax: pared corporal (láminas 185-195)"
+        },
+        {
+          "fuente": "Audesirk, T., Audesirk, G. y Byers, B. E. (2013). Biología: la vida en la Tierra con fisiología (9.ª ed.). Pearson",
+          "ubicacion": "Cap. 33: Respiración"
+        }
+      ],
+      "tiempo_estimado_seg": 40,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "PRE-026",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "medicina"
+      ],
+      "area": "PRE",
+      "subarea": "PRE-AF",
+      "tema": "PRE-AF-CAR",
+      "habilidad": "analizar",
+      "dificultad_estimada": 3,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "Un niño aspira un cacahuate que pasa la tráquea. ¿A qué bronquio es más probable que llegue y por qué?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "Al bronquio principal izquierdo, porque es más largo y horizontal.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Un bronquio más largo y horizontal ofrece un trayecto menos directo; por eso los cuerpos extraños van con menos frecuencia al izquierdo.",
+          "error_id": "E-PRE-ANAT-FUNC"
+        },
+        {
+          "id": "B",
+          "texto": "Al bronquio principal derecho, porque es más corto, ancho y vertical.",
+          "correcta": true,
+          "argumentacion": "Correcta. Su trayecto sigue casi en línea recta la dirección de la tráquea.",
+          "error_id": null
+        },
+        {
+          "id": "C",
+          "texto": "A cualquiera de los dos, porque la tráquea se bifurca de forma simétrica.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. La bifurcación no es simétrica: los bronquios principales difieren en longitud, calibre y ángulo.",
+          "error_id": "E-PRE-ANAT-FUNC"
+        }
+      ],
+      "explicacion": "Bronquio principal derecho: más corto, ancho y vertical. Izquierdo: más largo, estrecho y horizontal (el corazón lo desplaza).",
+      "referencias": [
+        {
+          "fuente": "Netter, F. H. (2007). Atlas de anatomía humana (4.ª ed.). Elsevier Masson",
+          "ubicacion": "Sección 3, Tórax: pulmones y árbol bronquial (láminas 196-210)"
+        }
+      ],
+      "tiempo_estimado_seg": 60,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "PRE-027",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "medicina"
+      ],
+      "area": "PRE",
+      "subarea": "PRE-AF",
+      "tema": "PRE-AF-URI",
+      "habilidad": "recordar",
+      "dificultad_estimada": 2,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "¿En qué estructura terminan de madurar y se almacenan los espermatozoides antes de la eyaculación?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "Epidídimo",
+          "correcta": true,
+          "argumentacion": "Correcta. En el epidídimo los espermatozoides adquieren movilidad y se almacenan.",
+          "error_id": null
+        },
+        {
+          "id": "B",
+          "texto": "Túbulos seminíferos",
+          "correcta": false,
+          "argumentacion": "Incorrecta. En los túbulos seminíferos se producen los espermatozoides (espermatogénesis), pero ahí no maduran del todo.",
+          "error_id": "E-PRE-ANAT-FUNC"
+        },
+        {
+          "id": "C",
+          "texto": "Vesículas seminales",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Secretan buena parte del líquido seminal, rico en fructosa; no almacenan espermatozoides.",
+          "error_id": "E-PRE-ANAT-FUNC"
+        }
+      ],
+      "explicacion": "Recorrido: túbulos seminíferos (producción) → epidídimo (maduración) → conducto deferente → conducto eyaculador → uretra.",
+      "referencias": [
+        {
+          "fuente": "Netter, F. H. (2007). Atlas de anatomía humana (4.ª ed.). Elsevier Masson",
+          "ubicacion": "Sección 5: testículo, epidídimo y conducto deferente (lámina 390)"
+        },
+        {
+          "fuente": "Audesirk, T., Audesirk, G. y Byers, B. E. (2013). Biología: la vida en la Tierra con fisiología (9.ª ed.). Pearson",
+          "ubicacion": "Cap. 41: Reproducción animal"
+        }
+      ],
+      "tiempo_estimado_seg": 35,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "PRE-028",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "medicina"
+      ],
+      "area": "PRE",
+      "subarea": "PRE-AF",
+      "tema": "PRE-AF-URI",
+      "habilidad": "recordar",
+      "dificultad_estimada": 2,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "¿Dónde ocurre normalmente la fecundación en la mujer?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "En la cavidad del útero",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Al útero llega el embrión días después para implantarse en el endometrio.",
+          "error_id": "E-PRE-ANAT-FUNC"
+        },
+        {
+          "id": "B",
+          "texto": "En la superficie del ovario",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Del ovario se libera el ovocito (ovulación); la fecundación ocurre después, en la trompa.",
+          "error_id": "E-PRE-ANAT-FUNC"
+        },
+        {
+          "id": "C",
+          "texto": "En la ampolla de la trompa uterina",
+          "correcta": true,
+          "argumentacion": "Correcta. El ovocito liberado es captado por las fimbrias y se encuentra con los espermatozoides en la ampolla.",
+          "error_id": null
+        }
+      ],
+      "explicacion": "Ovulación (ovario) → fecundación (ampolla de la trompa) → segmentación durante el trayecto → implantación (útero).",
+      "referencias": [
+        {
+          "fuente": "Netter, F. H. (2007). Atlas de anatomía humana (4.ª ed.). Elsevier Masson",
+          "ubicacion": "Sección 5: útero, vagina y estructuras de soporte (láminas 369-375)"
+        },
+        {
+          "fuente": "Audesirk, T., Audesirk, G. y Byers, B. E. (2013). Biología: la vida en la Tierra con fisiología (9.ª ed.). Pearson",
+          "ubicacion": "Cap. 41: Reproducción animal"
+        }
+      ],
+      "tiempo_estimado_seg": 35,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "PRE-029",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "medicina"
+      ],
+      "area": "PRE",
+      "subarea": "PRE-AF",
+      "tema": "PRE-AF-URI",
+      "habilidad": "analizar",
+      "dificultad_estimada": 3,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "En un ciclo menstrual de 28 días, ¿qué desencadena la ovulación alrededor del día 14?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "El aumento de progesterona secretada por el cuerpo lúteo.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. El cuerpo lúteo se forma después de la ovulación, a partir del folículo roto.",
+          "error_id": "E-PRE-HORMONA"
+        },
+        {
+          "id": "B",
+          "texto": "Un pico de LH causado por los estrógenos altos del folículo.",
+          "correcta": true,
+          "argumentacion": "Correcta. Los estrógenos altos ejercen retroalimentación positiva sobre la hipófisis, que libera un pico de LH.",
+          "error_id": null
+        },
+        {
+          "id": "C",
+          "texto": "La caída de los niveles de estrógenos y progesterona.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Esa caída, al final del ciclo, provoca la menstruación.",
+          "error_id": "E-PRE-HORMONA"
+        }
+      ],
+      "explicacion": "Fase folicular: FSH → folículo → estrógenos ↑ → pico de LH → ovulación. Fase lútea: cuerpo lúteo → progesterona. Sin embarazo: caen las hormonas → menstruación.",
+      "referencias": [
+        {
+          "fuente": "Audesirk, T., Audesirk, G. y Byers, B. E. (2013). Biología: la vida en la Tierra con fisiología (9.ª ed.). Pearson",
+          "ubicacion": "Cap. 41: Reproducción animal (ciclo menstrual)"
+        }
+      ],
+      "tiempo_estimado_seg": 60,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "PRE-030",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "medicina"
+      ],
+      "area": "PRE",
+      "subarea": "PRE-AF",
+      "tema": "PRE-AF-INM",
+      "habilidad": "recordar",
+      "dificultad_estimada": 3,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "¿Dónde desemboca el conducto torácico, el mayor vaso linfático del cuerpo?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "En la unión de las venas yugular interna y subclavia izquierdas.",
+          "correcta": true,
+          "argumentacion": "Correcta. Ahí devuelve la linfa de la mayor parte del cuerpo a la circulación venosa.",
+          "error_id": null
+        },
+        {
+          "id": "B",
+          "texto": "Directamente en la aurícula derecha, junto a las venas cavas.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. La linfa se vacía en venas del cuello, no directamente en el corazón.",
+          "error_id": "E-PRE-ANAT-FUNC"
+        },
+        {
+          "id": "C",
+          "texto": "En la vena porta, que la lleva al hígado para filtrarla.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. La vena porta transporta sangre del intestino al hígado; no recibe el conducto torácico.",
+          "error_id": "E-PRE-ANAT-FUNC"
+        }
+      ],
+      "explicacion": "El conducto torácico drena todo el cuerpo salvo el cuadrante superior derecho (que drena el conducto linfático derecho) y desemboca en el ángulo venoso izquierdo.",
+      "referencias": [
+        {
+          "fuente": "Netter, F. H. (2007). Atlas de anatomía humana (4.ª ed.). Elsevier Masson",
+          "ubicacion": "Sección 3, Tórax: mediastino (láminas 230-241)"
+        },
+        {
+          "fuente": "Audesirk, T., Audesirk, G. y Byers, B. E. (2013). Biología: la vida en la Tierra con fisiología (9.ª ed.). Pearson",
+          "ubicacion": "Cap. 32: Circulación (sistema linfático)"
+        }
+      ],
+      "tiempo_estimado_seg": 40,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "PRE-031",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "medicina"
+      ],
+      "area": "PRE",
+      "subarea": "PRE-AF",
+      "tema": "PRE-AF-INM",
+      "habilidad": "comprender",
+      "dificultad_estimada": 1,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "¿Cuál es una función de los ganglios linfáticos?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "Producir la mayor parte de los eritrocitos del adulto.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. En el adulto, los eritrocitos se producen en la médula ósea roja.",
+          "error_id": "E-PRE-ANAT-FUNC"
+        },
+        {
+          "id": "B",
+          "texto": "Formar la linfa a partir del plasma de la sangre.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. La linfa se origina del líquido intersticial que entra a los capilares linfáticos; los ganglios solo la filtran.",
+          "error_id": "E-PRE-ANAT-FUNC"
+        },
+        {
+          "id": "C",
+          "texto": "Filtrar la linfa y alojar linfocitos que reconocen antígenos.",
+          "correcta": true,
+          "argumentacion": "Correcta. Por eso se inflaman cuando hay una infección cercana.",
+          "error_id": null
+        }
+      ],
+      "explicacion": "Sistema linfático: devuelve líquido a la sangre, absorbe grasas en el intestino y participa en la defensa (ganglios, bazo, timo).",
+      "referencias": [
+        {
+          "fuente": "Audesirk, T., Audesirk, G. y Byers, B. E. (2013). Biología: la vida en la Tierra con fisiología (9.ª ed.). Pearson",
+          "ubicacion": "Cap. 32: Circulación (sistema linfático)"
+        }
+      ],
+      "tiempo_estimado_seg": 35,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "PRE-032",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "medicina"
+      ],
+      "area": "PRE",
+      "subarea": "PRE-AF",
+      "tema": "PRE-AF-TEG",
+      "habilidad": "analizar",
+      "dificultad_estimada": 3,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "¿Cuál de los siguientes músculos NO forma parte del manguito de los rotadores?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "Supraespinoso",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Sí forma parte del manguito y es el que se lesiona con más frecuencia; se pasó por alto el «NO».",
+          "error_id": "E-GEN-NEGACION"
+        },
+        {
+          "id": "B",
+          "texto": "Redondo mayor",
+          "correcta": true,
+          "argumentacion": "Correcta. Actúa sobre el hombro, pero no se inserta en la cápsula articular; no forma parte del manguito.",
+          "error_id": null
+        },
+        {
+          "id": "C",
+          "texto": "Subescapular",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Sí forma parte del manguito: es el único que se inserta en el tubérculo menor del húmero.",
+          "error_id": "E-PRE-ANAT-FUNC"
+        }
+      ],
+      "explicacion": "Manguito de los rotadores: supraespinoso, infraespinoso, redondo menor y subescapular (no confundir redondo menor con redondo mayor).",
+      "referencias": [
+        {
+          "fuente": "Netter, F. H. (2007). Atlas de anatomía humana (4.ª ed.). Elsevier Masson",
+          "ubicacion": "Sección 6, Miembro superior: hombro y axila (láminas 419-430)"
+        }
+      ],
+      "tiempo_estimado_seg": 45,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "PRE-033",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "medicina"
+      ],
+      "area": "PRE",
+      "subarea": "PRE-AF",
+      "tema": "PRE-AF-TEG",
+      "habilidad": "analizar",
+      "dificultad_estimada": 3,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "Durante la contracción del músculo esquelético, ¿qué función cumple el Ca²⁺ que libera el retículo sarcoplásmico?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "Se une a la troponina, que desplaza a la tropomiosina y deja libres los sitios de unión de la actina.",
+          "correcta": true,
+          "argumentacion": "Correcta. Así las cabezas de miosina pueden unirse a la actina y realizar el golpe de fuerza.",
+          "error_id": null
+        },
+        {
+          "id": "B",
+          "texto": "Aporta la energía que necesitan las cabezas de miosina para realizar el golpe de fuerza.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. La energía proviene de la hidrólisis del ATP, no del calcio.",
+          "error_id": "E-PRE-ANAT-FUNC"
+        },
+        {
+          "id": "C",
+          "texto": "Se une a la miosina para separarla de la actina cuando termina el golpe de fuerza.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. La separación de la miosina la produce la unión de una nueva molécula de ATP.",
+          "error_id": "E-PRE-ANAT-FUNC"
+        }
+      ],
+      "explicacion": "1) El impulso nervioso libera Ca²⁺ del retículo sarcoplásmico.\n2) Ca²⁺ + troponina → la tropomiosina se mueve.\n3) La miosina se une a la actina; el ATP aporta la energía y permite la separación.",
+      "referencias": [
+        {
+          "fuente": "Audesirk, T., Audesirk, G. y Byers, B. E. (2013). Biología: la vida en la Tierra con fisiología (9.ª ed.). Pearson",
+          "ubicacion": "Cap. 40: Acción y sostén: músculos y esqueleto"
+        }
+      ],
+      "tiempo_estimado_seg": 60,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "PRE-034",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "medicina"
+      ],
+      "area": "PRE",
+      "subarea": "PRE-AF",
+      "tema": "PRE-AF-NER",
+      "habilidad": "aplicar",
+      "dificultad_estimada": 2,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "Tras un infarto cerebral, un paciente entiende lo que se le dice, pero habla con gran esfuerzo y con palabras sueltas. ¿Qué región es más probable que esté dañada?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "El área de Wernicke, en el lóbulo temporal",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Su lesión altera sobre todo la comprensión: el paciente habla con fluidez, pero sin sentido.",
+          "error_id": "E-PRE-ANAT-FUNC"
+        },
+        {
+          "id": "B",
+          "texto": "La corteza visual, en el lóbulo occipital",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Procesa la información visual; no se relaciona con la producción del lenguaje.",
+          "error_id": "E-PRE-ANAT-FUNC"
+        },
+        {
+          "id": "C",
+          "texto": "El área de Broca, en el lóbulo frontal",
+          "correcta": true,
+          "argumentacion": "Correcta. Controla la producción del lenguaje; su lesión deja la comprensión relativamente conservada.",
+          "error_id": null
+        }
+      ],
+      "explicacion": "Broca (frontal) = producir el lenguaje. Wernicke (temporal) = comprenderlo. En la mayoría de las personas ambas están en el hemisferio izquierdo.",
+      "referencias": [
+        {
+          "fuente": "Netter, F. H. (2007). Atlas de anatomía humana (4.ª ed.). Elsevier Masson",
+          "ubicacion": "Sección 1: meninges y encéfalo (láminas 99-115)"
+        },
+        {
+          "fuente": "Audesirk, T., Audesirk, G. y Byers, B. E. (2013). Biología: la vida en la Tierra con fisiología (9.ª ed.). Pearson",
+          "ubicacion": "Cap. 38: El sistema nervioso"
+        }
+      ],
+      "tiempo_estimado_seg": 50,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "PRE-035",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "medicina"
+      ],
+      "area": "PRE",
+      "subarea": "PRE-AF",
+      "tema": "PRE-AF-NER",
+      "habilidad": "recordar",
+      "dificultad_estimada": 2,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "¿Qué estructuras producen la mayor parte del líquido cefalorraquídeo?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "Las granulaciones aracnoideas del seno sagital.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Las granulaciones aracnoideas reabsorben el LCR hacia la sangre venosa; no lo producen.",
+          "error_id": "E-PRE-ANAT-FUNC"
+        },
+        {
+          "id": "B",
+          "texto": "Los plexos coroideos de los ventrículos cerebrales.",
+          "correcta": true,
+          "argumentacion": "Correcta. Producen el LCR, que circula por los ventrículos y el espacio subaracnoideo.",
+          "error_id": null
+        },
+        {
+          "id": "C",
+          "texto": "Las neuronas de la sustancia gris de la corteza.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Las neuronas no secretan el LCR; lo forman los plexos coroideos a partir de la sangre.",
+          "error_id": "E-PRE-ANAT-FUNC"
+        }
+      ],
+      "explicacion": "LCR: plexos coroideos (producción) → ventrículos → espacio subaracnoideo → granulaciones aracnoideas (reabsorción).",
+      "referencias": [
+        {
+          "fuente": "Netter, F. H. (2007). Atlas de anatomía humana (4.ª ed.). Elsevier Masson",
+          "ubicacion": "Sección 1: meninges y encéfalo (láminas 99-115)"
+        }
+      ],
+      "tiempo_estimado_seg": 40,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "PRE-036",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "medicina"
+      ],
+      "area": "PRE",
+      "subarea": "PRE-AF",
+      "tema": "PRE-AF-NER",
+      "habilidad": "analizar",
+      "dificultad_estimada": 3,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "En el adulto, la punción lumbar suele hacerse entre las vértebras L3-L4 o L4-L5. ¿Por qué en ese nivel?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "Porque la médula termina cerca de L1-L2; abajo solo hay raíces nerviosas y LCR.",
+          "correcta": true,
+          "argumentacion": "Correcta. Por debajo del cono medular, la aguja llega al LCR con poco riesgo de lesionar la médula.",
+          "error_id": null
+        },
+        {
+          "id": "B",
+          "texto": "Porque ahí termina el espacio subaracnoideo y el LCR se acumula en mayor cantidad.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. El espacio subaracnoideo se extiende hasta el nivel de S2, más abajo de L4-L5.",
+          "error_id": "E-PRE-ANAT-FUNC"
+        },
+        {
+          "id": "C",
+          "texto": "Porque a ese nivel la médula espinal es más delgada y es menos probable lesionarla.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. A ese nivel ya no hay médula espinal: en el adulto termina alrededor de L1-L2.",
+          "error_id": "E-PRE-ANAT-FUNC"
+        }
+      ],
+      "explicacion": "Médula espinal del adulto: termina en el cono medular (L1-L2). Debajo: cola de caballo dentro del saco dural, que llega hasta S2.",
+      "referencias": [
+        {
+          "fuente": "Netter, F. H. (2007). Atlas de anatomía humana (4.ª ed.). Elsevier Masson",
+          "ubicacion": "Sección 2: médula espinal (láminas 160-173)"
+        }
+      ],
+      "tiempo_estimado_seg": 60,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "PRE-037",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "medicina"
+      ],
+      "area": "PRE",
+      "subarea": "PRE-BCM",
+      "tema": "PRE-BCM-MIC",
+      "habilidad": "recordar",
+      "dificultad_estimada": 1,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "¿Cómo se transmite el paludismo (malaria)?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "Por la picadura del mosquito Aedes aegypti infectado con un virus.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Aedes aegypti transmite virus como los del dengue, el zika y el chikungunya.",
+          "error_id": "E-PRE-PARASITO"
+        },
+        {
+          "id": "B",
+          "texto": "Por consumir agua o alimentos contaminados con heces humanas.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Esa vía (fecal-oral) corresponde a parásitos como Entamoeba histolytica o Ascaris.",
+          "error_id": "E-PRE-PARASITO"
+        },
+        {
+          "id": "C",
+          "texto": "Por la picadura de la hembra del mosquito Anopheles infectada con Plasmodium.",
+          "correcta": true,
+          "argumentacion": "Correcta. El mosquito es el vector: transmite al protozoario al picar para alimentarse de sangre.",
+          "error_id": null
+        }
+      ],
+      "explicacion": "Paludismo: agente Plasmodium (protozoario); vector, hembra de Anopheles.",
+      "referencias": [
+        {
+          "fuente": "Audesirk, T., Audesirk, G. y Byers, B. E. (2013). Biología: la vida en la Tierra con fisiología (9.ª ed.). Pearson",
+          "ubicacion": "Cap. 20: La diversidad de los protistas (Plasmodium)"
+        },
+        {
+          "fuente": "Álvarez Alva, R. y Kuri-Morales, P. A. (2018). Salud pública y medicina preventiva (5.ª ed.). Manual Moderno",
+          "ubicacion": "Enfermedades transmitidas por vector: paludismo"
+        }
+      ],
+      "tiempo_estimado_seg": 35,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "PRE-038",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "medicina"
+      ],
+      "area": "PRE",
+      "subarea": "PRE-BCM",
+      "tema": "PRE-BCM-MIC",
+      "habilidad": "analizar",
+      "dificultad_estimada": 3,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "Una persona que nunca come carne de cerdo desarrolla neurocisticercosis. ¿Cuál es la explicación más probable?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "Comió carne de res mal cocida con quistes de Taenia saginata.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Esos quistes producen teniasis intestinal por T. saginata, no cisticercosis en el ser humano.",
+          "error_id": "E-PRE-PARASITO"
+        },
+        {
+          "id": "B",
+          "texto": "Ingirió huevos de Taenia solium en agua o alimentos contaminados con heces de un portador.",
+          "correcta": true,
+          "argumentacion": "Correcta. La cisticercosis se adquiere al ingerir huevos; las larvas pueden alojarse en el encéfalo.",
+          "error_id": null
+        },
+        {
+          "id": "C",
+          "texto": "Recibió las larvas por la picadura de un insecto que actuó como vector.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. La tenia no tiene vectores: se transmite por vía oral (carne con quistes o huevos en alimentos).",
+          "error_id": "E-PRE-PARASITO"
+        }
+      ],
+      "explicacion": "Teniasis: comer carne de cerdo con cisticercos → tenia adulta en el intestino. Cisticercosis: ingerir huevos (fecal-oral) → larvas en músculo o encéfalo. No hace falta comer cerdo.",
+      "referencias": [
+        {
+          "fuente": "Audesirk, T., Audesirk, G. y Byers, B. E. (2013). Biología: la vida en la Tierra con fisiología (9.ª ed.). Pearson",
+          "ubicacion": "Cap. 23: Diversidad animal I: invertebrados (gusanos planos parásitos)"
+        },
+        {
+          "fuente": "Álvarez Alva, R. y Kuri-Morales, P. A. (2018). Salud pública y medicina preventiva (5.ª ed.). Manual Moderno",
+          "ubicacion": "Saneamiento: contaminación de alimentos por parásitos"
+        }
+      ],
+      "tiempo_estimado_seg": 60,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 4,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 4.0,
+        "cambios": [],
+        "observaciones": null
+      }
+    },
+    {
+      "id": "PRE-039",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "medicina"
+      ],
+      "area": "PRE",
+      "subarea": "PRE-SP",
+      "tema": "PRE-SP-HNE",
+      "habilidad": "aplicar",
+      "dificultad_estimada": 3,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "En un municipio de 80 000 habitantes se registraron en un año 400 casos de dengue y 12 defunciones por esa causa. ¿Cuál fue la letalidad?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "$3\\ \\%$",
+          "correcta": true,
+          "argumentacion": "Correcta. Letalidad = defunciones / enfermos: $\\frac{12}{400} \\times 100 = 3\\ \\%$.",
+          "error_id": null
+        },
+        {
+          "id": "B",
+          "texto": "$0.015\\ \\%$",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Divide entre toda la población ($\\frac{12}{80\\,000}$): eso es la mortalidad, no la letalidad.",
+          "error_id": "E-PRE-EPIDEMIO"
+        },
+        {
+          "id": "C",
+          "texto": "$0.5\\ \\%$",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Calcula $\\frac{400}{80\\,000}$, la proporción de habitantes que enfermó; no incluye las defunciones.",
+          "error_id": "E-PRE-EPIDEMIO"
+        }
+      ],
+      "explicacion": "1) Letalidad: gravedad de la enfermedad = defunciones entre los enfermos.\n2) $\\dfrac{12}{400} \\times 100 = 3\\ \\%$.\n3) Compara: mortalidad = $\\dfrac{12}{80\\,000} \\times 100\\,000 = 15$ por 100 000 habitantes.",
+      "referencias": [
+        {
+          "fuente": "Álvarez Alva, R. y Kuri-Morales, P. A. (2018). Salud pública y medicina preventiva (5.ª ed.). Manual Moderno",
+          "ubicacion": "Cap. 11: medidas de frecuencia (mortalidad y letalidad)"
+        }
+      ],
+      "tiempo_estimado_seg": 75,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 3,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 3.8,
+        "cambios": [],
+        "observaciones": "Las medidas epidemiológicas no tienen tema propio en el temario; se clasificaron en «Historia natural de la enfermedad»."
+      },
+      "datos": [
+        {
+          "tex": "P",
+          "desc": "80 000 habitantes"
+        },
+        {
+          "tex": "C",
+          "desc": "400 casos"
+        },
+        {
+          "tex": "D",
+          "desc": "12 defunciones"
+        }
+      ]
+    },
+    {
+      "id": "PRE-040",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "medicina"
+      ],
+      "area": "PRE",
+      "subarea": "PRE-SP",
+      "tema": "PRE-SP-HNE",
+      "habilidad": "comprender",
+      "dificultad_estimada": 2,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "El 1 de marzo se encuestó a 2 000 adultos de una colonia y 150 tenían diabetes ya diagnosticada. ¿Qué medida expresa esa cifra?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "Incidencia",
+          "correcta": false,
+          "argumentacion": "Incorrecta. La incidencia cuenta solo los casos nuevos que aparecen durante un periodo de seguimiento.",
+          "error_id": "E-PRE-EPIDEMIO"
+        },
+        {
+          "id": "B",
+          "texto": "Letalidad",
+          "correcta": false,
+          "argumentacion": "Incorrecta. La letalidad mide las defunciones entre los enfermos; aquí no hay datos de muertes.",
+          "error_id": "E-PRE-EPIDEMIO"
+        },
+        {
+          "id": "C",
+          "texto": "Prevalencia",
+          "correcta": true,
+          "argumentacion": "Correcta. Cuenta todos los casos existentes (nuevos y antiguos) en un momento dado.",
+          "error_id": null
+        }
+      ],
+      "explicacion": "Prevalencia = casos existentes / población, en un momento. Incidencia = casos nuevos / población en riesgo, en un periodo.",
+      "referencias": [
+        {
+          "fuente": "Álvarez Alva, R. y Kuri-Morales, P. A. (2018). Salud pública y medicina preventiva (5.ª ed.). Manual Moderno",
+          "ubicacion": "Cap. 11: medidas de frecuencia (prevalencia e incidencia)"
+        }
+      ],
+      "tiempo_estimado_seg": 40,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 3,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 3.8,
+        "cambios": [],
+        "observaciones": "Las medidas epidemiológicas no tienen tema propio en el temario; se clasificaron en «Historia natural de la enfermedad»."
+      }
+    },
+    {
+      "id": "PRE-041",
+      "version": 1,
+      "examen": "EXANI-II",
+      "rutas": [
+        "medicina"
+      ],
+      "area": "PRE",
+      "subarea": "PRE-SP",
+      "tema": "PRE-SP-HNE",
+      "habilidad": "analizar",
+      "dificultad_estimada": 3,
+      "formato": "cuestionamiento_directo",
+      "texto_id": null,
+      "enunciado": "Un nuevo tratamiento prolonga la vida de los pacientes con una enfermedad crónica, pero no la cura. Si la incidencia no cambia, ¿qué ocurrirá con la prevalencia?",
+      "opciones": [
+        {
+          "id": "A",
+          "texto": "Disminuirá, porque morirán menos pacientes a causa de la enfermedad.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Que mueran menos pacientes hace que se acumulen más casos existentes, no menos.",
+          "error_id": "E-PRE-EPIDEMIO"
+        },
+        {
+          "id": "B",
+          "texto": "Aumentará, porque los casos permanecen más tiempo en la población.",
+          "correcta": true,
+          "argumentacion": "Correcta. La prevalencia depende de la incidencia y de la duración de la enfermedad; si la duración crece, crece la prevalencia.",
+          "error_id": null
+        },
+        {
+          "id": "C",
+          "texto": "No cambiará, porque la cantidad de casos nuevos sigue siendo la misma.",
+          "correcta": false,
+          "argumentacion": "Incorrecta. Confunde prevalencia con incidencia: la prevalencia también depende de cuánto dura cada caso.",
+          "error_id": "E-PRE-EPIDEMIO"
+        }
+      ],
+      "explicacion": "Relación aproximada: prevalencia ≈ incidencia × duración. Más duración (sin curación) → más prevalencia.",
+      "referencias": [
+        {
+          "fuente": "Álvarez Alva, R. y Kuri-Morales, P. A. (2018). Salud pública y medicina preventiva (5.ª ed.). Manual Moderno",
+          "ubicacion": "Cap. 11: relación entre incidencia y prevalencia"
+        }
+      ],
+      "tiempo_estimado_seg": 60,
+      "estado": "revisado_ia",
+      "revision": {
+        "revisor": "Claude — revisión docente (simulada; requiere validación humana)",
+        "fecha": "2026-11-24",
+        "rubrica": {
+          "exactitud": 4,
+          "claridad": 4,
+          "alineacion": 3,
+          "distractores": 4,
+          "nivel": 4
+        },
+        "puntaje": 3.8,
+        "cambios": [],
+        "observaciones": "Las medidas epidemiológicas no tienen tema propio en el temario; se clasificaron en «Historia natural de la enfermedad»."
+      }
     }
   ],
   "plantillas": [
@@ -6941,6 +9951,9 @@
         "CL-013",
         "CL-014",
         "CL-015",
+        "CL-016",
+        "CL-017",
+        "CL-018",
         "RI-001",
         "RI-002",
         "RI-003",
@@ -6956,6 +9969,11 @@
         "RI-013",
         "RI-014",
         "RI-015",
+        "RI-016",
+        "RI-017",
+        "RI-018",
+        "RI-019",
+        "RI-020",
         "PM-001",
         "PM-002",
         "PM-003",
@@ -6971,6 +9989,16 @@
         "PM-013",
         "PM-014",
         "PM-015",
+        "PM-016",
+        "PM-017",
+        "PM-018",
+        "PM-019",
+        "PM-020",
+        "PM-021",
+        "PM-022",
+        "PM-023",
+        "PM-024",
+        "PM-025",
         "BIO-001",
         "BIO-002",
         "BIO-003",
@@ -6983,6 +10011,16 @@
         "BIO-010",
         "BIO-011",
         "BIO-012",
+        "BIO-013",
+        "BIO-014",
+        "BIO-015",
+        "BIO-016",
+        "BIO-017",
+        "BIO-018",
+        "BIO-019",
+        "BIO-020",
+        "BIO-021",
+        "BIO-022",
         "QUI-001",
         "QUI-002",
         "QUI-003",
@@ -7018,9 +10056,26 @@
         "PRE-021",
         "PRE-022",
         "PRE-023",
-        "PRE-024"
+        "PRE-024",
+        "PRE-025",
+        "PRE-026",
+        "PRE-027",
+        "PRE-028",
+        "PRE-029",
+        "PRE-030",
+        "PRE-031",
+        "PRE-032",
+        "PRE-033",
+        "PRE-034",
+        "PRE-035",
+        "PRE-036",
+        "PRE-037",
+        "PRE-038",
+        "PRE-039",
+        "PRE-040",
+        "PRE-041"
       ],
-      "tiempo_limite_min": 97,
+      "tiempo_limite_min": 128,
       "ponderacion": "reactivos_examen",
       "umbrales": {
         "domina": 0.8,
