@@ -261,5 +261,49 @@ export const BIBLIOGRAFIA: Record<string, string[]> = {
     "Ley Orgánica de la Administración Pública Federal. [Enmendada]. (23 de marzo de 2025). Diario Oficial de la Federación. https://www.diputados.gob.mx/LeyesBiblio/pdf/LOAPF.pdf",
     "Millán, G. (2020). Introducción al estudio de las ciencias sociales y económicas. Pearson Educación.",
     "Murcia, N., Jaimes, S., & Gómez, J. (octubre-diciembre, 2016). La práctica social como expresión de humanidad. Cinta de Moebio, 57. https://www.redalyc.org/journal/101/10148922002/10148922002.pdf"
+  ],
+  "ciencias-economico-administrativas": [
+    "García Máynez, E. (2014). Introducción al estudio del derecho (65a ed.). Porrúa.",
+    "Graue Russek, A. L. (2014). Introducción a la economía (2a ed.). Pearson Educación.",
+    "Robbins, S. P., Coulter, M., & DeCenzo, D. A. (2017). Fundamentos de administración (10a ed.). Pearson Educación.",
+    "Vidaurri Aguirre, H. M. (2017). Matemáticas financieras (6a ed.). Cengage Learning."
+  ],
+  "ciencias-sociales-y-humanidades": [
+    "Abbagnano, N., & Visalberghi, A. (2014). Historia de la pedagogía. Fondo de Cultura Económica.",
+    "Delgado de Cantú, G. M. (2015). Historia de México (5a ed.). Pearson Educación.",
+    "Delgado de Cantú, G. M. (2015). Historia universal: De la era de las revoluciones al mundo globalizado (4a ed.). Pearson Educación.",
+    "Escobar Valenzuela, G. (2018). Filosofía (6a ed.). Grupo Editorial Patria.",
+    "Farga, M., & López, E. (2013). Historia del arte (2a ed.). Pearson Educación.",
+    "Graue Russek, A. L. (2014). Introducción a la economía (2a ed.). Pearson Educación."
+  ],
+  "ciencias-naturales-y-de-salud": [
+    "Audesirk, T., Audesirk, G., & Byers, B. E. (2017). Biología: La vida en la Tierra con fisiología (10a ed.). Pearson Educación.",
+    "Chang, R., & Goldsby, K. A. (2017). Química (12a ed.). McGraw-Hill.",
+    "Morris, C. G., & Maisto, A. A. (2021). Psicología (14a ed.). Pearson Educación.",
+    "Pérez Montiel, H. (2015). Física general (5a ed.). Grupo Editorial Patria.",
+    "Tortora, G. J., & Derrickson, B. (2018). Principios de anatomía y fisiología (15a ed.). Médica Panamericana."
+  ],
+  "ingenierias-y-ciencias-exactas": [
+    "Aguilar Márquez, A., et al. (2015). Matemáticas simplificadas (4a ed.). Pearson Educación.",
+    "Chang, R., & Goldsby, K. A. (2017). Química (12a ed.). McGraw-Hill.",
+    "Stewart, J. (2018). Cálculo: Trascendentes tempranas (8a ed.). Cengage Learning.",
+    "Tippens, P. E. (2011). Física, conceptos y aplicaciones (7a ed.). McGraw-Hill."
+  ],
+  "razonamiento-clinico-avanzado": [
+    "Aguado, L. (2015). Emoción, afecto y motivación. Alianza Editorial.",
+    "Association of American Medical Colleges (2023). The official guide to the MCAT exam (5th ed.). AAMC.",
+    "CONAMAT (2015). Matemáticas simplificadas (4a ed.). Pearson Educación.",
+    "European Personnel Selection Office (2023). Situational judgement test (SJT) competency framework. EPSO.",
+    "General Medical Council (2024). Good medical practice. GMC.",
+    "Higashida, B. Y. (2013). Ciencias de la salud (7a ed.). McGraw-Hill.",
+    "Law School Admission Council (2020). The official LSAT SuperPrep II. LSAC.",
+    "Mitterer, J. O., & Coon, D. (2016). Introducción a la psicología (13a ed.). Cengage Learning.",
+    "Morris, C. G., & Maisto, A. A. (2021). Psicología (14a ed.). Pearson Educación.",
+    "Papalia, D. E., Feldman, R. D., & Martorell, G. (2021). Desarrollo humano (14a ed.). McGraw-Hill.",
+    "Pérez Montiel, H. (2015). Física general (5a ed.). Grupo Editorial Patria.",
+    "Portellano, J. A. (2005). Introducción a la neuropsicología. McGraw-Hill España.",
+    "Sánchez, O. (2010). Probabilidad y estadística (3a ed.). McGraw-Hill.",
+    "Tippens, P. E. (2011). Física, conceptos y aplicaciones (7a ed.). McGraw-Hill.",
+    "UCAT Consortium (2024). Official preparation materials: Situational judgement. UCAT."
   ]
 };

@@ -264,6 +264,73 @@ export const DIBUJOS: Record<string, { acento: string; trazos: string[] }> = {
       "M116 70 Q150 30 200 44 Q250 30 284 70",
     ],
   },
+  "habilidades-blandas": {
+    acento: "#E6E28A",
+    trazos: [
+      "M70 60 H130 Q130 40 150 40 Q170 40 170 60 H230 V120 Q250 120 250 140 Q250 160 230 160 V220 H70 V160 Q90 160 90 140 Q90 120 70 120 Z",
+      "M230 60 H290 Q290 80 310 80 Q330 80 330 60 H350 V220 H230",
+      c(120, 110, 6),
+      c(180, 170, 6),
+      "M126 114 L174 166",
+      "M268 120 L290 142 L330 100",
+    ],
+  },
+  "razonamiento-clinico-avanzado": {
+    acento: "#F4B8D9",
+    trazos: [
+      rect(110, 46, 180, 200),
+      rect(160, 30, 80, 32),
+      "M200 100 V160 M170 130 H230",
+      "M140 196 H260 M140 220 H220",
+      "M300 120 H340 L352 92 L366 150 L378 120 H396",
+    ],
+  },
+  "ciencias-economico-administrativas": {
+    acento: "#F7C59F",
+    trazos: [
+      rect(40, 92, 220, 120),
+      c(150, 152, 30),
+      "M58 110 H80 M220 194 H242",
+      "M160 138 Q150 130 140 136 Q132 146 150 152 Q168 158 160 168 Q150 176 138 166 M150 124 V180",
+      "M290 212 V140 M320 212 V110 M350 212 V80",
+      "M280 120 L360 52 M340 50 L362 50 L360 72",
+      "M30 230 H370",
+    ],
+  },
+  "ciencias-sociales-y-humanidades": {
+    acento: "#E9D8EF",
+    trazos: [
+      "M200 40 C120 40 60 92 60 150 C60 200 100 226 140 220 C170 216 160 186 186 180 C214 174 226 206 262 204 C316 200 340 160 340 128 C340 76 280 40 200 40 Z",
+      c(140, 100, 14),
+      c(206, 82, 14),
+      c(270, 108, 14),
+      c(116, 160, 12),
+      "M300 40 L250 150 M250 150 L240 176 L262 160 Z",
+    ],
+  },
+  "ciencias-naturales-y-de-salud": {
+    acento: "#8FE0C4",
+    trazos: [
+      "M90 220 C80 120 160 50 310 40 C310 160 230 230 90 220 Z",
+      "M90 220 C150 170 210 120 280 70",
+      "M150 172 L150 130 M190 140 L196 100 M230 110 L246 82 M170 156 L130 150 M210 126 L172 120",
+      "M260 210 H300 L312 186 L326 236 L338 210 H380",
+    ],
+  },
+  "ingenierias-y-ciencias-exactas": {
+    acento: "#9CC9F5",
+    trazos: [
+      c(150, 130, 64),
+      c(150, 130, 22),
+      ...Array.from({ length: 8 }, (_, i) => {
+        const a = (Math.PI / 4) * i;
+        return `M${(150 + 64 * Math.cos(a)).toFixed(1)} ${(130 + 64 * Math.sin(a)).toFixed(1)} L${(150 + 84 * Math.cos(a)).toFixed(1)} ${(130 + 84 * Math.sin(a)).toFixed(1)}`;
+      }),
+      "M250 220 L330 60 L370 220 Z",
+      "M290 220 V180 H330 V220",
+      "M250 236 H380",
+    ],
+  },
 };
 
 export function IlustracionArea({ slug, className = "ilustracion" }: { slug: string; className?: string }) {

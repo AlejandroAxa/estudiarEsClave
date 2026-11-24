@@ -6,7 +6,7 @@
  * la guía solo se describen y se cita la página donde están.
  */
 
-export type TipoArea = "transversal" | "diagnostica" | "especifico" | "general";
+export type TipoArea = "transversal" | "transversal-buap" | "diagnostica" | "especifico" | "general" | "area-buap" | "eipm";
 
 export type Subarea = { nombre: string; reactivos: number; temas: string[]; temario: string[] };
 
@@ -26,7 +26,10 @@ export type AreaExani = {
   lema: string;
   definicion: string;
   subareas: Subarea[];
-  ejemploGuia: { paginas: string; resumen: string };
+  /** Ejemplo de la guía general del CENEVAL (junio de 2025). */
+  ejemploGuia?: { paginas: string; resumen: string };
+  /** Fuente distinta de la guía general: temario oficial BUAP u otra. */
+  fuente?: { titulo: string; url?: string; ejemplos?: string; nota?: string };
   consejo: string[];
   carreras?: string;
   relacionadas: string[];
@@ -37,8 +40,41 @@ export const TIPOS: Record<TipoArea, { nombre: string; nota: string }> = {
   transversal: { nombre: "Área transversal", nota: "La presentan todos los aspirantes y cuenta para el puntaje global." },
   diagnostica: { nombre: "Área diagnóstica", nota: "La presentan todos, pero no cuenta para el puntaje global." },
   especifico: { nombre: "Módulo específico", nota: "Tu universidad elige dos módulos según la carrera (Premedicina va solo)." },
-  general: { nombre: "Módulo general", nota: "Para universidades donde eliges varias carreras en orden de preferencia. Solo se combina con el otro módulo general." },
+  general: {
+    nombre: "Módulo general",
+    nota: "En la guía general se combina solo con el otro módulo general. En la BUAP (EXANI-II-EPIU) acompaña a un módulo de área de conocimiento.",
+  },
+  "transversal-buap": {
+    nombre: "Área transversal · BUAP",
+    nota: "Forma parte del EXANI-II de la BUAP (EPIU y Medicina). No viene en la guía general del CENEVAL de 2025.",
+  },
+  "area-buap": {
+    nombre: "Módulo de área · BUAP",
+    nota: "Es el módulo propio de un área de conocimiento de la BUAP; se presenta junto con un módulo general de 24 reactivos.",
+  },
+  eipm: {
+    nombre: "Módulo de Medicina · BUAP",
+    nota: "Solo para Medicina BUAP: se presenta con Premedicina en la primera etapa de la Evaluación de Idoneidad del Perfil Médico (EIPM).",
+  },
 };
+
+/** Estructura del EXANI-II en la BUAP (página del CENEVAL para la BUAP, actualizada el 30 de marzo de 2026). */
+export const COMUNES_BUAP: [string, string, number][] = [
+  ["comprension-lectora", "Comprensión lectora", 30],
+  ["redaccion-indirecta", "Redacción indirecta", 30],
+  ["pensamiento-matematico", "Pensamiento matemático", 30],
+  ["habilidades-blandas", "Habilidades blandas y toma de decisiones", 22],
+  ["ingles", "Inglés (diagnóstico, no cuenta)", 30],
+];
+
+export const ESTRUCTURAS_BUAP: { area: string; general: string; modulo: string; icono: string }[] = [
+  { area: "Ciencias Económico Administrativas", general: "ciencias-sociales", modulo: "ciencias-economico-administrativas", icono: "Banknote" },
+  { area: "Ciencias Sociales y Humanidades", general: "ciencias-sociales", modulo: "ciencias-sociales-y-humanidades", icono: "Palette" },
+  { area: "Ciencias Naturales y de Salud", general: "ciencias-experimentales", modulo: "ciencias-naturales-y-de-salud", icono: "Leaf" },
+  { area: "Ingenierías y Ciencias Exactas", general: "ciencias-experimentales", modulo: "ingenierias-y-ciencias-exactas", icono: "Cog" },
+];
+
+export const FUENTE_BUAP = "https://ceneval.edu.mx/benem-universidad-autonoma-de-puebla-exani/";
 
 export const AREAS: AreaExani[] = [
   {
@@ -905,6 +941,301 @@ export const AREAS: AreaExani[] = [
         { texto: "Filosófico", porque: "Se basa en la reflexión racional sobre problemas generales, no en la experiencia cotidiana." },
       ],
       explicacion: "Lo que distingue al conocimiento científico del empírico es el método, no el tema.",
+    },
+  },
+  {
+    slug: "habilidades-blandas",
+    nombre: "Habilidades blandas y toma de decisiones",
+    tipo: "transversal-buap",
+    icono: "Puzzle",
+    reactivos: 22,
+    lema: "Decidir bien en equipo, bajo presión y con lógica.",
+    definicion:
+      "Evalúa habilidades transversales ligadas al liderazgo, la toma de decisiones, la resiliencia, el trabajo en equipo y el manejo del estrés, además de razonamiento lógico con patrones. En la BUAP la presentan todos los aspirantes, también los de Medicina.",
+    subareas: [
+      {
+        nombre: "Habilidades cognitivas",
+        reactivos: 8,
+        temas: ["Habilidades lógico-actitudinales", "Matrices progresivas y patrones"],
+        temario: ["Series y matrices de figuras y números", "Encontrar la regla que sigue un patrón", "Razonamiento lógico con datos de una situación"],
+      },
+      {
+        nombre: "Pensamiento crítico y resolución de problemas",
+        reactivos: 7,
+        temas: ["Pensamiento crítico", "Resolución de conflictos y toma de decisiones"],
+        temario: ["Distinguir hechos, opiniones y supuestos", "Detectar fallas en un argumento", "Elegir la mejor salida a un conflicto", "Priorizar con información incompleta"],
+      },
+      {
+        nombre: "Habilidades blandas y liderazgo",
+        reactivos: 7,
+        temas: ["Habilidades blandas", "Pruebas situacionales y liderazgo"],
+        temario: ["Trabajo en equipo y comunicación asertiva", "Liderazgo y delegación", "Resiliencia y manejo del estrés", "Respuesta ética en situaciones de presión"],
+      },
+    ],
+    fuente: {
+      titulo: "Página del CENEVAL para la BUAP (estructura de 22 reactivos y qué evalúa)",
+      url: "https://ceneval.edu.mx/benem-universidad-autonoma-de-puebla-exani/",
+      nota: "El enlace al temario oficial de esta área en esa página abre otro documento. El reparto por subáreas viene de guías de preparación publicadas para la BUAP 2026; confírmalo cuando el CENEVAL publique el temario.",
+    },
+    consejo: [
+      "En las preguntas situacionales casi nunca gana la opción extrema (hacerlo todo tú o pasarle el problema a otro): busca la que escucha, prioriza y reparte.",
+      "Para las matrices, revisa qué cambia por fila, por columna y en diagonal: forma, número, giro o color.",
+    ],
+    carreras: "Todas las carreras de la BUAP, incluida Medicina.",
+    relacionadas: ["pensamiento-matematico", "comprension-lectora", "razonamiento-clinico-avanzado"],
+    muestra: {
+      enunciado:
+        "Tu equipo entrega un proyecto mañana. Dos compañeros discuten porque cada uno quiere usar su propuesta y el trabajo se detuvo. ¿Qué es lo más adecuado?",
+      opciones: [
+        { texto: "Hacer tú todo el trabajo para no perder tiempo", porque: "Resuelve hoy, pero no atiende el conflicto y te sobrecarga." },
+        { texto: "Escuchar a ambos, acordar un criterio para decidir y repartir las tareas", correcta: true, porque: "Atiende el conflicto, decide con un criterio común y recupera el avance." },
+        { texto: "Pedir al profesor que elija una propuesta", porque: "Traslada la decisión a alguien externo y el equipo no aprende a resolver." },
+      ],
+      explicacion: "En pruebas situacionales se premia la opción que resuelve el problema de fondo, cuida la relación y mantiene la responsabilidad en el equipo.",
+    },
+  },
+  {
+    slug: "razonamiento-clinico-avanzado",
+    nombre: "Razonamiento clínico avanzado",
+    tipo: "eipm",
+    icono: "ClipboardPlus",
+    reactivos: 20,
+    lema: "Pensar como en un hospital: números, mente y criterio.",
+    definicion:
+      "Evalúa el razonamiento matemático y físico aplicado a situaciones clínicas, las bases neurofisiológicas de la conducta y el juicio para decidir con seguridad y ética bajo presión. No pide conocimientos médicos avanzados.",
+    subareas: [
+      {
+        nombre: "Física y matemáticas aplicadas a ciencias de la salud",
+        reactivos: 7,
+        temas: ["Razonamiento matemático y bioestadística clínica", "Biofísica de fluidos, gases y termodinámica", "Bioelectromagnetismo, óptica y biomecánica"],
+        temario: ["Proporcionalidad y cálculo de dosis", "Crecimiento y decaimiento exponencial", "Epidemiología clínica básica", "Escalas logarítmicas en el cuerpo humano", "Hemodinámica y fluidos incompresibles", "Leyes de los gases y termodinámica biológica", "Electricidad celular", "Óptica geométrica aplicada", "Biomecánica del sistema musculoesquelético"],
+      },
+      {
+        nombre: "Psicología y salud mental",
+        reactivos: 5,
+        temas: ["Bases neurofisiológicas de la conducta", "Emociones y estrés", "Procesos cognitivos y hábitos de vida", "Motivación y aprendizaje", "Corrientes psicológicas contemporáneas"],
+        temario: ["Organización y funciones del sistema nervioso", "Especialización hemisférica y lóbulos cerebrales", "Sistema endocrino y estado de ánimo", "Efecto fisiológico de las emociones", "Sueño, agotamiento y funciones ejecutivas", "Motivación intrínseca y extrínseca", "Corrientes psicológicas y su aplicación clínica"],
+      },
+      {
+        nombre: "Juicio clínico situacional",
+        reactivos: 8,
+        temas: ["Asignación de recursos", "Resolución de conflictos y diplomacia", "Seguridad del paciente e integridad", "Razonamiento analítico", "Resiliencia y regulación emocional"],
+        temario: ["Priorizar necesidades críticas con recursos limitados", "Decidir sin sesgos ni discriminación", "Comunicación asertiva con figuras de autoridad", "Resistir la presión de grupo", "Desescalar a pacientes o familiares hostiles", "Manejo del error propio", "Límites de la confidencialidad", "Reconocer los propios límites de competencia", "Afrontar crisis y pérdidas"],
+      },
+    ],
+    fuente: {
+      titulo: "Temario del Módulo de Razonamiento clínico avanzado, EIPM 2026 (CENEVAL-BUAP)",
+      url: "https://online.flippingbook.com/view/908814581/",
+      ejemplos: "Trae dos ejemplos: un cálculo de vida media de un radiofármaco y el efecto del radio de un vaso en la resistencia al flujo (ley de Poiseuille).",
+    },
+    consejo: [
+      "Repasa proporciones, potencias y logaritmos con ejemplos de dosis y vida media.",
+      "En juicio situacional, la seguridad del paciente va primero; luego la comunicación y las reglas de la institución.",
+    ],
+    carreras: "Medicina BUAP (primera etapa, junto con Premedicina).",
+    relacionadas: ["premedicina", "habilidades-blandas", "psicologia"],
+    muestra: {
+      enunciado: "Un medicamento se indica a 15 mg por kg de peso al día, repartido en 3 tomas. ¿Cuánto lleva cada toma para un niño de 20 kg?",
+      opciones: [
+        { texto: "100 mg", correcta: true, porque: "15 × 20 = 300 mg al día; entre 3 tomas da 100 mg." },
+        { texto: "300 mg", porque: "Es la dosis de todo el día, no la de cada toma." },
+        { texto: "45 mg", porque: "Multiplica la dosis por kg por el número de tomas y olvida el peso." },
+      ],
+      explicacion: "Primero la dosis diaria (mg/kg × kg) y luego divide entre el número de tomas.",
+    },
+  },
+  {
+    slug: "ciencias-economico-administrativas",
+    nombre: "Ciencias Económico Administrativas",
+    tipo: "area-buap",
+    icono: "Banknote",
+    reactivos: 24,
+    lema: "Empresa, economía, ley y dinero en un solo módulo.",
+    definicion:
+      "Evalúa la administración de empresas, el entorno económico, el marco legal y constitucional de México y las matemáticas financieras básicas, con ética organizacional y manejo de números en situaciones reales.",
+    subareas: [
+      {
+        nombre: "Fundamentos de administración empresarial",
+        reactivos: 6,
+        temas: ["Teoría y ética organizacional", "Tipología empresarial", "El proceso administrativo"],
+        temario: ["Conceptos y funciones administrativas", "Habilidades del administrador y ética", "Clasificación de empresas: nacionales, internacionales y transnacionales", "Alianzas comerciales en la globalización", "Planeación, organización, dirección y control"],
+      },
+      {
+        nombre: "Entorno económico y social",
+        reactivos: 6,
+        temas: ["Pensamiento económico", "Estructuras de mercado y sociedad", "Macroeconomía básica"],
+        temario: ["Escuelas clásica, neoclásica, keynesiana, monetarista y latinoamericanas", "Libre competencia, monopolio, oligopolio, imperialismo y neoliberalismo", "Clases sociales", "PIB, inflación, empleo, ciclo económico, tipo de cambio y tasa de interés"],
+      },
+      {
+        nombre: "Marco legal y Estado de derecho",
+        reactivos: 6,
+        temas: ["Introducción al estudio del derecho", "Derecho constitucional mexicano"],
+        temario: ["Definición, clasificación y fuentes del derecho", "Normas de conducta", "Antecedentes y rasgos de la Constitución", "Derechos humanos", "División de poderes y elementos del Estado"],
+      },
+      {
+        nombre: "Matemáticas financieras básicas",
+        reactivos: 6,
+        temas: ["Medición del interés", "Sistema financiero", "Anualidades"],
+        temario: ["Costo del dinero, intermediarios financieros y crédito", "Interés simple contra interés compuesto", "Anualidades vencidas y anticipadas"],
+      },
+    ],
+    fuente: {
+      titulo: "Temario del Área de Ciencias económico-administrativas, EXANI-II-EPIU (CENEVAL-BUAP 2026)",
+      url: "https://online.flippingbook.com/view/908096051/",
+      ejemplos: "Trae cuatro ejemplos: el precio del dólar cuando sube su demanda, el enfoque de grupos de interés en una decisión, la jurisprudencia como fuente del derecho y el cálculo del interés en una tabla de amortización.",
+    },
+    consejo: ["Son cuatro subáreas de 6 reactivos: reparte tu estudio parejo.", "Para finanzas, aprende a distinguir interés simple, compuesto y anualidades con un mismo ejemplo numérico."],
+    carreras: "Carreras económico-administrativas de la BUAP. Se presenta con el módulo general de Ciencias sociales.",
+    relacionadas: ["ciencias-sociales", "administracion", "matematicas-financieras"],
+    muestra: {
+      enunciado: "Tu cuenta de ahorro paga 3 % anual y la inflación del año fue de 5 %. ¿Qué pasó con tu poder de compra?",
+      opciones: [
+        { texto: "Aumentó 3 %", porque: "Ese es el rendimiento nominal; no descuenta la subida de precios." },
+        { texto: "Disminuyó, aproximadamente 2 %", correcta: true, porque: "Los precios subieron más que tu dinero: el rendimiento real es negativo." },
+        { texto: "Se mantuvo igual", porque: "Solo pasaría si el rendimiento fuera igual a la inflación." },
+      ],
+      explicacion: "Rendimiento real ≈ tasa nominal − inflación = 3 % − 5 % = −2 %.",
+    },
+  },
+  {
+    slug: "ciencias-sociales-y-humanidades",
+    nombre: "Ciencias Sociales y Humanidades",
+    tipo: "area-buap",
+    icono: "Palette",
+    reactivos: 24,
+    lema: "Historia, filosofía, arte, pedagogía y economía.",
+    definicion:
+      "Evalúa los procesos históricos de México y del mundo, el pensamiento filosófico, estético y pedagógico, y los principios de economía que influyen en la sociedad actual, con atención a causas, efectos y corrientes de pensamiento.",
+    subareas: [
+      {
+        nombre: "Procesos históricos",
+        reactivos: 8,
+        temas: ["Historia universal", "Historia de México"],
+        temario: ["Historiografía y construcción de la ciencia histórica", "Siglo XIX: Ilustración, Revolución francesa, colonialismo e imperialismo", "Siglo XX: guerras mundiales y Guerra Fría", "Aridoamérica, Oasisamérica y Mesoamérica", "Conquista y Virreinato", "México independiente: Reforma y Revolución", "Consolidación del Estado y Milagro Mexicano"],
+      },
+      {
+        nombre: "Humanidades",
+        reactivos: 8,
+        temas: ["Filosofía y pensamiento crítico", "Apreciación artística", "Bases pedagógicas"],
+        temario: ["Cosmología y escuelas de la antigua Grecia", "El problema del conocimiento; fe y razón", "Concepto y funciones del arte", "Grecia, Roma, Renacimiento y Barroco", "Impresionismo, surrealismo, cubismo y muralismo", "Pedagogía y didáctica", "Corrientes conductista, constructivista, humanista y crítica"],
+      },
+      {
+        nombre: "Principios de economía y estructura social",
+        reactivos: 8,
+        temas: ["Pensamiento económico", "Estructura capitalista", "Macroeconomía básica"],
+        temario: ["Escuelas clásica, neoclásica, keynesiana, monetarista y latinoamericanas", "Libre competencia, monopolio, oligopolio, neoliberalismo y globalización", "PIB, inflación, ciclo económico, tasas de interés y empleo"],
+      },
+    ],
+    fuente: {
+      titulo: "Temario del Área de Ciencias sociales y humanidades, EXANI-II-EPIU (CENEVAL-BUAP 2026)",
+      url: "https://online.flippingbook.com/view/908396398/",
+      ejemplos: "Trae tres ejemplos: las dimensiones de la posición social según Max Weber, el plan de 1913 contra Victoriano Huerta y el estilo artístico del claroscuro intenso.",
+    },
+    consejo: ["Arte y pedagogía son temas que no vienen en otros módulos: dales tiempo propio.", "En historia, une cada plan o documento con quién lo proclamó, contra quién y en qué año."],
+    carreras: "Carreras de ciencias sociales y humanidades de la BUAP. Se presenta con el módulo general de Ciencias sociales.",
+    relacionadas: ["ciencias-sociales", "historia", "filosofia"],
+    muestra: {
+      enunciado: "¿Qué movimiento artístico mexicano pintó grandes murales en edificios públicos con temas de la Revolución y la historia nacional?",
+      opciones: [
+        { texto: "Impresionismo", porque: "Es europeo y busca captar la luz y el instante, no narrar la historia en muros." },
+        { texto: "Muralismo", correcta: true, porque: "Rivera, Orozco y Siqueiros llevaron la historia y las causas sociales a muros públicos." },
+        { texto: "Barroco", porque: "Es un estilo de los siglos XVII y XVIII, muy anterior a la Revolución." },
+      ],
+      explicacion: "El muralismo nació en los años veinte con apoyo del Estado posrevolucionario para educar con imágenes.",
+    },
+  },
+  {
+    slug: "ciencias-naturales-y-de-salud",
+    nombre: "Ciencias Naturales y de Salud",
+    tipo: "area-buap",
+    icono: "Leaf",
+    reactivos: 24,
+    lema: "Biología, química, física médica y conducta.",
+    definicion:
+      "Evalúa los principios científicos para estudiar la vida, el cuerpo humano y la salud: biología celular, química, física médica y psicología básica, con procesos fisiológicos, biomoléculas y genética, física de fluidos y electricidad, y bases neurobiológicas de la conducta.",
+    subareas: [
+      {
+        nombre: "Biología celular, genética y anatomía humana",
+        reactivos: 10,
+        temas: ["Bases químicas y celulares de la vida", "Ciclo celular y genética", "Anatomía y fisiología básica", "Biodiversidad y ecología de la salud"],
+        temario: ["Evolución química", "Biomoléculas inorgánicas y orgánicas", "Procariota contra eucariota; transporte transmembranal", "Mitosis, meiosis y herencia mendeliana y no mendeliana", "Sistemas nervioso, cardiovascular, respiratorio, digestivo y reproductor", "Selección natural, niveles de organización y cambio climático en la salud"],
+      },
+      {
+        nombre: "Fundamentos de química y física médica",
+        reactivos: 8,
+        temas: ["Estructura atómica y tabla periódica", "Interacciones químicas y disoluciones", "Biomecánica y fluidos", "Bioelectromagnetismo"],
+        temario: ["Partículas subatómicas y propiedades periódicas", "Tipos de enlace y de reacción", "Molaridad, normalidad, ppm y porcentajes", "Cinemática con conversiones y notación científica", "Leyes de Newton, fuerza, masa y trabajo", "Carga eléctrica y ley de Coulomb"],
+      },
+      {
+        nombre: "Bases psicológicas y biológicas de la conducta",
+        reactivos: 6,
+        temas: ["Neurofisiología y conducta", "Procesos cognitivos y afectivos", "Aprendizaje y personalidad"],
+        temario: ["Estructura del sistema nervioso y especialización hemisférica", "Genética contra ambiente", "Sensación, percepción y emociones", "Condicionamiento y teorías del aprendizaje", "Medición de la inteligencia", "Componentes de la personalidad"],
+      },
+    ],
+    fuente: {
+      titulo: "Temario del Área de Ciencias naturales y de salud, EXANI-II-EPIU (CENEVAL-BUAP 2026)",
+      url: "https://online.flippingbook.com/view/908783763/",
+      ejemplos: "Trae tres ejemplos: el producto inmediato de la transcripción en eucariotas, qué sustancia forma puentes de hidrógeno y la imagen residual verde después de mirar el rojo.",
+    },
+    consejo: ["Biología pesa 10 de 24: es la subárea con más reactivos.", "Física médica pide conversiones y notación científica: practícalas con unidades del cuerpo humano."],
+    carreras: "Carreras de ciencias naturales y de la salud de la BUAP (Medicina tiene su propio examen). Se presenta con el módulo general de Ciencias experimentales.",
+    relacionadas: ["ciencias-experimentales", "biologia", "quimica"],
+    muestra: {
+      enunciado: "La bomba de sodio-potasio saca 3 Na⁺ e introduce 2 K⁺ en contra de su gradiente de concentración. ¿Qué tipo de transporte es?",
+      opciones: [
+        { texto: "Difusión simple", porque: "Va a favor del gradiente y no gasta energía." },
+        { texto: "Transporte activo", correcta: true, porque: "Mueve iones en contra del gradiente gastando ATP." },
+        { texto: "Ósmosis", porque: "Es el paso de agua a través de una membrana, no de iones." },
+      ],
+      explicacion: "«En contra del gradiente» es la pista: siempre requiere energía, y eso es transporte activo.",
+    },
+  },
+  {
+    slug: "ingenierias-y-ciencias-exactas",
+    nombre: "Ingenierías y Ciencias Exactas",
+    tipo: "area-buap",
+    icono: "Cog",
+    reactivos: 24,
+    lema: "Modelar con trigonometría, derivadas, física y química.",
+    definicion:
+      "Evalúa el modelado de fenómenos con herramientas matemáticas y físicas: trigonometría analítica, álgebra, cálculo diferencial, mecánica, termodinámica, electromagnetismo y química estructural, con razonamiento lógico y precisión algebraica.",
+    subareas: [
+      {
+        nombre: "Matemáticas avanzadas y cálculo diferencial",
+        reactivos: 10,
+        temas: ["Trigonometría analítica", "Álgebra superior", "Cálculo diferencial y optimización"],
+        temario: ["Funciones trigonométricas y ángulos notables", "Identidades recíprocas, pitagóricas, de cociente y de suma o resta", "Ecuaciones trigonométricas y cofunciones", "Sistemas de ecuaciones lineales", "Definición formal de la derivada", "Derivadas algebraicas y trascendentes", "Máximos, mínimos y optimización"],
+      },
+      {
+        nombre: "Física fundamental aplicada",
+        reactivos: 10,
+        temas: ["Mecánica clásica", "Trabajo y energía", "Física térmica y termodinámica", "Electromagnetismo básico"],
+        temario: ["MRU, MRUA y tiro parabólico", "Leyes de Newton", "Trabajo, potencia y conservación de la energía", "Escalas Celsius, Kelvin y Fahrenheit", "Dilatación, calor específico y calor latente", "Conducción, convección y radiación", "Leyes cero, primera y segunda de la termodinámica", "Leyes de los gases", "Carga, ley de Coulomb, campo eléctrico y circuitos básicos"],
+      },
+      {
+        nombre: "Fundamentos de química y estructura de la materia",
+        reactivos: 4,
+        temas: ["Estructura atómica y periodicidad", "Interacciones químicas"],
+        temario: ["Partículas subatómicas y configuración electrónica", "Propiedades periódicas", "Tipos de enlace", "Síntesis, descomposición y desplazamiento simple y doble"],
+      },
+    ],
+    fuente: {
+      titulo: "Temario del Área de Ingenierías y ciencias exactas, EXANI-II-EPIU (CENEVAL-BUAP 2026)",
+      url: "https://online.flippingbook.com/view/908714071/",
+      ejemplos: "Trae tres ejemplos: una identidad pitagórica con el coseno, el periodo de un péndulo al acortar su longitud y los enlaces sigma y pi de un doble enlace C=C.",
+    },
+    consejo: ["Matemáticas y física valen 20 de 24: química solo 4.", "Memoriza las identidades pitagóricas y las leyes de los gases: aparecen como atajos en varios problemas."],
+    carreras: "Ingenierías y ciencias exactas de la BUAP. Se presenta con el módulo general de Ciencias experimentales.",
+    relacionadas: ["ciencias-experimentales", "calculo-diferencial-e-integral", "fisica"],
+    muestra: {
+      enunciado: "A temperatura constante, un gas ocupa 4 L a 1 atm. Si la presión sube a 2 atm, ¿qué volumen ocupa?",
+      opciones: [
+        { texto: "8 L", porque: "Trata presión y volumen como directamente proporcionales." },
+        { texto: "4 L", porque: "Supone que el volumen no cambia con la presión." },
+        { texto: "2 L", correcta: true, porque: "Ley de Boyle: P₁V₁ = P₂V₂ → 1 × 4 = 2 × V₂ → V₂ = 2 L." },
+      ],
+      explicacion: "A temperatura constante, presión y volumen son inversamente proporcionales.",
     },
   },
 ];

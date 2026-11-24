@@ -15,8 +15,11 @@ export default async function Medicina() {
     <div className="wrap band pila angosto">
       <h1 style={{ fontSize: "clamp(32px,5vw,56px)" }}>Medicina</h1>
       <p className="lead">
-        Para Medicina se evalúan las áreas generales y además Biología, Química y Premedicina. Aquí tienes tres preguntas resueltas para que veas
-        el estilo.
+        En la BUAP, Medicina tiene su propia evaluación en dos etapas: primero{" "}
+        <Link href="/areas/premedicina">Premedicina</Link> (48 reactivos) y{" "}
+        <Link href="/areas/razonamiento-clinico-avanzado">Razonamiento clínico avanzado</Link> (20); después las áreas que presentan todos,
+        incluida <Link href="/areas/habilidades-blandas">Habilidades blandas</Link>. En total son 210. Aquí tienes tres preguntas resueltas para
+        que veas el estilo.
       </p>
       {muestras.length === 0 && <p className="small">Las preguntas de muestra aparecen en cuanto se publique el banco.</p>}
       {muestras.map((m, i) => (

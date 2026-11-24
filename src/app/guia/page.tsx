@@ -13,7 +13,10 @@ const AREAS = [
   ["Comprensión lectora", "Leer textos de estudio, literarios y de participación social, y entender qué dicen, cómo lo dicen y para qué."],
   ["Redacción indirecta", "Reconocer cómo se escribe bien: orden de ideas, puntuación, concordancia y conectores, sin tener que redactar tú."],
   ["Pensamiento matemático", "Entender conceptos y pasar situaciones a operaciones: proporciones, álgebra, geometría y datos."],
-  ["Módulos de la carrera", "Para Medicina: Biología, Química y los temas de Premedicina (anatomía, fisiología, bioquímica, microbiología y salud pública)."],
+  ["Habilidades blandas y toma de decisiones", "Solo en la BUAP (22 reactivos): razonamiento con patrones, pensamiento crítico y cómo decidir en equipo y bajo presión."],
+  ["Inglés", "Lo presentan todos (30 reactivos), pero es diagnóstico: no suma a tu puntaje."],
+  ["Módulos de tu área", "En la BUAP, un módulo general (Ciencias sociales o Ciencias experimentales) y el módulo de tu área de conocimiento, de 24 reactivos cada uno."],
+  ["Medicina BUAP", "Va aparte, en dos etapas: primero Premedicina (48) y Razonamiento clínico avanzado (20); después las cinco áreas comunes."],
 ];
 
 export default async function Guia() {
@@ -46,7 +49,7 @@ export default async function Guia() {
         ninguna en blanco. La estructura exacta, el número de preguntas y el tiempo vienen en la guía oficial del sustentante, que publica el CENEVAL.
       </p>
       <p>
-        <Link href="/areas">Ve el temario, la bibliografía y una pregunta resuelta de cada área y de los 18 módulos</Link>.
+        <Link href="/areas">Ve el temario, la bibliografía y una pregunta resuelta de cada área y módulo, con la estructura de la BUAP</Link>.
       </p>
       <h2>Un plan que sí se sostiene</h2>
       <ol>

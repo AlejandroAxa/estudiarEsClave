@@ -1,13 +1,14 @@
 /** Piezas visuales de las páginas de áreas del EXANI-II: icono y trazo de monitor por familia. */
 import {
-  Atom, BookOpen, Brain, Briefcase, Calculator, ChartLine, Dices, Dna, Feather, FlaskConical, HeartPulse, Hourglass,
-  Landmark, Languages, Microscope, PenLine, PiggyBank, Scale, Sigma, SquareFunction, Stethoscope, UsersRound,
-  type LucideIcon,
+  Atom, Banknote, BookOpen, Brain, Briefcase, Calculator, ChartLine, ClipboardPlus, Cog, Dices, Dna, Feather, FlaskConical,
+  HeartPulse, Hourglass, Landmark, Languages, Leaf, Microscope, Palette, PenLine, PiggyBank, Puzzle, Scale, Sigma,
+  SquareFunction, Stethoscope, UsersRound, type LucideIcon,
 } from "lucide-react";
 
 const ICONOS: Record<string, LucideIcon> = {
-  Atom, BookOpen, Brain, Briefcase, Calculator, ChartLine, Dices, Dna, Feather, FlaskConical, HeartPulse, Hourglass,
-  Landmark, Languages, Microscope, PenLine, PiggyBank, Scale, Sigma, SquareFunction, Stethoscope, UsersRound,
+  Atom, Banknote, BookOpen, Brain, Briefcase, Calculator, ChartLine, ClipboardPlus, Cog, Dices, Dna, Feather, FlaskConical,
+  HeartPulse, Hourglass, Landmark, Languages, Leaf, Microscope, Palette, PenLine, PiggyBank, Puzzle, Scale, Sigma,
+  SquareFunction, Stethoscope, UsersRound,
 };
 
 export function IconoArea({ nombre, size = 28, color = "var(--ciruela)" }: { nombre: string; size?: number; color?: string }) {
@@ -32,6 +33,10 @@ const FAMILIA: Record<string, "letras" | "numeros" | "vida" | "materia" | "socie
   fisica: "materia",
   quimica: "materia",
   "ciencias-experimentales": "materia",
+  "habilidades-blandas": "letras",
+  "razonamiento-clinico-avanzado": "vida",
+  "ciencias-naturales-y-de-salud": "vida",
+  "ingenierias-y-ciencias-exactas": "numeros",
 };
 
 function trazo(slug: string) {

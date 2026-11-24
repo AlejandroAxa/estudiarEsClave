@@ -1357,3 +1357,35 @@ textarea:focus {
     font-size: clamp(34px, 4vw, 52px);
   }
 }
+
+/* Estructura del EXANI-II en la BUAP */
+.estructura-lista {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  font-size: 14px;
+}
+.estructura-lista li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--linea);
+}
+.estructura-lista li:last-child {
+  border-bottom: 0;
+}
+.estructura-lista a {
+  color: var(--tinta);
+  text-decoration: none;
+}
+.estructura-lista a:hover {
+  text-decoration: underline;
+}
+.estructura-lista span {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+.estructura-lista .estructura-modulo a {
+  font-weight: 700;
+}

@@ -83,7 +83,7 @@ export default async function PaginaArea({ params }: { params: Promise<{ slug: s
               <b>
                 <IconoArea nombre={a.icono} size={20} color="var(--lc)" /> Expediente · {a.nombre}
               </b>
-              <span>Fuente: Guía para el sustentante, CENEVAL 2025</span>
+              <span>{a.ejemploGuia ? "Fuente: Guía para el sustentante, CENEVAL 2025" : "Fuente: CENEVAL para la BUAP, 2026"}</span>
             </div>
             <div className="desplazable">
               <table className="lab">
@@ -155,16 +155,36 @@ export default async function PaginaArea({ params }: { params: Promise<{ slug: s
             </div>
           </article>
 
-          <aside className="hoja guia-oficial">
-            <h3>En la guía oficial</h3>
-            <p className="small">
-              El ejemplo del CENEVAL para esta área está en las páginas {a.ejemploGuia.paginas} de la <i>Guía para el sustentante EXANI-II</i> (junio
-              de 2025): {a.ejemploGuia.resumen}
-            </p>
-            <p className="xs" style={{ marginBottom: 0 }}>
-              No reproducimos las preguntas de la guía. Consúltala gratis en el sitio del CENEVAL.
-            </p>
-          </aside>
+          {a.ejemploGuia ? (
+            <aside className="hoja guia-oficial">
+              <h3>En la guía oficial</h3>
+              <p className="small">
+                El ejemplo del CENEVAL para esta área está en las páginas {a.ejemploGuia.paginas} de la <i>Guía para el sustentante EXANI-II</i> (junio
+                de 2025): {a.ejemploGuia.resumen}
+              </p>
+              <p className="xs" style={{ marginBottom: 0 }}>
+                No reproducimos las preguntas de la guía. Consúltala gratis en el sitio del CENEVAL.
+              </p>
+            </aside>
+          ) : a.fuente ? (
+            <aside className="hoja guia-oficial">
+              <h3>Fuente oficial</h3>
+              <p className="small">
+                {a.fuente.url ? (
+                  <a href={a.fuente.url} target="_blank" rel="noopener noreferrer">
+                    {a.fuente.titulo}
+                  </a>
+                ) : (
+                  a.fuente.titulo
+                )}
+                . {a.fuente.ejemplos}
+              </p>
+              {a.fuente.nota && <p className="small">{a.fuente.nota}</p>}
+              <p className="xs" style={{ marginBottom: 0 }}>
+                No reproducimos las preguntas del CENEVAL. Consulta el temario gratis en su sitio.
+              </p>
+            </aside>
+          ) : null}
 
           <h2 className="h2-corto" style={{ marginTop: 40 }}>Cómo estudiarla</h2>
           <ul className="consejos">
@@ -182,7 +202,7 @@ export default async function PaginaArea({ params }: { params: Promise<{ slug: s
           {bib.length > 0 ? (
             <details className="hoja bibliografia">
               <summary>
-                {bib.length} {bib.length === 1 ? "referencia recomendada" : "referencias recomendadas"} por el CENEVAL
+                {bib.length} {bib.length === 1 ? "referencia recomendada" : "referencias recomendadas"} por el CENEVAL{a.ejemploGuia ? "" : " en el temario de la BUAP"}
               </summary>
               <ol>
                 {bib.map((b) => (
@@ -192,8 +212,9 @@ export default async function PaginaArea({ params }: { params: Promise<{ slug: s
             </details>
           ) : (
             <p className="small">
-              La guía no recomienda bibliografía para esta área: no evalúa contenidos, sino tu habilidad para leer textos variados. Lo que más ayuda es leer
-              seguido y de todo.
+              {a.slug === "comprension-lectora"
+                ? "La guía no recomienda bibliografía para esta área: no evalúa contenidos, sino tu habilidad para leer textos variados. Lo que más ayuda es leer seguido y de todo."
+                : "El CENEVAL todavía no publica bibliografía para esta área. La agregaremos en cuanto salga el temario oficial."}
             </p>
           )}
 
