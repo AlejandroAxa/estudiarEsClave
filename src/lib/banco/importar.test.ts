@@ -15,10 +15,13 @@ beforeAll(async () => {
 });
 
 describe("importador", () => {
-  it("rechaza el banco semilla en modo estricto porque no está validado", async () => {
-    const r = await importarBanco(db, banco, { archivo: "semilla.json" });
+  it("en modo estricto rechaza el archivo si un reactivo no está validado", async () => {
+    const b = JSON.parse(banco);
+    b.reactivos[0].estado = "revisado_ia";
+    delete b.reactivos[0].validado_por;
+    const r = await importarBanco(db, JSON.stringify(b), { archivo: "sin-validar.json" });
     expect(r.aceptada).toBe(false);
-    expect(r.errores[0]).toMatch(/validado/);
+    expect(r.errores[0]).toMatch(/CL-001.*validado/);
   });
 
   it("rechaza el archivo completo si un reactivo tiene dos correctas", async () => {
@@ -29,14 +32,14 @@ describe("importador", () => {
     expect(r.errores.join(" ")).toMatch(/CL-001.*correcta/);
   });
 
-  it("importa en modo desarrollo, crea plantillas y publica un release", async () => {
-    const r = await importarBanco(db, banco, { archivo: "semilla.json", permitirSinValidar: true });
+  it("importa en modo estricto (todo validado por docente), crea plantillas y publica un release", async () => {
+    const r = await importarBanco(db, banco, { archivo: "semilla.json" });
     expect(r.errores).toEqual([]);
-    expect(r.versionesNuevas).toBe(138);
+    expect(r.versionesNuevas).toBe(338);
     expect(r.plantillas).toContain("mini-medicina-v1");
     await sembrarProductos(db);
     const rel = await publicarRelease(db, { examenId: "EXANI-II", version: "1.0.0-dev" });
-    expect(rel.reactivos).toBe(138);
+    expect(rel.reactivos).toBe(338);
   });
 
   it("reimportar el mismo archivo no duplica nada", async () => {
@@ -58,12 +61,12 @@ describe("importador", () => {
 
   it("exporta el release al mismo formato y se puede volver a importar", async () => {
     const json = await exportarRelease(db, "1.0.0-dev");
-    expect(json.reactivos).toHaveLength(138);
+    expect(json.reactivos).toHaveLength(338);
     const original = JSON.parse(banco).reactivos[5];
     const exportado = json.reactivos.find((r) => r.id === original.id)!;
     expect(exportado.opciones).toEqual(original.opciones);
     expect(exportado.rutas).toEqual(original.rutas);
     expect(exportado.referencias).toEqual(original.referencias);
-    expect(json.plantillas[0].reactivos).toHaveLength(138);
+    expect(json.plantillas[0].reactivos).toHaveLength(338);
   });
 });

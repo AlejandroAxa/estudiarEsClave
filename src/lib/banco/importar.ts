@@ -30,6 +30,8 @@ export interface ResultadoImportacion {
   sinCambios: number;
   errores: string[];
   plantillas: string[];
+  /** Versiones que ya estaban «SIN VALIDAR» y quedaron con el visto bueno docente. */
+  validadasAhora?: number;
 }
 
 export function checksum(texto: string) {
@@ -264,6 +266,8 @@ export async function importarBanco(db: Db, contenido: string, op: OpcionesImpor
         )
     : [];
   const nuevas: ReactivoJson[] = [];
+  /** Versiones ya importadas «SIN VALIDAR» que ahora llegan idénticas pero validadas por un docente. */
+  const promover: ReactivoJson[] = [];
   let sinCambios = 0;
   for (const r of banco.reactivos) {
     const mismas = existentes.filter((e) => e.reactivoId === r.id);
@@ -278,7 +282,10 @@ export async function importarBanco(db: Db, contenido: string, op: OpcionesImpor
       const actual = { ...r, opciones: [...r.opciones].sort((a, b) => a.id.localeCompare(b.id)) };
       if (!mismoContenido(previo as ReactivoJson, { ...actual, referencias: previo.referencias } as ReactivoJson)) {
         errores.push(`${r.id} v${r.version}: ya existe con otro contenido; sube «version» para publicar el cambio.`);
-      } else sinCambios++;
+      } else {
+        sinCambios++;
+        if (igual.validadoPor === VALIDADOR_DESARROLLO && r.validado_por && r.validado_en && ["validado", "publicado"].includes(r.estado)) promover.push(r);
+      }
     } else if (r.version < maxima) {
       errores.push(`${r.id}: la versión ${r.version} es menor que la ya importada (${maxima}).`);
     } else nuevas.push(r);
@@ -342,6 +349,13 @@ export async function importarBanco(db: Db, contenido: string, op: OpcionesImpor
     }
     for (const r of rutasDelBanco(banco, examenId)) {
       await tx.insert(s.ruta).values(r).onConflictDoNothing();
+    }
+
+    for (const r of promover) {
+      await tx
+        .update(s.reactivoVersion)
+        .set({ validadoPor: r.validado_por!, validadoEn: r.validado_en! })
+        .where(and(eq(s.reactivoVersion.reactivoId, r.id), eq(s.reactivoVersion.version, r.version), eq(s.reactivoVersion.validadoPor, VALIDADOR_DESARROLLO)));
     }
 
     for (const r of nuevas) {
@@ -429,5 +443,5 @@ export async function importarBanco(db: Db, contenido: string, op: OpcionesImpor
     return imp.id;
   });
 
-  return { aceptada: true, importacionId, versionesNuevas: nuevas.length, sinCambios, errores: [], plantillas: plantillasCreadas };
+  return { aceptada: true, importacionId, versionesNuevas: nuevas.length, sinCambios, errores: [], plantillas: plantillasCreadas, validadasAhora: promover.length };
 }

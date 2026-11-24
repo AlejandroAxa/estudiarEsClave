@@ -142,5 +142,6 @@ export const RUTAS_CONOCIDAS: Record<string, { nombre: string; grupos: string[];
   estomatologia: { nombre: "Estomatología", grupos: ["salud", "todas"], carrera: "Cirujano Dentista" },
   nutricion: { nombre: "Nutrición", grupos: ["salud", "todas"], carrera: "Nutrición Clínica" },
   fisioterapia: { nombre: "Fisioterapia", grupos: ["salud", "todas"], carrera: "Fisioterapia" },
+  psicologia: { nombre: "Psicología", grupos: ["todas"], carrera: "Psicología" },
   prepa: { nombre: "Preparatoria", grupos: ["todas"], carrera: "Bachillerato" },
 };

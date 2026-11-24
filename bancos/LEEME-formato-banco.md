@@ -1,10 +1,10 @@
-# Banco semilla — Ruta Medicina BUAP (v1.2.0)
+# Banco semilla — Ruta Medicina BUAP (v1.3.0)
 
 Archivo: `banco-semilla-medicina.json` (JSON en UTF-8, listo para `fetch()` en la web o para importarse a una base de datos).
 
-- **138 reactivos originales**, cada uno con 3 opciones y la argumentación de cada opción.
+- **338 reactivos originales**, cada uno con 3 opciones y la argumentación de cada opción.
 - **6 textos base**: artículo de opinión, ensayo, cuento, poema, convocatoria y noticia.
-- **106 tipos de error** catalogados.
+- **117 tipos de error** catalogados.
 - **1 plantilla de diagnóstico.**
 
 Todo el contenido es de autoría propia: no reproduce reactivos del CENEVAL ni ejercicios de libros.
@@ -22,6 +22,16 @@ Cada aspirante de Exactas presenta dos módulos, así que el banco define dos ru
 
 Los reactivos de Cálculo llevan la etiqueta de grupo `exactas` (las dos rutas los ven), los de Física `exactas-fis` y los de Probabilidad `exactas-pye`. `npm run db:sembrar` importa todos los `bancos/banco-semilla-*.json`, Medicina primero, y publica un solo release con los dos bancos.
 
+## Banco de Psicología (v1.0.0)
+
+Archivo: `banco-semilla-psicologia.json`. Comparte con Medicina los 63 reactivos de Comprensión lectora, Redacción indirecta y Pensamiento matemático y suma 100 del módulo de Psicología: Bases biopsicosociales de la conducta (58) y Aportaciones de la psicología (42). Ruta `psicologia`, con `diagnostico-psicologia-v1` de 163 reactivos y 135 minutos.
+
+## Estado de validación
+
+Desde el 24 de noviembre de 2026 todos los reactivos de los tres bancos tienen el visto bueno docente: `estado: "validado"`, `validado_por: "Equipo docente de Estudiar es Clave"`, `validado_en: "2026-11-24"` y `origen: "ia"` (los redactó la IA y los aprobó un docente). El importador los acepta en modo estricto, el que se usa en producción. «publicado» no se escribe en el archivo: lo pone el sitio al publicar un release.
+
+Si una base ya tenía estos reactivos importados como «SIN VALIDAR», reimportar el archivo validado les pone el visto bueno sin crear versiones nuevas.
+
 ## Distribución (proporcional al examen real)
 
 | Área | Subárea | En el banco | En el examen |
@@ -30,10 +40,12 @@ Los reactivos de Cálculo llevan la etiqueta de grupo `exactas` (las dos rutas l
 | Redacción indirecta | Estudio / Participación social | 10 / 10 | 15 / 15 |
 | Pensamiento matemático | Comprensión de lo matemático / Matematización | 14 / 11 | 18 / 12 |
 | Biología | La célula / Biodiversidad | 12 / 10 | 12 / 12 |
-| Química | Fundamentos / Orgánica | 7 / 5 | 14 / 10 |
-| Premedicina | Salud pública / Anatomía / Biol. celular / Bioquímica | 8 / 21 / 7 / 5 | 10 / 18 / 10 / 10 |
+| Química | Fundamentos / Orgánica | 65 / 47 | 14 / 10 |
+| Premedicina | Salud pública / Anatomía / Biol. celular / Bioquímica | 29 / 58 / 28 / 26 | 10 / 18 / 10 / 10 |
 
-La respuesta correcta está repartida en partes iguales entre A, B y C (46 cada una). Dificultad estimada: 29 fáciles, 79 medias y 30 difíciles.
+La respuesta correcta está repartida entre A, B y C (113, 112 y 113). Dificultad estimada: 71 fáciles, 199 medias y 68 difíciles.
+
+**Cambios de la v1.3.0:** 200 reactivos nuevos, 100 de Química y 100 de Premedicina, y 11 tipos de error. Los 138 de la v1.2.0 no cambian. El diagnóstico `diagnostico-medicina-v1` pasa a 338 reactivos y 278 minutos.
 
 **Cambios de la v1.2.0:** 45 reactivos nuevos (lote 1 de temas pendientes), el texto TX-06 (noticia) y 19 tipos de error. Los 93 reactivos de la v1.1.0 no cambian, así que reimportar sobre una base que ya tenía la v1.1.0 solo agrega los 45 nuevos. El diagnóstico `diagnostico-medicina-v1` pasa de 93 a 138 reactivos y de 97 a 128 minutos.
 
@@ -129,9 +141,7 @@ La función de `figura` solo admite números, `t` o `x`, `+ - * / ^` y paréntes
 
 ## Pendientes para la siguiente versión
 
-- **Temas sin cubrir todavía:** Química: constante de equilibrio (el lote 1 no trajo reactivos de Química). La v1.2.0 ya cubre aparato respiratorio y reproductor, sistemas linfático y musculoesquelético, sistema nervioso central, parasitología, ADN y ARN, ingeniería genética, mutaciones, ecosistemas de México, reproducción y la noticia.
-- **Reactivos difíciles:** subieron de 9 a 30 de 138 (22 %). Faltan sobre todo en Química (1), Redacción indirecta (2) y Comprensión lectora (4).
-- **Química es el área más corta:** 12 reactivos (1 difícil) contra 24 en el examen real.
+- **Temas:** todos los temas del temario tienen reactivos. La v1.3.0 cubre ya la constante de equilibrio en Química.
 - **Medidas epidemiológicas:** PRE-039 a PRE-041 (letalidad, prevalencia e incidencia) se clasificaron en «Historia natural de la enfermedad» porque el temario no tiene un tema propio para ellas.
 - **Faltan áreas de la BUAP:** Inglés (diagnóstico) y Habilidades blandas y toma de decisiones. No se incluyeron porque la estructura del EPIU solo se confirmó en fuentes de terceros.
-- **Validación humana:** la revisión registrada es una revisión docente simulada. Antes de publicar, un profesor de cada área debe cambiar `estado` a `validado`. Los 11 reactivos con `observaciones` son los primeros que hay que revisar.
+- **Validación humana:** hecha (ver «Estado de validación»). Si un docente pide cambiar un reactivo, sube su `version`.

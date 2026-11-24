@@ -3,8 +3,9 @@
  *   npm run db:sembrar            → migra, configura, importa los bancos semilla y publica 1.0.0-dev
  *   npm run db:sembrar -- a.json  → lo mismo, pero solo con los archivos indicados
  * Por omisión importa bancos/banco-semilla-*.json, Medicina primero.
- * El banco semilla está en «revisado_ia», así que se importa en modo desarrollo
- * (marcado «SIN VALIDAR»). En producción se importa desde el panel, ya validado.
+ * Los bancos ya traen el visto bueno docente (estado «validado»). El modo desarrollo
+ * solo sirve para archivos que aún estén en «revisado_ia» (se marcan «SIN VALIDAR»).
+ * En producción se importa desde el panel.
  */
 import { readdirSync, readFileSync } from "node:fs";
 import { migrar } from "./migrar";
@@ -33,14 +34,15 @@ async function main() {
       process.exit(1);
     }
     versionesNuevas += r.versionesNuevas;
-    console.log(`${archivo}: ${r.versionesNuevas} versiones nuevas, ${r.sinCambios} sin cambios. Plantillas: ${r.plantillas.join(", ") || "sin cambios"}`);
+    const validadas = r.validadasAhora ? `, ${r.validadasAhora} ya validadas por docente` : "";
+    console.log(`${archivo}: ${r.versionesNuevas} versiones nuevas, ${r.sinCambios} sin cambios${validadas}. Plantillas: ${r.plantillas.join(", ") || "sin cambios"}`);
   }
   await sembrarProductos(db);
   const vigente = await releaseVigente(db, "EXANI-II");
   if (!vigente || versionesNuevas > 0) {
     // Si el banco trae versiones nuevas (p. ej. una corrección de notación), se publica otro release de desarrollo.
     const version = vigente ? `1.0.0-dev.${Date.now().toString(36)}` : "1.0.0-dev";
-    const rel = await publicarRelease(db, { examenId: "EXANI-II", version, notas: "Banco semilla sin validar (desarrollo)" });
+    const rel = await publicarRelease(db, { examenId: "EXANI-II", version, notas: "Bancos semilla (desarrollo)" });
     console.log(`Release ${rel.version} publicado con ${rel.reactivos} reactivos.`);
   }
   process.exit(0);
