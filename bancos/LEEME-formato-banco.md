@@ -9,6 +9,19 @@ Archivo: `banco-semilla-medicina.json` (JSON en UTF-8, listo para `fetch()` en l
 
 Todo el contenido es de autoría propia: no reproduce reactivos del CENEVAL ni ejercicios de libros.
 
+## Banco de Ciencias Exactas (v1.1.0)
+
+Archivo: `banco-semilla-exactas.json`. Comparte con Medicina los 63 reactivos de Comprensión lectora, Redacción indirecta y Pensamiento matemático (mismo id y mismo contenido) y suma 51 propios: Cálculo diferencial e integral (14), Física (22) y Probabilidad y estadística (15). De los 51, 24 son difíciles.
+
+Cada aspirante de Exactas presenta dos módulos, así que el banco define dos rutas:
+
+| Ruta | Módulos | Diagnóstico |
+| --- | --- | --- |
+| `exactas-fis` | Cálculo + Física | `diagnostico-exactas-cal-fis-v1`, 99 reactivos, 108 min |
+| `exactas-pye` | Cálculo + Probabilidad y estadística | `diagnostico-exactas-cal-pye-v1`, 92 reactivos, 101 min |
+
+Los reactivos de Cálculo llevan la etiqueta de grupo `exactas` (las dos rutas los ven), los de Física `exactas-fis` y los de Probabilidad `exactas-pye`. `npm run db:sembrar` importa todos los `bancos/banco-semilla-*.json`, Medicina primero, y publica un solo release con los dos bancos.
+
 ## Distribución (proporcional al examen real)
 
 | Área | Subárea | En el banco | En el examen |

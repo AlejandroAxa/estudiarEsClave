@@ -132,6 +132,7 @@ export type ReactivoJson = z.infer<typeof reactivoJson>;
 export const GRUPOS_RUTA: Record<string, string> = {
   todas: "Todas las rutas del examen",
   salud: "Carreras del área de la salud",
+  exactas: "Carreras de ciencias exactas e ingenierías",
 };
 
 /** Rutas conocidas cuando el banco no trae su lista. */
