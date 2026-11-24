@@ -5,7 +5,7 @@ import { migrar } from "../../../scripts/migrar";
 import { importarBanco, VALIDADOR_DESARROLLO } from "./importar";
 import { publicarRelease } from "./publicar";
 import { sembrarConfiguracion } from "../semilla";
-import { etiquetasRuta, plantillaActiva } from "../evaluacion/evaluacion";
+import { etiquetasRuta, plantillaActiva, poolPractica } from "../evaluacion/evaluacion";
 import * as s from "@/db/schema";
 import type { Db } from "@/db/conexion";
 
@@ -73,12 +73,18 @@ describe("bancos de Medicina, Ciencias Exactas y Psicología", () => {
     const fis = (await plantillaActiva(db, "exactas-fis", "diagnostico"))!;
     const pye = (await plantillaActiva(db, "exactas-pye", "diagnostico"))!;
     const psi = (await plantillaActiva(db, "psicologia", "diagnostico"))!;
-    expect(await cuantos(fis.id)).toBe(99);
-    expect(await cuantos(pye.id)).toBe(92);
-    expect(await cuantos(psi.id)).toBe(163);
+    expect(await cuantos(fis.id)).toBe(49);
+    expect(await cuantos(pye.id)).toBe(45);
+    expect(await cuantos(psi.id)).toBe(43);
     expect(await areasVisibles("exactas-fis")).toEqual(["CAL", "CL", "FIS", "PM", "RI"]);
     expect(await areasVisibles("psicologia")).toEqual(["CL", "PM", "PSI", "RI"]);
     expect(await areasVisibles("medicina")).toEqual(["BIO", "CL", "PM", "PRE", "QUI", "RI"]);
+    // El diagnóstico es una muestra: el resto del banco queda para Práctica desde el primer día.
+    await db.insert(s.cuenta).values({ id: "c-nueva", email: "nueva@ejemplo.mx", name: "nueva" });
+    for (const [rutaId, minimo] of [["medicina", 200], ["exactas-fis", 40], ["exactas-pye", 40], ["psicologia", 100]] as const) {
+      const { items } = await poolPractica(db, "c-nueva", rutaId, {});
+      expect(items.length).toBeGreaterThanOrEqual(minimo);
+    }
     const [ruta] = await db.select().from(s.ruta).where(eq(s.ruta.id, "psicologia"));
     expect(ruta.nombre).toBe("Psicología");
   });

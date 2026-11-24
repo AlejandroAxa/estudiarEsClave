@@ -17,14 +17,31 @@ Cada aspirante de Exactas presenta dos módulos, así que el banco define dos ru
 
 | Ruta | Módulos | Diagnóstico |
 | --- | --- | --- |
-| `exactas-fis` | Cálculo + Física | `diagnostico-exactas-cal-fis-v1`, 99 reactivos, 108 min |
-| `exactas-pye` | Cálculo + Probabilidad y estadística | `diagnostico-exactas-cal-pye-v1`, 92 reactivos, 101 min |
+| `exactas-fis` | Cálculo + Física | `diagnostico-exactas-cal-fis-v1`, 49 de 99 reactivos, 54 min |
+| `exactas-pye` | Cálculo + Probabilidad y estadística | `diagnostico-exactas-cal-pye-v1`, 45 de 92 reactivos, 52 min |
 
 Los reactivos de Cálculo llevan la etiqueta de grupo `exactas` (las dos rutas los ven), los de Física `exactas-fis` y los de Probabilidad `exactas-pye`. `npm run db:sembrar` importa todos los `bancos/banco-semilla-*.json`, Medicina primero, y publica un solo release con los dos bancos.
 
 ## Banco de Psicología (v1.0.0)
 
-Archivo: `banco-semilla-psicologia.json`. Comparte con Medicina los 63 reactivos de Comprensión lectora, Redacción indirecta y Pensamiento matemático y suma 100 del módulo de Psicología: Bases biopsicosociales de la conducta (58) y Aportaciones de la psicología (42). Ruta `psicologia`, con `diagnostico-psicologia-v1` de 163 reactivos y 135 minutos.
+Archivo: `banco-semilla-psicologia.json`. Comparte con Medicina los 63 reactivos de Comprensión lectora, Redacción indirecta y Pensamiento matemático y suma 100 del módulo de Psicología: Bases biopsicosociales de la conducta (58) y Aportaciones de la psicología (42). Ruta `psicologia`, con `diagnostico-psicologia-v1` de 43 reactivos y 44 minutos.
+
+## Diagnósticos cortos
+
+La práctica solo usa reactivos que no están en las plantillas activas de la ruta, o que el alumno ya vio en su revisión (regla R9). Por eso el diagnóstico es una muestra y el resto del banco queda para Práctica desde el primer día. `scripts/armar-diagnosticos.py` arma la muestra:
+
+- Por subárea, la mitad de los reactivos que tiene en el examen real, sin pasar de la mitad de los que hay en el banco y nunca menos de 3 (el mínimo para reportar un dominio).
+- Reparte la muestra entre los temas y busca 1/4 fáciles, 1/2 medias y 1/4 difíciles. En Comprensión lectora toma lecturas completas.
+- El tiempo es la suma de `tiempo_estimado_seg`. La calificación global pondera cada subárea por su peso real, así que el resultado conserva las proporciones del EXANI-II.
+
+| Ruta | Diagnóstico | Para Práctica |
+| --- | --- | --- |
+| Medicina | 78 reactivos, 72 min (los 53 temas) | 260 |
+| Exactas: Cálculo y Física | 49 reactivos, 54 min | 50 |
+| Exactas: Cálculo y Probabilidad | 45 reactivos, 52 min | 47 |
+| Psicología | 43 reactivos, 44 min | 120 |
+
+Mini diagnóstico, muestra de 20 minutos y simulacro salen de la misma muestra. Si agregas reactivos, vuelve a correr `python3 scripts/armar-diagnosticos.py bancos/banco-semilla-*.json`.
 
 ## Estado de validación
 
@@ -45,7 +62,7 @@ Si una base ya tenía estos reactivos importados como «SIN VALIDAR», reimporta
 
 La respuesta correcta está repartida entre A, B y C (113, 112 y 113). Dificultad estimada: 71 fáciles, 199 medias y 68 difíciles.
 
-**Cambios de la v1.3.0:** 200 reactivos nuevos, 100 de Química y 100 de Premedicina, y 11 tipos de error. Los 138 de la v1.2.0 no cambian. El diagnóstico `diagnostico-medicina-v1` pasa a 338 reactivos y 278 minutos.
+**Cambios de la v1.3.0:** 200 reactivos nuevos, 100 de Química y 100 de Premedicina, y 11 tipos de error. Los 138 de la v1.2.0 no cambian. El diagnóstico `diagnostico-medicina-v1` es una muestra de 78 reactivos (72 min); ver «Diagnósticos cortos».
 
 **Cambios de la v1.2.0:** 45 reactivos nuevos (lote 1 de temas pendientes), el texto TX-06 (noticia) y 19 tipos de error. Los 93 reactivos de la v1.1.0 no cambian, así que reimportar sobre una base que ya tenía la v1.1.0 solo agrega los 45 nuevos. El diagnóstico `diagnostico-medicina-v1` pasa de 93 a 138 reactivos y de 97 a 128 minutos.
 

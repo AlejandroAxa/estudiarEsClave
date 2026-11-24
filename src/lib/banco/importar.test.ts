@@ -67,6 +67,6 @@ describe("importador", () => {
     expect(exportado.opciones).toEqual(original.opciones);
     expect(exportado.rutas).toEqual(original.rutas);
     expect(exportado.referencias).toEqual(original.referencias);
-    expect(json.plantillas[0].reactivos).toHaveLength(338);
+    expect(json.plantillas[0].reactivos).toHaveLength(78);
   });
 });

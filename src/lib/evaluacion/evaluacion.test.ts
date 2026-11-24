@@ -55,7 +55,7 @@ describe("diagnóstico por secciones", () => {
     await iniciarSeccion(db, i.id, 1, { cuentaId });
     await expect(iniciarSeccion(db, i.id, 2, { cuentaId })).rejects.toThrow(/Termina primero/);
     const { items } = await itemsVisibles(db, i.id);
-    expect(items).toHaveLength(338);
+    expect(items).toHaveLength(78);
     const idem = randomUUID();
     await guardarRespuesta(db, { intentoId: i.id, orden: 1, letra: "B", idIdempotencia: idem, cuentaId });
     const dup = await guardarRespuesta(db, { intentoId: i.id, orden: 1, letra: "B", idIdempotencia: idem, cuentaId });
@@ -86,9 +86,14 @@ describe("diagnóstico por secciones", () => {
     expect(r.retro?.bloqueadas).toBe(true);
   });
 
-  it("la práctica está vacía antes del diagnóstico y la prueba de 3 días abre todo", async () => {
+  it("antes del diagnóstico la práctica usa solo preguntas que no están en él, y la prueba de 3 días abre todo", async () => {
     const cuentaId = await alumnoDePrueba(db);
-    await expect(crearPractica(db, cuentaId, {})).rejects.toThrow(/diagnóstico/);
+    const pl = (await plantillaActiva(db, "medicina", "diagnostico"))!;
+    const enDiagnostico = new Set((await db.select().from(s.plantillaReactivo).where(eq(s.plantillaReactivo.plantillaId, pl.id))).map((x) => x.reactivoId));
+    const pr = await crearPractica(db, cuentaId, {});
+    const { items } = await itemsVisibles(db, pr.id);
+    expect(items.length).toBeGreaterThan(0);
+    expect(items.some((x) => enDiagnostico.has(x.reactivoId))).toBe(false);
     await darPrueba(db, cuentaId);
     expect((await estadoPlan(db, cuentaId)).plan).toBe("prueba");
     expect((await cuota(db, cuentaId, "practica")).cantidad).toBeNull();
