@@ -25,6 +25,8 @@ interface Props {
   items: ItemVisible[];
   textos: Record<string, { titulo: string; cuerpo: string; esVerso: boolean; autoria: string | null }>;
   ahoraServidor: string;
+  /** Palabras del área del alumno (src/lib/tema-area.ts). */
+  vocabulario?: { practica: string; aciertos: string[] };
 }
 interface Pendiente {
   orden: number;
@@ -44,7 +46,8 @@ function mmss(ms: number) {
   return h ? `${h}:${String(m).padStart(2, "0")}:${ss}` : `${m}:${ss}`;
 }
 
-export function Examen({ intento, secciones, items, textos, ahoraServidor }: Props) {
+export function Examen({ intento, secciones, items, textos, ahoraServidor, vocabulario }: Props) {
+  const voc = vocabulario ?? { practica: "Práctica diaria", aciertos: t.practica.aciertos };
   const router = useRouter();
   const practica = intento.modo === "practica";
   const [desfase] = useState(() => new Date(ahoraServidor).getTime() - Date.now());
@@ -283,7 +286,7 @@ export function Examen({ intento, secciones, items, textos, ahoraServidor }: Pro
       <div className="barra-examen">
         <div className="wrap fila entre">
           <div className="fila" style={{ gap: 16 }}>
-            <b>{practica ? "Dosis diaria" : intento.global ? (intento.modo === "mini" ? "Mini diagnóstico" : "Simulacro") : enCurso?.area}</b>
+            <b>{practica ? voc.practica : intento.global ? (intento.modo === "mini" ? "Mini diagnóstico" : "Simulacro") : enCurso?.area}</b>
             <span className="small">
               {respondidas} de {visibles.length} respondidas
             </span>
@@ -414,7 +417,7 @@ export function Examen({ intento, secciones, items, textos, ahoraServidor }: Pro
             {r && (
               <div className="pila aparece" style={{ marginTop: 18 }} aria-live="polite">
                 <p className={`aviso ${r.correcta ? "ok" : "error"}`}>
-                  <b>{r.correcta ? frase(t.practica.aciertos) : frase(t.practica.errores)}</b>
+                  <b>{r.correcta ? frase(voc.aciertos) : frase(t.practica.errores)}</b>
                   {r.puntos ? ` +${r.puntos} puntos` : ""}
                 </p>
                 <div>
@@ -455,7 +458,7 @@ export function Examen({ intento, secciones, items, textos, ahoraServidor }: Pro
                     iniciar(() => terminar("boton"));
                   }}
                 >
-                  {practica ? "Terminar dosis" : intento.global ? "Enviar examen" : "Terminar sección"}
+                  {practica ? `Terminar ${voc.practica.split(" ")[0].toLowerCase()}` : intento.global ? "Enviar examen" : "Terminar sección"}
                 </button>
               )}
             </div>

@@ -14,6 +14,8 @@ import { Blister } from "@/components/blister";
 import { Pulso } from "@/components/pulso";
 import { CuentaRegresiva } from "@/components/cuenta-regresiva";
 import { Semaforo } from "@/components/semaforo";
+import { DibujoMotivo } from "@/components/motivo-area";
+import { temaDeRuta } from "@/lib/tema-area";
 
 export const metadata: Metadata = { title: "Inicio" };
 
@@ -62,19 +64,22 @@ export default async function Inicio({ searchParams }: { searchParams: Promise<{
     .innerJoin(s.insignia, eq(s.insignia.id, s.cuentaInsignia.insigniaId))
     .where(eq(s.cuentaInsignia.cuentaId, id));
   const saludo = ses.cuenta.name || ses.perfil.alias;
+  const tema = temaDeRuta(ses.perfil.rutaId);
 
   return (
-    <div className="wrap band pila">
+    <div className="wrap band pila" style={{ "--acento": tema.acento } as React.CSSProperties}>
       {bienvenida && (
         <p className="aviso ok">
           Listo, {saludo}. Tienes el pase completo hasta el {plan.pruebaHasta ? formatoFecha(plan.pruebaHasta, { day: "numeric", month: "long" }) : "—"}. Al
           terminar bajas solo al plan gratis, sin cobro.
         </p>
       )}
-      <div className="fila entre">
+      <div className="banda-area">
+        <DibujoMotivo tema={tema.tema} acento={tema.acento} />
         <div>
-          <span className="small">Consultorio de</span>
+          <span className="ceja">{tema.espacio}</span>
           <h1 style={{ fontSize: "clamp(32px,5vw,56px)" }}>{saludo}</h1>
+          <p className="area">{tema.area}</p>
         </div>
         <PlanEtiqueta plan={plan.plan} hasta={plan.plan === "prueba" ? plan.pruebaHasta : plan.paseHasta} areas={plan.areas} />
       </div>
@@ -83,13 +88,13 @@ export default async function Inicio({ searchParams }: { searchParams: Promise<{
         <section className="hoja pila" aria-labelledby="dosis">
           <div className="fila entre">
             <h2 id="dosis" style={{ fontSize: 26, margin: 0 }}>
-              Tu dosis de hoy
+              Tu {tema.practicaHoy}
             </h2>
             <span className="small">
               {Math.min(hoy, 10)}/10
             </span>
           </div>
-          <Blister tomadas={hoy} />
+          <Blister tomadas={hoy} tema={tema.tema} pieza={tema.pieza} />
           {cuotaPractica.restante != null && (
             <p className="small" style={{ margin: 0 }}>
               Te quedan {cuotaPractica.restante} de {cuotaPractica.cantidad} preguntas gratis hoy.
@@ -98,7 +103,7 @@ export default async function Inicio({ searchParams }: { searchParams: Promise<{
           )}
           <div className="fila">
             <Link href="/practica" className="btn">
-              {hoy >= 10 ? "Tomar otra dosis" : "Tomar mi dosis"}
+              {hoy >= 10 ? tema.tomarOtra : tema.tomar}
             </Link>
             {repaso.pendientes.length > 0 && (
               <Link href="/practica?repaso=1" className="btn sec">
@@ -108,7 +113,7 @@ export default async function Inicio({ searchParams }: { searchParams: Promise<{
           </div>
         </section>
         <section className="pila">
-          <Pulso dias={racha?.dias ? racha.dias.split(",") : []} racha={rachaVigente(racha)} mejor={racha?.mejor ?? 0} />
+          <Pulso dias={racha?.dias ? racha.dias.split(",") : []} racha={rachaVigente(racha)} mejor={racha?.mejor ?? 0} tema={tema.tema} textos={tema.racha} />
           <div className="rejilla">
             <div className="tarjeta-dato">
               <span className="small">Puntos totales</span>
@@ -128,7 +133,7 @@ export default async function Inicio({ searchParams }: { searchParams: Promise<{
       <div className="rejilla-2">
         <section className="hoja pila" aria-labelledby="diag">
           <h2 id="diag" style={{ fontSize: 26 }}>
-            Laboratorio
+            {tema.diagnostico}
           </h2>
           {enCurso[0] ? (
             <>
@@ -162,7 +167,7 @@ export default async function Inicio({ searchParams }: { searchParams: Promise<{
             </>
           ) : (
             <>
-              <p>Tu primer diagnóstico completo te dice qué estudiar primero. Va por secciones y puedes pausar entre ellas.</p>
+              <p>{tema.diagnosticoTexto} Va por secciones y puedes pausar entre ellas.</p>
               <Link href="/diagnostico" className="btn">
                 Hacer mi diagnóstico
               </Link>

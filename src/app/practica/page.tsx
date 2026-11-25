@@ -4,15 +4,17 @@ import { requerirAlumno } from "@/lib/sesion";
 import { cuota, estadoPlan, incluido, planParaArea } from "@/lib/planes";
 import { pendientesRepaso, poolPractica, taxonomiaDe } from "@/lib/evaluacion/evaluacion";
 import { formatoHora } from "@/lib/fechas";
+import { temaDeRuta } from "@/lib/tema-area";
 import { FormPractica } from "./form";
 import { eq } from "drizzle-orm";
 import * as s from "@/db/schema";
 
-export const metadata: Metadata = { title: "Dosis diaria" };
+export const metadata: Metadata = { title: "Práctica diaria" };
 
 export default async function Practica({ searchParams }: { searchParams: Promise<{ subarea?: string; repaso?: string }> }) {
   const ses = await requerirAlumno("/practica");
   const { subarea, repaso } = await searchParams;
+  const tema = temaDeRuta(ses.perfil.rutaId);
   const plan = await estadoPlan(db, ses.cuenta.id);
   const c = await cuota(db, ses.cuenta.id, "practica", plan.plan);
   const rep = await pendientesRepaso(db, ses.cuenta.id);
@@ -25,8 +27,8 @@ export default async function Practica({ searchParams }: { searchParams: Promise
 
   return (
     <div className="wrap band pila">
-      <h1 style={{ fontSize: "clamp(32px,5vw,56px)" }}>Farmacia</h1>
-      <p className="lead">10 preguntas por dosis. Al responder ves la correcta, el procedimiento y por qué cada opción es o no es.</p>
+      <h1 style={{ fontSize: "clamp(32px,5vw,56px)" }}>{tema.practicaTitulo}</h1>
+      <p className="lead">{tema.practica}: 10 preguntas. Al responder ves la correcta, el procedimiento y por qué cada opción es o no es.</p>
       {c.restante != null && (
         <p className="aviso">
           Plan gratis: te quedan {c.restante} de {c.cantidad} preguntas hoy.{c.recargaEn ? ` Se recargan a las ${formatoHora(c.recargaEn)} (hora del centro).` : ""}
@@ -40,9 +42,9 @@ export default async function Practica({ searchParams }: { searchParams: Promise
       )}
       <div className="rejilla-2">
         <div className="hoja pila">
-          <h2 style={{ fontSize: 24 }}>Dosis general</h2>
+          <h2 style={{ fontSize: 24 }}>{tema.bloqueGeneral}</h2>
           <p className="small">Mezcla de todo, empezando por lo que nunca has practicado.</p>
-          <FormPractica etiqueta="Tomar mi dosis" deshabilitado={!c.permitido || !items.length} muro={c.permitido ? null : c.textoMuro} />
+          <FormPractica etiqueta={tema.tomar} deshabilitado={!c.permitido || !items.length} muro={c.permitido ? null : c.textoMuro} />
         </div>
         <div className="hoja pila">
           <h2 style={{ fontSize: 24 }}>Repaso espaciado</h2>

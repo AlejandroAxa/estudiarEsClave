@@ -13,7 +13,7 @@ export default async function Entrar({ searchParams }: { searchParams: Promise<{
   if (ses) redirect(ses.perfil ? destino : `/bienvenida?siguiente=${encodeURIComponent(destino)}`);
   return (
     <div className="angosto band pila" style={{ maxWidth: 520 }}>
-      <h1 style={{ fontSize: "clamp(32px,5vw,48px)" }}>Entra a tu consultorio</h1>
+      <h1 style={{ fontSize: "clamp(32px,5vw,48px)" }}>Entra a estudiar</h1>
       <p className="lead">Sin contraseñas: te mandamos un enlace a tu correo. Si es tu primera vez, se crea tu cuenta con 3 días del pase completo, sin tarjeta.</p>
       {error && <p className="aviso error">El enlace ya no sirve (vence en 15 minutos y es de un solo uso). Pide otro.</p>}
       <FormularioEntrar destino={destino} google={!!(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET)} buzon={buzonLocalActivo()} />
