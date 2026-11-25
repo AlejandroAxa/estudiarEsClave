@@ -1,0 +1,14 @@
+# Proxy inverso con HTTPS automático (Let's Encrypt). Caddy pide y renueva el
+# certificado solo, en cuanto el dominio apunta a la IP del VPS.
+{$DOMINIO} {
+	encode zstd gzip
+	reverse_proxy web:3000 {
+		# El sitio toma la IP del alumno de aquí para los límites de uso;
+		# se reescribe siempre para que nadie la pueda falsificar.
+		header_up X-Real-IP {remote_host}
+	}
+}
+
+www.{$DOMINIO} {
+	redir https://{$DOMINIO}{uri} permanent
+}

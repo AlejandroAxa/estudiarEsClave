@@ -43,3 +43,6 @@ next-env.d.ts
 
 # base local de PGlite
 /.datos-local
+
+# respaldos de la base en el VPS
+/respaldos

@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   // pantallas dependen de la sesión del alumno y se renderizan por petición.
   cacheComponents: false,
   poweredByHeader: false,
-  serverExternalPackages: ["@electric-sql/pglite"],
+  serverExternalPackages: ["@electric-sql/pglite", "ioredis"],
   turbopack: {
     rules: {
       "*.css": {

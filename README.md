@@ -6,7 +6,7 @@ La calificación es determinista (algoritmo `diag-1`, textos `txt-1`): no hay in
 
 ## Tecnología
 
-- Next.js 16 (App Router) en Vercel, con Fluid Compute.
+- Next.js 16 (App Router). Se publica en un VPS propio con Docker (ver más abajo); también sigue funcionando en Vercel.
 - PostgreSQL en Neon (Vercel Marketplace) con Drizzle ORM. Las reglas del dominio que no caben en restricciones (D3, D8, D18) son disparadores en `drizzle/0001_reglas_dominio.sql`.
 - Better Auth: enlace mágico por correo y Google opcional. El panel de administración pide además un código TOTP.
 - Upstash Redis para límites de uso, Vercel Blob para las gráficas compartidas, Resend para correo y Mercado Pago (Checkout Pro) para cobrar.
@@ -55,6 +55,24 @@ docker compose up --build
 Abre http://localhost:3000. La primera vez tarda unos minutos en compilar; luego carga Postgres con el banco semilla. Para entrar con tu cuenta, escribe cualquier correo en «Entrar» y abre el enlace desde el **buzón local** en http://localhost:3000/entrar/buzon (también aparece en la terminal; no se manda correo real). Los pagos son simulados. Para el panel, entra con `admin@ejemplo.mx` y usa la clave TOTP que está en `docker-compose.yml`. Esa configuración es solo para tu computadora: no la uses en producción.
 
 Para borrar los datos y empezar de cero: `docker compose down -v`.
+
+## Publicar en un VPS (recomendado)
+
+Todo corre en un solo servidor con Docker: el sitio, PostgreSQL, Redis para los límites de uso, Caddy como proxy con HTTPS automático y un contenedor de tareas que hace lo que hacía Vercel Cron y un respaldo diario de la base. Las gráficas compartidas se guardan en un volumen local en lugar de Vercel Blob.
+
+La guía paso a paso, pensada para quien no administra servidores, está en [`despliegue/GUIA-VPS.md`](despliegue/GUIA-VPS.md). En resumen:
+
+```bash
+git clone https://github.com/alejandroaxa/estudiaresclave.git /opt/estudiaresclave && cd /opt/estudiaresclave
+sh despliegue/preparar-servidor.sh      # Docker, cortafuegos y swap (Ubuntu 24.04)
+sh despliegue/crear-env.sh              # .env con claves aleatorias; luego llena Resend y Mercado Pago
+docker compose up -d --build            # usa compose.produccion.yml (lo indica COMPOSE_FILE en .env)
+docker compose exec web npx tsx scripts/cargar-bancos.ts 1.0.0
+```
+
+Para actualizar: `sh despliegue/actualizar.sh`. Para restaurar un respaldo: `sh despliegue/restaurar.sh respaldos/<archivo>.dump`.
+
+En el VPS, `ENTORNO=produccion` activa las mismas protecciones que `VERCEL_ENV=production` en Vercel (sin pasarela simulada, sin bancos sin validar, sin sembrar datos de prueba).
 
 ## Publicar en Vercel
 

@@ -10,6 +10,7 @@ import * as s from "@/db/schema";
 import { erroresFormula } from "@/lib/formulas";
 import { analizar } from "@/lib/figura";
 import { bancoJson, GRUPOS_RUTA, RUTAS_CONOCIDAS, type BancoJson, type ReactivoJson } from "./formato";
+import { enProduccion } from "@/lib/entorno";
 
 export const VALIDADOR_DESARROLLO = "SIN VALIDAR (solo desarrollo)";
 
@@ -214,7 +215,7 @@ export async function importarBanco(db: Db, contenido: string, op: OpcionesImpor
     return fila.id;
   };
 
-  if (op.permitirSinValidar && process.env.VERCEL_ENV === "production") {
+  if (op.permitirSinValidar && enProduccion()) {
     throw new Error("La importación sin validar solo existe en desarrollo y vistas previas.");
   }
 

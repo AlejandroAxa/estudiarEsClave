@@ -1,0 +1,98 @@
+# Producción en un VPS (por ejemplo Hostinger KVM 2). Guía paso a paso: despliegue/GUIA-VPS.md
+#   docker compose -f compose.produccion.yml up -d --build
+# Lee las claves de .env (cópialo de despliegue/env.produccion.example o créalo con
+# despliegue/crear-env.sh). Solo el proxy (Caddy) abre puertos hacia internet.
+name: estudiar-es-clave
+
+services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: clave
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Falta POSTGRES_PASSWORD en .env}
+      POSTGRES_DB: clave
+    volumes:
+      - datos:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U clave -d clave"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 10s
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--save", "", "--appendonly", "no", "--maxmemory", "64mb", "--maxmemory-policy", "volatile-ttl"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  web:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    env_file: .env
+    environment:
+      ENTORNO: produccion
+      DATABASE_URL: postgres://clave:${POSTGRES_PASSWORD}@db:5432/clave
+      REDIS_URL: redis://redis:6379
+      ALMACEN_DIR: /app/almacen
+      BETTER_AUTH_URL: https://${DOMINIO:?Falta DOMINIO en .env}
+    volumes:
+      - almacen:/app/almacen
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000/api/salud').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on:
+      - web
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      DOMINIO: ${DOMINIO}
+    volumes:
+      - ./despliegue/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_datos:/data
+      - caddy_config:/config
+
+  # Tareas programadas (lo que antes hacía Vercel Cron) y respaldo diario de la base.
+  tareas:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    depends_on:
+      web:
+        condition: service_healthy
+    environment:
+      TZ: UTC
+      CRON_SECRET: ${CRON_SECRET:?Falta CRON_SECRET en .env}
+      PGHOST: db
+      PGUSER: clave
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+      PGDATABASE: clave
+      DIAS_RESPALDO: ${DIAS_RESPALDO:-14}
+    volumes:
+      - ./despliegue:/despliegue:ro
+      - ./respaldos:/respaldos
+    command: ["sh", "-c", "cp /despliegue/crontab /etc/crontabs/root && exec crond -f -l 8"]
+
+volumes:
+  datos:
+  almacen:
+  caddy_datos:
+  caddy_config:

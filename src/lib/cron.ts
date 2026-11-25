@@ -1,7 +1,7 @@
 import "server-only";
 import { timingSafeEqual } from "node:crypto";
 
-/** Vercel Cron manda `Authorization: Bearer $CRON_SECRET`. */
+/** Vercel Cron y el servicio «tareas» del VPS mandan `Authorization: Bearer $CRON_SECRET`. */
 export function cronAutorizado(req: Request) {
   const secreto = process.env.CRON_SECRET;
   if (!secreto) return process.env.NODE_ENV !== "production";

@@ -4,16 +4,17 @@ import { db } from "@/db";
 import * as s from "@/db/schema";
 import { procesarPago } from "@/lib/comercio/comercio";
 import { pesos } from "@/lib/fechas";
+import { enProduccion } from "@/lib/entorno";
 
 /** Pasarela simulada (solo desarrollo y vistas previas). */
 export default async function PagoSimulado({ searchParams }: { searchParams: Promise<{ orden?: string }> }) {
-  if (process.env.VERCEL_ENV === "production" || process.env.PASARELA === "mercadopago") notFound();
+  if (enProduccion() || process.env.PASARELA === "mercadopago") notFound();
   const { orden } = await searchParams;
   const [o] = orden && /^[0-9a-f-]{36}$/i.test(orden) ? await db.select().from(s.orden).where(eq(s.orden.id, orden)) : [];
   if (!o) notFound();
   async function resolver(form: FormData) {
     "use server";
-    if (process.env.VERCEL_ENV === "production") return;
+    if (enProduccion()) return;
     const estado = form.get("estado") === "aprobado" ? "aprobado" : "rechazado";
     const metodo = (form.get("metodo") as "tarjeta" | "oxxo" | "transferencia") ?? "tarjeta";
     await procesarPago(db, { referenciaExterna: `sim-${o.id}-${estado}`, ordenId: o.id, estado, metodo, montoMxn: Number(o.total) }, "simulada");
