@@ -17065,25 +17065,25 @@
       "dificultad_estimada": 1,
       "formato": "cuestionamiento_directo",
       "texto_id": null,
-      "enunciado": "¿Cuánto interés simple genera un capital de \\$10 000 a una tasa de 12 % anual durante 3 años?",
+      "enunciado": "¿Cuánto interés simple genera un capital de $10,000 a una tasa de 12 % anual durante 3 años?",
       "opciones": [
         {
           "id": "A",
-          "texto": "\\$1 200",
+          "texto": "$1,200",
           "correcta": false,
           "argumentacion": "Incorrecta. Calcula el interés de un solo año.",
           "error_id": "E-MFI-INTERES"
         },
         {
           "id": "B",
-          "texto": "\\$3 600",
+          "texto": "$3,600",
           "correcta": true,
           "argumentacion": "Correcta. $I = Cit = 10\\,000 \\times 0.12 \\times 3 = 3\\,600$.",
           "error_id": null
         },
         {
           "id": "C",
-          "texto": "\\$4 049.28",
+          "texto": "$4,049.28",
           "correcta": false,
           "argumentacion": "Incorrecta. Aplica interés compuesto: $10\\,000(1.12^3 - 1)$.",
           "error_id": "E-MFI-INTERES"
@@ -17130,25 +17130,25 @@
       "dificultad_estimada": 2,
       "formato": "cuestionamiento_directo",
       "texto_id": null,
-      "enunciado": "Se invierten \\$5 000 a 2 % mensual de interés simple durante 6 meses. ¿Cuál es el monto final?",
+      "enunciado": "Se invierten $5,000 a 2 % mensual de interés simple durante 6 meses. ¿Cuál es el monto final?",
       "opciones": [
         {
           "id": "A",
-          "texto": "\\$5 600",
+          "texto": "$5,600",
           "correcta": true,
           "argumentacion": "Correcta. $M = 5\\,000(1 + 0.02 \\times 6) = 5\\,600$.",
           "error_id": null
         },
         {
           "id": "B",
-          "texto": "\\$600",
+          "texto": "$600",
           "correcta": false,
           "argumentacion": "Incorrecta. Es solo el interés, no el monto.",
           "error_id": "E-MFI-INTERES"
         },
         {
           "id": "C",
-          "texto": "\\$5 100",
+          "texto": "$5,100",
           "correcta": false,
           "argumentacion": "Incorrecta. Considera un solo mes de interés.",
           "error_id": "E-MFI-INTERES"
@@ -17195,25 +17195,25 @@
       "dificultad_estimada": 2,
       "formato": "cuestionamiento_directo",
       "texto_id": null,
-      "enunciado": "Se depositan \\$10 000 a 10 % anual capitalizable anualmente. ¿Cuál es el monto al cabo de 2 años?",
+      "enunciado": "Se depositan $10,000 a 10 % anual capitalizable anualmente. ¿Cuál es el monto al cabo de 2 años?",
       "opciones": [
         {
           "id": "A",
-          "texto": "\\$12 000",
+          "texto": "$12,000",
           "correcta": false,
           "argumentacion": "Incorrecta. Aplica interés simple.",
           "error_id": "E-MFI-INTERES"
         },
         {
           "id": "B",
-          "texto": "\\$11 000",
+          "texto": "$11,000",
           "correcta": false,
           "argumentacion": "Incorrecta. Calcula un solo año.",
           "error_id": "E-MFI-INTERES"
         },
         {
           "id": "C",
-          "texto": "\\$12 100",
+          "texto": "$12,100",
           "correcta": true,
           "argumentacion": "Correcta. $M = 10\\,000(1.10)^2 = 12\\,100$.",
           "error_id": null
@@ -17260,25 +17260,25 @@
       "dificultad_estimada": 3,
       "formato": "cuestionamiento_directo",
       "texto_id": null,
-      "enunciado": "\\$10 000 se invierten 3 años a 10 % anual. ¿Cuánto más se obtiene con interés compuesto que con interés simple?",
+      "enunciado": "$10,000 se invierten 3 años a 10 % anual. ¿Cuánto más se obtiene con interés compuesto que con interés simple?",
       "opciones": [
         {
           "id": "A",
-          "texto": "\\$0",
+          "texto": "$0",
           "correcta": false,
           "argumentacion": "Incorrecta. Solo coinciden en el primer periodo.",
           "error_id": "E-MFI-INTERES"
         },
         {
           "id": "B",
-          "texto": "\\$310",
+          "texto": "$310",
           "correcta": true,
           "argumentacion": "Correcta. Compuesto: $13\\,310$; simple: $13\\,000$.",
           "error_id": null
         },
         {
           "id": "C",
-          "texto": "\\$3 310",
+          "texto": "$3,310",
           "correcta": false,
           "argumentacion": "Incorrecta. Es el interés compuesto total, no la diferencia.",
           "error_id": "E-MFI-INTERES"
@@ -17455,25 +17455,25 @@
       "dificultad_estimada": 3,
       "formato": "cuestionamiento_directo",
       "texto_id": null,
-      "enunciado": "¿Qué capital debe invertirse hoy a 5 % anual compuesto para tener \\$11 025 dentro de 2 años?",
+      "enunciado": "¿Qué capital debe invertirse hoy a 5 % anual compuesto para tener $11,025 dentro de 2 años?",
       "opciones": [
         {
           "id": "A",
-          "texto": "\\$10 500",
+          "texto": "$10,500",
           "correcta": false,
           "argumentacion": "Incorrecta. Descuenta un solo año.",
           "error_id": "E-MFI-INTERES"
         },
         {
           "id": "B",
-          "texto": "\\$10 000",
+          "texto": "$10,000",
           "correcta": true,
           "argumentacion": "Correcta. $C = \\frac{11\\,025}{(1.05)^2} = 10\\,000$.",
           "error_id": null
         },
         {
           "id": "C",
-          "texto": "\\$9 922.50",
+          "texto": "$9,922.50",
           "correcta": false,
           "argumentacion": "Incorrecta. Resta el 10 % del monto en lugar de dividir entre $(1.05)^2$.",
           "error_id": "E-MFI-INTERES"
@@ -17520,7 +17520,7 @@
       "dificultad_estimada": 2,
       "formato": "cuestionamiento_directo",
       "texto_id": null,
-      "enunciado": "Un capital de \\$8 000 genera \\$960 de interés simple en un año. ¿Qué tasa anual se aplicó?",
+      "enunciado": "Un capital de $8,000 genera $960 de interés simple en un año. ¿Qué tasa anual se aplicó?",
       "opciones": [
         {
           "id": "A",
@@ -17540,7 +17540,7 @@
           "id": "C",
           "texto": "$9.6\\ \\%$",
           "correcta": false,
-          "argumentacion": "Incorrecta. Toma el interés en cientos como porcentaje.",
+          "argumentacion": "Incorrecta. Divide el interés entre 100 en lugar de dividirlo entre el capital.",
           "error_id": "E-MFI-INTERES"
         }
       ],
@@ -17585,7 +17585,7 @@
       "dificultad_estimada": 2,
       "formato": "cuestionamiento_directo",
       "texto_id": null,
-      "enunciado": "¿En cuánto tiempo \\$2 000 generan \\$500 de interés simple a 10 % anual?",
+      "enunciado": "¿En cuánto tiempo $2,000 generan $500 de interés simple a 10 % anual?",
       "opciones": [
         {
           "id": "A",
@@ -17650,25 +17650,25 @@
       "dificultad_estimada": 3,
       "formato": "cuestionamiento_directo",
       "texto_id": null,
-      "enunciado": "Se invierten \\$1 000 a 12 % anual capitalizable mensualmente. ¿Cuál es el monto a los 2 meses?",
+      "enunciado": "Se invierten $1,000 a 12 % anual capitalizable mensualmente. ¿Cuál es el monto a los 2 meses?",
       "opciones": [
         {
           "id": "A",
-          "texto": "\\$1 254.40",
+          "texto": "$1,254.40",
           "correcta": false,
           "argumentacion": "Incorrecta. Aplica 12 % en cada mes.",
           "error_id": "E-MFI-INTERES"
         },
         {
           "id": "B",
-          "texto": "\\$1 020.10",
+          "texto": "$1,020.10",
           "correcta": true,
           "argumentacion": "Correcta. Tasa mensual 1 %: $1\\,000(1.01)^2 = 1\\,020.10$.",
           "error_id": null
         },
         {
           "id": "C",
-          "texto": "\\$1 020.00",
+          "texto": "$1,020.00",
           "correcta": false,
           "argumentacion": "Incorrecta. Aplica interés simple.",
           "error_id": "E-MFI-INTERES"
@@ -17845,25 +17845,25 @@
       "dificultad_estimada": 3,
       "formato": "cuestionamiento_directo",
       "texto_id": null,
-      "enunciado": "Se depositan \\$1 000 al final de cada año durante 3 años a 10 % anual compuesto. ¿Cuál es el monto acumulado?",
+      "enunciado": "Se depositan $1,000 al final de cada año durante 3 años a 10 % anual compuesto. ¿Cuál es el monto acumulado?",
       "opciones": [
         {
           "id": "A",
-          "texto": "\\$3 000",
+          "texto": "$3,000",
           "correcta": false,
           "argumentacion": "Incorrecta. Suma los depósitos sin intereses.",
           "error_id": "E-MFI-ANUALIDAD"
         },
         {
           "id": "B",
-          "texto": "\\$3 310",
+          "texto": "$3,310",
           "correcta": true,
           "argumentacion": "Correcta. $1\\,000 \\cdot \\frac{(1.1)^3 - 1}{0.1} = 3\\,310$.",
           "error_id": null
         },
         {
           "id": "C",
-          "texto": "\\$3 641",
+          "texto": "$3,641",
           "correcta": false,
           "argumentacion": "Incorrecta. Es el monto de una anualidad anticipada.",
           "error_id": "E-MFI-ANUALIDAD"
@@ -17910,27 +17910,27 @@
       "dificultad_estimada": 3,
       "formato": "cuestionamiento_directo",
       "texto_id": null,
-      "enunciado": "Se depositan \\$1 000 al inicio de cada año durante 3 años a 10 % anual compuesto. ¿Cuál es el monto al final del tercer año?",
+      "enunciado": "Se depositan $1,000 al inicio de cada año durante 3 años a 10 % anual compuesto. ¿Cuál es el monto al final del tercer año?",
       "opciones": [
         {
           "id": "A",
-          "texto": "\\$3 641",
+          "texto": "$3,641",
           "correcta": true,
           "argumentacion": "Correcta. Cada depósito gana un periodo más: $3\\,310 \\times 1.1 = 3\\,641$.",
           "error_id": null
         },
         {
           "id": "B",
-          "texto": "\\$3 310",
+          "texto": "$3,310",
           "correcta": false,
           "argumentacion": "Incorrecta. Es el monto de la anualidad vencida.",
           "error_id": "E-MFI-ANUALIDAD"
         },
         {
           "id": "C",
-          "texto": "\\$3 300",
+          "texto": "$3,300",
           "correcta": false,
-          "argumentacion": "Incorrecta. Aplica interés simple a un solo depósito.",
+          "argumentacion": "Incorrecta. Suma los tres depósitos y les aplica 10 % una sola vez, sin capitalizar.",
           "error_id": "E-MFI-ANUALIDAD"
         }
       ],
@@ -17975,27 +17975,27 @@
       "dificultad_estimada": 3,
       "formato": "cuestionamiento_directo",
       "texto_id": null,
-      "enunciado": "¿Cuál es el valor presente de dos pagos de \\$1 000 al final de cada año, a 10 % anual compuesto?",
+      "enunciado": "¿Cuál es el valor presente de dos pagos de $1,000 al final de cada año, a 10 % anual compuesto?",
       "opciones": [
         {
           "id": "A",
-          "texto": "\\$2 000",
+          "texto": "$2,000",
           "correcta": false,
           "argumentacion": "Incorrecta. Suma los pagos sin descontarlos.",
           "error_id": "E-MFI-ANUALIDAD"
         },
         {
           "id": "B",
-          "texto": "\\$1 800",
+          "texto": "$1,800",
           "correcta": false,
           "argumentacion": "Incorrecta. Descuenta 10 % a cada pago con interés simple de un solo año.",
           "error_id": "E-MFI-ANUALIDAD"
         },
         {
           "id": "C",
-          "texto": "≈ \\$1 735.54",
+          "texto": "$1,735.54",
           "correcta": true,
-          "argumentacion": "Correcta. $\\frac{1\\,000}{1.1} + \\frac{1\\,000}{1.1^2} = 909.09 + 826.45$.",
+          "argumentacion": "Correcta. Cada pago se descuenta por separado y se redondea a centavos: $\\frac{1\\,000}{1.1} + \\frac{1\\,000}{1.1^2} = 909.09 + 826.45 = 1\\,735.54$.",
           "error_id": null
         }
       ],
