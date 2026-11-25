@@ -1640,3 +1640,170 @@ textarea:focus {
 .migas-claras {
   color: var(--gris);
 }
+
+/* ── Tema por área en el espacio del alumno (src/lib/tema-area.ts) ──
+   Solo cambia la superficie: el acento decora el avance del día, la racha y
+   la banda de saludo. Botones en azul y semáforo como siempre. Salud
+   (expediente) se queda con el blíster y el pulso originales. */
+.blister:not(.blister-expediente) .capsula {
+  background: none;
+  box-shadow: none;
+  aspect-ratio: auto;
+  display: grid;
+  place-items: end center;
+}
+.blister:not(.blister-expediente) .capsula svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+.blister:not(.blister-expediente) .capsula.tomada {
+  transform: none;
+}
+.blister .tomada .canto,
+.blister .tomada .filo,
+.blister .tomada text,
+.blister .tomada .renglon,
+.blister .tomada .lomo,
+.blister .tomada .marca {
+  display: none;
+}
+.blister .tomada .cara {
+  fill: none;
+  stroke: var(--linea);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 3;
+}
+/* Monedas */
+.blister-cuentas .canto {
+  fill: #c98a55;
+}
+.blister-cuentas .cara {
+  fill: var(--acento, #f7c59f);
+  stroke: #b87843;
+  stroke-width: 1.5;
+}
+.blister-cuentas .filo {
+  fill: none;
+  stroke: #b87843;
+}
+.blister-cuentas text {
+  font: 700 13px var(--sans);
+  fill: #7a4a22;
+}
+/* Fichas */
+.blister-archivo .capsula:not(.tomada) svg {
+  transform: translateY(10%);
+}
+.blister-archivo .cara {
+  fill: var(--papel);
+  stroke: #8a6c98;
+  stroke-width: 1.3;
+}
+.blister-archivo .renglon {
+  stroke: #b9a3c6;
+  stroke-width: 1.4;
+}
+.blister-archivo .lomo {
+  fill: var(--acento, #e9d8ef);
+  stroke: #8a6c98;
+  stroke-width: 0.8;
+}
+/* Tramos de regla: sin espacio entre piezas, se lee como una sola regla */
+.blister-plano {
+  gap: 0;
+}
+.blister-plano .cara {
+  fill: var(--acento, #9cc9f5);
+  stroke: #4f7dae;
+  stroke-width: 1.3;
+}
+.blister-plano .marca {
+  stroke: #4f7dae;
+  stroke-width: 1.3;
+}
+
+/* Racha por área */
+.pulso:not(.pulso-expediente) path {
+  stroke: var(--acento, var(--lc));
+  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--acento, var(--lc)) 55%, transparent));
+}
+.pulso path.guia {
+  stroke: #4a3f52;
+  stroke-width: 1.5;
+  filter: none;
+}
+.pulso path.relleno {
+  fill: var(--acento, var(--lc));
+  opacity: 0.16;
+  stroke: none;
+  filter: none;
+}
+.pulso circle.lleno {
+  fill: var(--acento, var(--lc));
+}
+.pulso circle.hueco {
+  fill: var(--noche);
+  stroke: #6b5f75;
+  stroke-width: 1.5;
+}
+
+/* Banda de saludo en Inicio: noche con el motivo del área */
+.banda-area {
+  background: var(--noche);
+  color: #f3ecf6;
+  border-radius: var(--r-hoja);
+  padding: clamp(20px, 3vw, 32px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px 20px;
+  align-items: end;
+  position: relative;
+  overflow: hidden;
+}
+.banda-area > :not(.ilustracion) {
+  position: relative;
+}
+.banda-area .ceja {
+  color: var(--acento, var(--lc));
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+.banda-area h1 {
+  color: #f3ecf6;
+  margin: 4px 0 0;
+}
+.banda-area .area {
+  color: #bcb0c4;
+  font-size: 14px;
+  margin: 6px 0 0;
+}
+.banda-area .pastilla {
+  align-self: start;
+  justify-self: start;
+  background: #2a2231;
+  color: #f3ecf6;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+.banda-area .ilustracion {
+  position: absolute;
+  right: -12px;
+  top: -10px;
+  width: min(300px, 55%);
+  max-width: none;
+  opacity: 0.5;
+  color: var(--acento, var(--lc));
+  pointer-events: none;
+}
+@media (max-width: 640px) {
+  .banda-area {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .banda-area .ilustracion {
+    width: 70%;
+    opacity: 0.35;
+  }
+}

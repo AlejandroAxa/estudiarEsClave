@@ -7,6 +7,7 @@ import { duenoActual } from "@/lib/dueno";
 import { intentoDe } from "@/lib/evaluacion/evaluacion";
 import { cuota } from "@/lib/planes";
 import { formatoHora } from "@/lib/fechas";
+import { temaActual } from "@/lib/tema-sesion";
 
 export default async function ResumenPractica({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -21,10 +22,11 @@ export default async function ResumenPractica({ params }: { params: Promise<{ id
     .select({ puntos: sql<number>`coalesce(sum(${s.eventoPuntos.puntos}),0)::int` })
     .from(s.eventoPuntos)
     .where(eq(s.eventoPuntos.intentoId, id));
+  const tema = await temaActual();
   const c = await cuota(db, i.cuentaId, i.filtro === "repaso" ? "repaso" : "practica");
   return (
     <div className="angosto band pila">
-      <span className="pastilla">Dosis terminada</span>
+      <span className="pastilla">{tema.practica}: terminada</span>
       <h1 style={{ fontSize: "clamp(32px,5vw,56px)" }}>
         {r.aciertos} de {r.total}
       </h1>
@@ -36,7 +38,7 @@ export default async function ResumenPractica({ params }: { params: Promise<{ id
       )}
       <div className="fila">
         <Link href="/practica" className="btn">
-          Otra dosis
+          {tema.tomarOtra}
         </Link>
         <Link href={`/examen/${id}/revision`} className="btn sec">
           Repasar estas preguntas

@@ -13,6 +13,7 @@ import { ciclo } from "@/lib/consultas";
 import { formatoFecha } from "@/lib/fechas";
 import { Latido } from "@/components/marca";
 import { t } from "@/textos/es-MX";
+import { temaActual } from "@/lib/tema-sesion";
 
 export const metadata: Metadata = { title: "Tus resultados", robots: { index: false } };
 
@@ -41,6 +42,7 @@ export default async function Resultado({ params }: { params: Promise<{ id: stri
   const { id } = await params;
   const d = await duenoActual();
   const i = await intentoDe(db, id, d).catch(() => null);
+  const tema = await temaActual();
   if (!i) notFound();
   if (i.estado !== "enviado") redirect(`/examen/${id}`);
   const r = await cargarResultado(db, id);
@@ -58,7 +60,7 @@ export default async function Resultado({ params }: { params: Promise<{ id: stri
         <div className="hoja sin-pad">
           <div className="membrete">
             <b>
-              <Latido className="" /> Laboratorio Estudiar es Clave
+              <Latido className="" /> {tema.reporte}
             </b>
             <span>{formatoFecha(i.enviadoEn!)}</span>
           </div>
@@ -136,7 +138,7 @@ export default async function Resultado({ params }: { params: Promise<{ id: stri
       <div className="hoja sin-pad">
         <div className="membrete">
           <b>
-            <Latido className="" /> Laboratorio Estudiar es Clave
+            <Latido className="" /> {tema.reporte}
           </b>
           <span>Resultados del diagnóstico</span>
         </div>
@@ -175,7 +177,7 @@ export default async function Resultado({ params }: { params: Promise<{ id: stri
           Tus 3 prioridades
         </h2>
         <p className="small">Lo que más vale en el examen y menos dominas va primero.</p>
-        {prioridades.length === 0 && <p>Ninguna subárea quedó por debajo de «Dominas». Mantén el ritmo con tu dosis diaria.</p>}
+        {prioridades.length === 0 && <p>Ninguna subárea quedó por debajo de «Dominas». Mantén el ritmo con tu {tema.practica.toLowerCase()}.</p>}
         <ol className="opciones">
           {prioridades.map((p, k) => {
             const abierto = k === 0 || (completo && areasAbiertas.has(p.areaId));

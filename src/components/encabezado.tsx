@@ -3,14 +3,16 @@ import { Menu } from "lucide-react";
 import { sesionActual } from "@/lib/sesion";
 import { Latido } from "./marca";
 import { t } from "@/textos/es-MX";
+import { temaDeRuta } from "@/lib/tema-area";
 
 export async function Encabezado() {
   const ses = await sesionActual().catch(() => null);
+  const tema = ses?.perfil ? temaDeRuta(ses.perfil.rutaId) : null;
   const enlaces = ses
     ? [
         { href: "/inicio", txt: t.nav.inicio },
         { href: "/diagnostico", txt: t.nav.diagnostico },
-        { href: "/practica", txt: t.nav.practica },
+        { href: "/practica", txt: tema?.practica ?? t.nav.practica },
         { href: "/avance", txt: t.nav.avance },
         { href: "/liga", txt: t.nav.liga },
         { href: "/cuenta", txt: t.nav.cuenta },

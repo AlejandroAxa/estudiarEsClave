@@ -11,6 +11,7 @@ import { BotonEmpezar } from "./boton";
 import { rutasElegibles } from "@/lib/consultas";
 import { OPCIONES_MINI, areaGeneralPorRuta } from "@/lib/areas-generales";
 import { cambiarRuta } from "@/app/acciones/perfil";
+import { temaDeRuta } from "@/lib/tema-area";
 
 export const metadata: Metadata = { title: "Diagnóstico y simulacros" };
 
@@ -44,7 +45,7 @@ export default async function Diagnostico({ searchParams }: { searchParams: Prom
     .limit(20);
   return (
     <div className="wrap band pila">
-      <h1 style={{ fontSize: "clamp(32px,5vw,56px)" }}>Laboratorio</h1>
+      <h1 style={{ fontSize: "clamp(32px,5vw,56px)" }}>{temaDeRuta(ruta).diagnostico}</h1>
       <p className="lead">Elige tu estudio. Durante el examen no verás qué acertaste: todo se califica al final, en el servidor.</p>
       {sugerida && (
         <form action={cambiarRuta} className="aviso pila" style={{ maxWidth: 720 }}>

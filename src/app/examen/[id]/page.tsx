@@ -5,8 +5,9 @@ import { duenoActual } from "@/lib/dueno";
 import { intentoDe, itemsVisibles, seccionesDe } from "@/lib/evaluacion/evaluacion";
 import { componer, componerDatos } from "@/lib/formulas";
 import { Examen } from "./examen";
+import { temaActual } from "@/lib/tema-sesion";
 
-export const metadata: Metadata = { title: "Consulta en curso", robots: { index: false } };
+export const metadata: Metadata = { title: "Examen en curso", robots: { index: false } };
 
 export default async function PaginaExamen({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -17,6 +18,7 @@ export default async function PaginaExamen({ params }: { params: Promise<{ id: s
   if (i.estado === "abandonado") redirect(i.modo === "practica" ? "/practica" : "/diagnostico");
   const secciones = await seccionesDe(db, id);
   const { items, textos } = await itemsVisibles(db, id);
+  const tema = await temaActual();
   return (
     <Examen
       intento={{ id: i.id, modo: i.modo, venceEn: i.venceEn.toISOString(), global: i.modo !== "diagnostico" }}
@@ -35,6 +37,7 @@ export default async function PaginaExamen({ params }: { params: Promise<{ id: s
         opciones: it.opciones.map((o) => ({ ...o, texto: componer(o.texto) })),
       }))}
       textos={textos}
+      vocabulario={{ practica: tema.practica, aciertos: tema.aciertos }}
       ahoraServidor={new Date().toISOString()}
     />
   );

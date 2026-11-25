@@ -31,7 +31,7 @@ export function FormularioBienvenida({
       </label>
       <label className="campo">
         Tu alias para la liga
-        <span className="ayuda">Sin espacios. Por ejemplo: futura_cardio o Neurona27.</span>
+        <span className="ayuda">Sin espacios. Por ejemplo: futura_cardio, Contadora27 o Ing_Estructuras.</span>
         <input name="alias" required minLength={3} maxLength={24} autoComplete="off" />
       </label>
       <label className="campo">
