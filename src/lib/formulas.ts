@@ -18,8 +18,10 @@ import "katex/contrib/mhchem";
 const ESCAPES: Record<string, string> = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
 export const escaparHtml = (s: string) => s.replace(/[&<>"']/g, (c) => ESCAPES[c]);
 
-// Una fórmula que empieza con número («$1 - \cos^2 x$») se distingue del dinero porque trae TeX (\, ^, _, { o }).
-const TOKENS = /\\\$|\$\$([\s\S]+?)\$\$|\$(\d[^$\n]*?[\\^_{}][^$\n]*?)\$|\$\d[\d,]*(?:\.\d+)?(?![\d,.]\d)(?=[\s,;:)?!]|\.(?!\d)|$)(?!\$)|\$([^$\n]+?)\$/g;
+// Una fórmula que empieza con número («$1 - \cos^2 x$») se distingue del dinero porque trae TeX (\, ^, _, { o }),
+// o porque es una operación sin palabras que termina en número, paréntesis o «!» («($3 + 5 = 8$)», «$2 : 2$», «$4!$»).
+// «$150; 1 caja … $200» y «Pagó $45 y $30» siguen siendo pesos: entre los dos signos hay palabras o no hay operación.
+const TOKENS = /\\\$|\$\$([\s\S]+?)\$\$|\$(\d[^$\n]*?[\\^_{}][^$\n]*?|(?![^$\n]*?[A-Za-zÁÉÍÓÚÑáéíóúñ]{2})\d[^$\n\\]*?[=+\-−<>:×÷·*/!][^$\n\\]*?(?<=[\w)\]!]))\$|\$\d[\d,]*(?:\.\d+)?(?![\d,.]\d)(?=[\s,;:)?!]|\.(?!\d)|$)(?!\$)|\$([^$\n]+?)\$/g;
 
 function tex(fuente: string, bloque: boolean) {
   return katex.renderToString(fuente, {
