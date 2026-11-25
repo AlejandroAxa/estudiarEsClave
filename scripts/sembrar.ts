@@ -12,6 +12,7 @@ import { migrar } from "./migrar";
 import { sembrarConfiguracion, sembrarProductos } from "../src/lib/semilla";
 import { importarBanco } from "../src/lib/banco/importar";
 import { publicarRelease, releaseVigente } from "../src/lib/banco/publicar";
+import { enProduccion } from "../src/lib/entorno";
 
 /** Bancos semilla del repositorio; Medicina va primero porque los productos dependen de su ruta. */
 function bancosSemilla(dir = "bancos") {
@@ -22,7 +23,7 @@ function bancosSemilla(dir = "bancos") {
 }
 
 async function main() {
-  if (process.env.VERCEL_ENV === "production") throw new Error("No siembres datos de desarrollo en producción.");
+  if (enProduccion()) throw new Error("No siembres datos de desarrollo en producción.");
   const archivos = process.argv.length > 2 ? process.argv.slice(2) : bancosSemilla();
   const db = await migrar();
   await sembrarConfiguracion(db, { fechaExamen: process.env.FECHA_EXAMEN_DEMO ?? null });

@@ -18,7 +18,8 @@ export async function compartirAvance(_p: { url?: string; imagen?: string; error
   const h = await headers();
   const base = process.env.BETTER_AUTH_URL ?? `${h.get("x-forwarded-proto") ?? "https"}://${h.get("host")}`;
   let imagen = `${base}/a/${token}/imagen`;
-  // Gráfica congelada en Vercel Blob, si está configurado.
+  // Gráfica congelada en Vercel Blob, si está configurado. En el VPS se guarda en disco
+  // la primera vez que alguien la abre (ver /a/[token]/imagen y ALMACEN_DIR).
   if (process.env.BLOB_READ_WRITE_TOKEN) {
     try {
       const png = await imagenAvance(enlace.datos as DatosAvance).arrayBuffer();

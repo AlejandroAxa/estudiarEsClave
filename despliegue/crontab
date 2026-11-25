@@ -1,0 +1,8 @@
+# Horas en UTC (Ciudad de México = UTC-6). Mismos horarios que tenía Vercel Cron.
+*/10 * * * *  sh /despliegue/tarea.sh cerrar-intentos
+# Lunes 00:00 en la Ciudad de México.
+0 6 * * 1     sh /despliegue/tarea.sh ligas
+0 9 * * *     sh /despliegue/tarea.sh calibracion
+30 9 * * *    sh /despliegue/tarea.sh limpieza
+# Respaldo de la base: 02:00 en la Ciudad de México.
+0 8 * * *     sh /despliegue/respaldar.sh
