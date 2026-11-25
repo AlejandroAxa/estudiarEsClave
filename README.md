@@ -68,7 +68,7 @@ Para borrar los datos y empezar de cero: `docker compose down -v`.
 
 ## El banco de preguntas
 
-El banco llega como un archivo JSON validado fuera del sitio (no hay editor en línea). El importador rechaza el archivo completo si una sola pregunta tiene un error. En producción solo acepta reactivos en estado `validado` con `validado_por` y `validado_en`; los bancos semilla (Medicina con 338 preguntas, Ciencias Exactas con 114 y Psicología con 163; las 63 de las áreas comunes son las mismas en los tres) ya tienen el visto bueno docente y se importan en modo estricto. Un archivo con reactivos en `revisado_ia` solo se puede cargar en desarrollo, marcado «SIN VALIDAR».
+El banco llega como un archivo JSON validado fuera del sitio (no hay editor en línea). El importador rechaza el archivo completo si una sola pregunta tiene un error. En producción solo acepta reactivos en estado `validado` con `validado_por` y `validado_en`; los bancos semilla (Medicina con 338 preguntas, Ciencias Exactas con 114, Psicología con 163, las cuatro áreas EPIU de la BUAP con 263 cada una e Inglés con 100; las 63 de las áreas comunes son las mismas en todos) ya tienen el visto bueno docente y se importan en modo estricto. Un archivo con reactivos en `revisado_ia` solo se puede cargar en desarrollo, marcado «SIN VALIDAR».
 
 Un release congela las versiones validadas y es inmutable. La calibración nocturna (R10) manda a revisión las preguntas con 100 respuestas o más que salen demasiado difíciles, no distinguen entre quien sabe y quien no, o tienen un distractor que casi nadie elige.
 

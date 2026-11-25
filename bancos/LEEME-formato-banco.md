@@ -26,6 +26,28 @@ Los reactivos de Cálculo llevan la etiqueta de grupo `exactas` (las dos rutas l
 
 Archivo: `banco-semilla-psicologia.json`. Comparte con Medicina los 63 reactivos de Comprensión lectora, Redacción indirecta y Pensamiento matemático y suma 100 del módulo de Psicología: Bases biopsicosociales de la conducta (58) y Aportaciones de la psicología (42). Ruta `psicologia`, con `diagnostico-psicologia-v1` de 43 reactivos y 44 minutos.
 
+## Bancos EPIU de la BUAP (v1.0.0)
+
+Archivos: `banco-semilla-epiu-*.json`, uno por área de conocimiento. Cada uno trae las 63 preguntas comunes de Medicina (mismo id y contenido), 100 del módulo general y 100 del módulo de área. El módulo general es el mismo en las dos áreas que lo usan, así que se importa una sola vez.
+
+| Ruta | Módulo general | Módulo de área | Diagnóstico | Para Práctica |
+| --- | --- | --- | --- | --- |
+| `epiu-economico-administrativas` | Ciencias Sociales (`CSO`) | `CEA` | 55 reactivos, 53 min | 208 |
+| `epiu-sociales-humanidades` | Ciencias Sociales (`CSO`) | `CSH` | 55 reactivos, 53 min | 208 |
+| `epiu-naturales-salud` | Ciencias Experimentales (`CEX`) | `CNS` | 55 reactivos, 54 min | 208 |
+| `epiu-ingenierias-exactas` | Ciencias Experimentales (`CEX`) | `ICE` | 56 reactivos, 55 min | 207 |
+
+Los reactivos del módulo general llevan la etiqueta de grupo `epiu-general-sociales` o `epiu-general-experimentales`, y cada ruta pertenece a uno de esos grupos y a `todas`. Así cada aspirante ve solo su módulo general y su módulo de área. Corresponden a las páginas de `/areas`: Ciencias sociales, Ciencias experimentales y los cuatro módulos de área de la BUAP.
+
+## Banco de Inglés (v1.0.0)
+
+Archivo: `banco-semilla-ingles.json`. 100 reactivos de nivel B1: Comprensión lectora (50, con 10 textos en inglés) y Redacción indirecta (50). Las preguntas y opciones están en inglés; las argumentaciones y explicaciones, en español.
+
+- Llevan la etiqueta `todas`, así que aparecen en la Práctica de todas las rutas del EXANI-II.
+- El área `ING` tiene `cuenta_puntaje: false`: como en el examen real, no suma a la calificación global. En el archivo va como `tipo: "transversal"` porque la base solo admite «transversal» y «modulo».
+- No trae plantilla de diagnóstico: los diagnósticos son por ruta y este banco sirve a todas, así que los 100 quedan para Práctica.
+- `TXI-06` no tiene título (`"titulo": null`) porque ING-026 pide elegirlo. El sitio no muestra encabezado en ese caso.
+
 ## Diagnósticos cortos
 
 La práctica solo usa reactivos que no están en las plantillas activas de la ruta, o que el alumno ya vio en su revisión (regla R9). Por eso el diagnóstico es una muestra y el resto del banco queda para Práctica desde el primer día. `scripts/armar-diagnosticos.py` arma la muestra:
@@ -40,12 +62,13 @@ La práctica solo usa reactivos que no están en las plantillas activas de la ru
 | Exactas: Cálculo y Física | 49 reactivos, 54 min | 50 |
 | Exactas: Cálculo y Probabilidad | 45 reactivos, 52 min | 47 |
 | Psicología | 43 reactivos, 44 min | 120 |
+| EPIU (cada una de las 4 áreas) | 55 o 56 reactivos, 53 a 55 min | 207 o 208 |
 
 Mini diagnóstico, muestra de 20 minutos y simulacro salen de la misma muestra. Si agregas reactivos, vuelve a correr `python3 scripts/armar-diagnosticos.py bancos/banco-semilla-*.json`.
 
 ## Estado de validación
 
-Desde el 24 de noviembre de 2026 todos los reactivos de los tres bancos tienen el visto bueno docente: `estado: "validado"`, `validado_por: "Equipo docente de Estudiar es Clave"`, `validado_en: "2026-11-24"` y `origen: "ia"` (los redactó la IA y los aprobó un docente). El importador los acepta en modo estricto, el que se usa en producción. «publicado» no se escribe en el archivo: lo pone el sitio al publicar un release.
+Desde el 24 de noviembre de 2026 todos los reactivos de Medicina, Exactas y Psicología tienen el visto bueno docente, y desde el 25 de noviembre también los de los cuatro bancos EPIU y el de Inglés (las 63 preguntas comunes conservan la fecha del 24): `estado: "validado"`, `validado_por: "Equipo docente de Estudiar es Clave"`, `validado_en: "2026-11-24"` y `origen: "ia"` (los redactó la IA y los aprobó un docente). El importador los acepta en modo estricto, el que se usa en producción. «publicado» no se escribe en el archivo: lo pone el sitio al publicar un release.
 
 Si una base ya tenía estos reactivos importados como «SIN VALIDAR», reimportar el archivo validado les pone el visto bueno sin crear versiones nuevas.
 
@@ -160,5 +183,6 @@ La función de `figura` solo admite números, `t` o `x`, `+ - * / ^` y paréntes
 
 - **Temas:** todos los temas del temario tienen reactivos. La v1.3.0 cubre ya la constante de equilibrio en Química.
 - **Medidas epidemiológicas:** PRE-039 a PRE-041 (letalidad, prevalencia e incidencia) se clasificaron en «Historia natural de la enfermedad» porque el temario no tiene un tema propio para ellas.
-- **Faltan áreas de la BUAP:** Inglés (diagnóstico) y Habilidades blandas y toma de decisiones. No se incluyeron porque la estructura del EPIU solo se confirmó en fuentes de terceros.
+- **Falta un área de la BUAP:** Habilidades blandas y toma de decisiones. Inglés ya tiene banco.
+- **Preguntas parecidas entre rutas:** BIO-006 y CNS-012, PRE-010 y CNS-028, PRE-014 y CNS-026, y QUI-014 e ICE-094 preguntan lo mismo con otras palabras. No se repiten para nadie porque son de rutas distintas.
 - **Validación humana:** hecha (ver «Estado de validación»). Si un docente pide cambiar un reactivo, sube su `version`.

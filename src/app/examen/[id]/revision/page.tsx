@@ -48,7 +48,7 @@ export default async function Revision({ params }: { params: Promise<{ id: strin
             </div>
             {x.texto && (
               <details>
-                <summary className="btn disc">Ver lectura: {x.texto.titulo}</summary>
+                <summary className="btn disc">Ver lectura{x.texto.titulo ? `: ${x.texto.titulo}` : ""}</summary>
                 <div className="lectura">
                   {x.texto.cuerpo.split("\n\n").map((p, j) => (
                     <p key={j}>{p}</p>

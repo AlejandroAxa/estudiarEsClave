@@ -32,7 +32,11 @@ export const textoJson = z
     id,
     ambito: z.string(),
     tipo_texto: z.string(),
-    titulo: z.string(),
+    /** Sin título cuando una pregunta pide elegir el título del texto. */
+    titulo: z
+      .string()
+      .nullable()
+      .transform((t) => t ?? ""),
     parrafos: z.array(z.string()).optional(),
     versos: z.array(z.string()).optional(),
     autoria: z.string().nullable().optional(),
@@ -133,6 +137,8 @@ export const GRUPOS_RUTA: Record<string, string> = {
   todas: "Todas las rutas del examen",
   salud: "Carreras del área de la salud",
   exactas: "Carreras de ciencias exactas e ingenierías",
+  "epiu-general-sociales": "BUAP: módulo general de Ciencias Sociales",
+  "epiu-general-experimentales": "BUAP: módulo general de Ciencias Experimentales",
 };
 
 /** Rutas conocidas cuando el banco no trae su lista. */

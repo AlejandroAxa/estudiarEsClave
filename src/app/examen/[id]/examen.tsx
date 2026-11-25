@@ -336,7 +336,7 @@ export function Examen({ intento, secciones, items, textos, ahoraServidor }: Pro
         <div className={`consulta ${texto ? "con-lectura" : ""}`}>
           {texto && (
             <article className={`hoja lectura ${texto.esVerso ? "verso" : ""}`} aria-label="Lectura">
-              <h3>{texto.titulo}</h3>
+              {texto.titulo && <h3>{texto.titulo}</h3>}
               {texto.cuerpo.split("\n\n").map((p, k) => (
                 <p key={k}>{p}</p>
               ))}
