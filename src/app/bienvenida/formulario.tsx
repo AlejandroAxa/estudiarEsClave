@@ -2,14 +2,26 @@
 import { useActionState } from "react";
 import { guardarBienvenida } from "@/app/acciones/perfil";
 
-export function FormularioBienvenida({ rutas, siguiente }: { rutas: { id: string; nombre: string; examenId: string; carrera: string | null }[]; siguiente: string }) {
+export function FormularioBienvenida({
+  rutas,
+  siguiente,
+  preferida,
+}: {
+  rutas: { id: string; nombre: string; examenId: string; carrera: string | null }[];
+  siguiente: string;
+  preferida?: string;
+}) {
   const [estado, accion, enviando] = useActionState(guardarBienvenida, undefined);
   return (
     <form action={accion} className="hoja pila">
       <input type="hidden" name="siguiente" value={siguiente} />
       <label className="campo">
-        ¿A qué carrera vas?
-        <select name="ruta" required defaultValue={rutas.find((r) => r.id === "medicina")?.id}>
+        ¿A qué área o carrera vas?
+        <span className="ayuda">En la BUAP, tu carrera pertenece a una de 4 áreas; Medicina tiene examen propio.</span>
+        <select name="ruta" required defaultValue={rutas.find((r) => r.id === preferida)?.id ?? ""}>
+          <option value="" disabled>
+            Elige una opción
+          </option>
           {rutas.map((r) => (
             <option key={r.id} value={r.id}>
               {r.nombre} ({r.examenId})

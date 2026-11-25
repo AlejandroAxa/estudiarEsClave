@@ -14,7 +14,8 @@ export function Pie() {
         </div>
         <nav aria-label="Pie" style={{ display: "grid", gap: 6 }}>
           <Link href="/guia">Guía del examen</Link>
-          <Link href="/areas">Áreas del examen</Link>
+          <Link href="/carreras">Áreas generales</Link>
+          <Link href="/areas">Áreas del examen (temarios)</Link>
           <Link href="/carreras/medicina">Medicina BUAP</Link>
           <Link href="/prepa">Prepa (EXANI-I)</Link>
           <Link href="/planes">Planes</Link>

@@ -328,8 +328,12 @@ p {
   text-shadow: var(--glow);
 }
 .logo .word svg {
+  /* La «v» es un SVG dentro de un flex: sin esto se encoge a 0 y se lee «clae». */
+  flex: none;
+  max-width: none;
   height: 0.72em;
   width: 0.43em;
+  min-width: 0.43em;
   margin: 0 0.02em 0.08em;
   overflow: visible;
   filter: drop-shadow(0 0 14px rgba(233, 216, 239, 0.45));
@@ -1004,7 +1008,7 @@ textarea:focus {
   flex-direction: column;
   gap: 4px;
 }
-@media (min-width: 1000px) {
+@media (min-width: 1120px) {
   .rejilla-4 {
     grid-template-columns: repeat(4, 1fr);
   }
@@ -1388,4 +1392,251 @@ textarea:focus {
 }
 .estructura-lista .estructura-modulo a {
   font-weight: 700;
+}
+
+/* Títulos de las tarjetas de cuatro columnas: que «Laboratorio» no se salga de su hoja. */
+.rejilla-4 h3 {
+  font-size: clamp(17px, 1.7vw, 20px);
+  overflow-wrap: break-word;
+}
+
+/* ── Áreas generales (/carreras): un motivo propio por área ──
+   cuentas: libro contable · archivo: fichero de biblioteca ·
+   expediente: monitor clínico · plano: plano de obra. El acento solo
+   decora; los botones siguen en azul y el semáforo solo en resultados. */
+.ag {
+  --acento-tinta: color-mix(in srgb, var(--acento) 30%, var(--ciruela));
+}
+:root[data-tema="oscuro"] .ag {
+  --acento-tinta: var(--acento);
+}
+.ag-hero {
+  background-color: var(--noche);
+}
+.ag-cuentas .ag-hero {
+  background-image:
+    linear-gradient(90deg, transparent calc(8% - 1px), color-mix(in srgb, var(--acento) 30%, transparent) 8%, transparent calc(8% + 1px)),
+    repeating-linear-gradient(180deg, transparent 0 35px, color-mix(in srgb, var(--acento) 9%, transparent) 35px 36px);
+}
+.ag-archivo .ag-hero {
+  background-image:
+    repeating-linear-gradient(90deg, transparent 0 46px, color-mix(in srgb, var(--acento) 8%, transparent) 46px 48px, transparent 48px 60px, color-mix(in srgb, var(--acento) 5%, transparent) 60px 61px),
+    radial-gradient(ellipse at 80% 10%, color-mix(in srgb, var(--acento) 14%, transparent), transparent 60%);
+}
+.ag-expediente .ag-hero {
+  background-image:
+    radial-gradient(circle, color-mix(in srgb, var(--acento) 22%, transparent) 1px, transparent 1.5px),
+    radial-gradient(ellipse at 85% 60%, color-mix(in srgb, var(--acento) 12%, transparent), transparent 55%);
+  background-size: 22px 22px, auto;
+}
+.ag-plano .ag-hero {
+  background-color: #111a2b;
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--acento) 16%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--acento) 16%, transparent) 1px, transparent 1px),
+    linear-gradient(color-mix(in srgb, var(--acento) 6%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--acento) 6%, transparent) 1px, transparent 1px);
+  background-size: 96px 96px, 96px 96px, 16px 16px, 16px 16px;
+}
+.ag-hero .migas a {
+  color: var(--acento);
+}
+
+/* El reporte con las carreras */
+.ag-reporte .membrete {
+  background: var(--ciruela);
+}
+.ag-plano .ag-reporte .membrete {
+  background: #1b2c4a;
+}
+.ag-grupos {
+  display: grid;
+  gap: 8px 32px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  padding: clamp(18px, 3vw, 28px);
+}
+.ag-grupo h3 {
+  font-size: 17px;
+  font-stretch: 115%;
+  color: var(--acento-tinta);
+  margin: 6px 0 10px;
+}
+.ag-carreras {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+  font-size: 16px;
+}
+.ag-carreras li {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--linea);
+}
+.ag-folio {
+  flex: none;
+  font: 700 12px/1 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  color: var(--gris);
+  font-variant-numeric: tabular-nums;
+}
+/* Libro contable: folio a la derecha con línea punteada, como un estado de cuenta. */
+.ag-cuentas .ag-carreras li {
+  border-bottom-style: dashed;
+}
+.ag-cuentas .ag-folio {
+  order: 2;
+  margin-left: auto;
+  padding-left: 12px;
+}
+.ag-cuentas .ag-folio::before {
+  content: "Cta. ";
+  color: var(--acento-tinta);
+}
+/* Fichero: cada carrera es una ficha con su perforación. */
+.ag-archivo .ag-carreras li {
+  border: 1px solid var(--linea);
+  border-left: 4px solid var(--acento-tinta);
+  border-radius: 4px;
+  padding: 8px 12px;
+  margin-bottom: 6px;
+  background: color-mix(in srgb, var(--acento) 10%, var(--papel));
+}
+.ag-archivo .ag-folio::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 99px;
+  border: 1.5px solid var(--gris);
+  margin-right: 6px;
+  vertical-align: 1px;
+}
+/* Expediente: casilla marcada. */
+.ag-expediente .ag-folio::before {
+  content: "✓";
+  display: inline-grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  margin-right: 6px;
+  border-radius: 99px;
+  background: color-mix(in srgb, var(--acento) 35%, var(--papel));
+  color: var(--ciruela);
+  font-size: 11px;
+}
+:root[data-tema="oscuro"] .ag-expediente .ag-folio::before {
+  color: var(--noche);
+  background: var(--acento);
+}
+/* Plano: cotas en los extremos de cada renglón. */
+.ag-plano .ag-carreras li {
+  border-bottom: 1px solid color-mix(in srgb, var(--acento) 55%, var(--linea));
+  position: relative;
+}
+.ag-plano .ag-carreras li::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -4px;
+  width: 1px;
+  height: 8px;
+  background: color-mix(in srgb, var(--acento) 70%, var(--gris));
+}
+.ag-plano .ag-folio::before {
+  content: "P-";
+}
+.ag-carreras a {
+  font-weight: 700;
+}
+.ag-diag {
+  border-top: 4px solid var(--acento-tinta);
+}
+.ag-diag h3 {
+  margin: 0;
+}
+
+/* Índice de áreas generales */
+.ag-indice {
+  grid-template-columns: 1fr;
+}
+@media (min-width: 720px) {
+  .ag-indice {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.ag-tarjeta {
+  --acento-tinta: color-mix(in srgb, var(--acento) 30%, var(--ciruela));
+  border-top: 0;
+}
+.ag-tarjeta-titulo {
+  font-size: 22px;
+  font-stretch: 120%;
+  margin: 12px 0 8px;
+}
+.ag-tarjeta-mini {
+  border-bottom: 4px solid var(--acento);
+}
+.ag-plano.ag-tarjeta .ag-tarjeta-mini {
+  background-color: #111a2b;
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--acento) 14%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--acento) 14%, transparent) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.ag-cuentas.ag-tarjeta .ag-tarjeta-mini {
+  background-image: repeating-linear-gradient(180deg, transparent 0 17px, color-mix(in srgb, var(--acento) 12%, transparent) 17px 18px);
+}
+.ag-expediente.ag-tarjeta .ag-tarjeta-mini {
+  background-image: radial-gradient(circle, color-mix(in srgb, var(--acento) 25%, transparent) 1px, transparent 1.5px);
+  background-size: 14px 14px;
+}
+
+/* Selector de área del mini diagnóstico y del laboratorio */
+.selector-area {
+  display: grid;
+  gap: 10px;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+.selector-area legend {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.selector-area label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1.5px solid var(--linea);
+  border-radius: var(--r-control);
+  background: var(--papel);
+  cursor: pointer;
+  min-height: 52px;
+}
+.selector-area label:has(input:checked) {
+  border-color: var(--azul);
+  box-shadow: inset 0 0 0 1px var(--azul);
+}
+.selector-area input {
+  accent-color: var(--azul);
+  width: 18px;
+  height: 18px;
+  flex: none;
+}
+.selector-area .xs {
+  margin-left: auto;
+  white-space: nowrap;
+}
+.enlace-titulo {
+  color: inherit;
+  text-decoration: none;
+}
+.enlace-titulo:hover {
+  color: var(--azul);
+  text-decoration: underline;
+}
+.migas-claras {
+  color: var(--gris);
 }

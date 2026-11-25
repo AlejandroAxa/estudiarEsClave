@@ -7,6 +7,7 @@ import { COOKIE_ANONIMA, sesionActual } from "@/lib/sesion";
 import { duenoActual } from "@/lib/dueno";
 import { crearIntento, crearPractica, enviarIntento, ErrorEvaluacion, iniciarSeccion, plantillaActiva, terminarSeccion } from "@/lib/evaluacion/evaluacion";
 import { ipDe, limitar } from "@/lib/limites";
+import { OPCIONES_MINI } from "@/lib/areas-generales";
 
 export type EstadoAccion = { error?: string; codigo?: string } | undefined;
 
@@ -15,7 +16,10 @@ async function limitarIntentos(clave: string) {
   if (!l.ok) throw new ErrorEvaluacion("Demasiados intentos seguidos. Espera unos minutos.", "invalido");
 }
 
-export async function empezarMini(): Promise<EstadoAccion> {
+/** Rutas que se pueden elegir en el mini diagnóstico (las 4 áreas generales y Medicina). */
+const RUTAS_MINI = new Set(OPCIONES_MINI.map((o) => o.id));
+
+export async function empezarMini(rutaElegida?: string): Promise<EstadoAccion> {
   const ses = await sesionActual();
   const jar = await cookies();
   let anon = jar.get(COOKIE_ANONIMA)?.value ?? null;
@@ -26,7 +30,8 @@ export async function empezarMini(): Promise<EstadoAccion> {
   let id: string;
   try {
     await limitarIntentos(ses?.cuenta.id ?? anon ?? ipDe(await headers()));
-    const pl = await plantillaActiva(db, ses?.perfil?.rutaId ?? "medicina", "mini");
+    const rutaId = rutaElegida && RUTAS_MINI.has(rutaElegida) ? rutaElegida : (ses?.perfil?.rutaId ?? "medicina");
+    const pl = await plantillaActiva(db, rutaId, "mini");
     if (!pl) return { error: "El mini diagnóstico todavía no está disponible." };
     const i = await crearIntento(db, { plantillaId: pl.id, cuentaId: ses?.cuenta.id ?? null, sesionAnonimaId: ses ? null : anon });
     id = i.id;

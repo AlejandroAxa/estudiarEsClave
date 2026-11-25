@@ -64,7 +64,11 @@ export default function Areas() {
                   <IconoArea nombre={e.icono} />
                   <span className="xs">190 reactivos</span>
                 </span>
-                <h3 style={{ marginTop: 12 }}>{e.area}</h3>
+                <h3 style={{ marginTop: 12 }}>
+                  <Link href={`/carreras/${e.modulo}`} className="enlace-titulo">
+                    {e.area}
+                  </Link>
+                </h3>
                 <ul className="estructura-lista">
                   {COMUNES_BUAP.map(([slug, n, r]) => (
                     <li key={slug}>
@@ -81,6 +85,9 @@ export default function Areas() {
                     <span>24</span>
                   </li>
                 </ul>
+                <p className="xs" style={{ margin: "10px 0 0" }}>
+                  <Link href={`/carreras/${e.modulo}`}>Carreras y diagnóstico de esta área</Link>
+                </p>
               </article>
             ))}
             <article className="hoja tarjeta-buap">
@@ -88,7 +95,11 @@ export default function Areas() {
                 <IconoArea nombre="Stethoscope" />
                 <span className="xs">210 reactivos</span>
               </span>
-              <h3 style={{ marginTop: 12 }}>Medicina (EIPM)</h3>
+              <h3 style={{ marginTop: 12 }}>
+                <Link href="/carreras/medicina" className="enlace-titulo">
+                  Medicina (EIPM)
+                </Link>
+              </h3>
               <p className="xs" style={{ margin: "10px 0 0" }}>
                 Primera etapa · marzo
               </p>

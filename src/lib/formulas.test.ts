@@ -8,6 +8,13 @@ describe("componer", () => {
     expect(componer("línea 1\nlínea 2")).toBe("línea 1<br>línea 2");
   });
 
+  it("compone una fórmula que empieza con número sin confundirla con pesos", () => {
+    const html = componer("¿A qué es igual $1 - \\cos^2 x$?");
+    expect(html).toContain("katex");
+    expect(html).not.toContain("$");
+    expect(componer("Pagó $45 y $30.")).toBe("Pagó $45 y $30.");
+  });
+
   it("respeta los pesos de los reactivos viejos", () => {
     expect(componer("Una chamarra cuesta $1,200 y luego $900.")).toBe("Una chamarra cuesta $1,200 y luego $900.");
     expect(componer("Cuesta \\$5")).toBe("Cuesta $5");

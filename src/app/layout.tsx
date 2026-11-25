@@ -13,7 +13,7 @@ const url = process.env.BETTER_AUTH_URL ?? "https://estudiaresclave.mx";
 
 export const metadata: Metadata = {
   metadataBase: new URL(url),
-  title: { default: "Estudiar es Clave · Simulador EXANI-II para Medicina BUAP", template: "%s · Estudiar es Clave" },
+  title: { default: "Estudiar es Clave · Simulador EXANI-II para la BUAP", template: "%s · Estudiar es Clave" },
   description:
     "Diagnóstico por temas, dosis diaria de preguntas con la explicación de cada opción y tus 3 prioridades según lo que más pesa en el EXANI-II. Empieza gratis.",
   applicationName: "Estudiar es Clave",

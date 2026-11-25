@@ -13,6 +13,10 @@ export default async function Medicina() {
   const muestras = await muestrasPublicas("medicina", 3).catch(() => []);
   return (
     <div className="wrap band pila angosto">
+      <nav className="migas migas-claras" aria-label="Ruta">
+        <Link href="/carreras">Áreas generales</Link> <span aria-hidden>/</span>{" "}
+        <Link href="/carreras/ciencias-naturales-y-de-salud">Ciencias Naturales y de Salud</Link> <span aria-hidden>/</span> <span>Medicina</span>
+      </nav>
       <h1 style={{ fontSize: "clamp(32px,5vw,56px)" }}>Medicina</h1>
       <p className="lead">
         En la BUAP, Medicina tiene su propia evaluación en dos etapas: primero{" "}
@@ -45,10 +49,10 @@ export default async function Medicina() {
         </article>
       ))}
       <div className="fila">
-        <Link className="btn" href="/mini">
+        <Link className="btn" href="/mini?area=medicina">
           Hacer 18 preguntas sin registrarme
         </Link>
-        <Link className="btn sec" href="/entrar">
+        <Link className="btn sec" href="/diagnostico?area=medicina">
           Crear cuenta y hacer el diagnóstico
         </Link>
       </div>

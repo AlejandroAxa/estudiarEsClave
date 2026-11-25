@@ -7,6 +7,9 @@ import { Semaforo, BarraRango } from "@/components/semaforo";
 import { ciclo } from "@/lib/consultas";
 import { sesionActual } from "@/lib/sesion";
 import { t } from "@/textos/es-MX";
+import { AREAS_GENERALES, totalCarreras } from "@/lib/areas-generales";
+import { IconoArea } from "@/components/area-exani";
+import { DibujoMotivo } from "@/components/motivo-area";
 
 export default async function Portada() {
   const ses = await sesionActual().catch(() => null);
@@ -22,16 +25,16 @@ export default async function Portada() {
     <>
       <section className="noche band" style={{ position: "relative", overflow: "hidden" }}>
         <div className="wrap" style={{ position: "relative", zIndex: 1 }}>
-          <span className="pastilla oscura">Simulador EXANI-II · Medicina BUAP 2027</span>
+          <span className="pastilla oscura">Simulador EXANI-II · BUAP 2027</span>
           <div style={{ margin: "28px 0 20px" }}>
             <Logotipo />
           </div>
-          <h1 className="sr-only">Estudiar es Clave: simulador del EXANI-II para Medicina BUAP</h1>
+          <h1 className="sr-only">Estudiar es Clave: simulador del EXANI-II para la BUAP, por área de conocimiento</h1>
           <p className="disp" style={{ fontWeight: 700, fontStretch: "115%", fontSize: "clamp(22px,2.6vw,32px)", lineHeight: 1.15, maxWidth: "26ch" }}>
             Entra a consulta, sal con tu diagnóstico y una receta de estudio.
           </p>
           <p className="lead" style={{ maxWidth: "54ch" }}>
-            18 preguntas, unos 20 minutos y sin crear cuenta. Te decimos en qué área vas bien y dónde está tu mayor margen.
+            Elige tu área, contesta 3 preguntas de cada sección en 20 minutos y sin crear cuenta. Te decimos en qué vas bien y dónde está tu mayor margen.
           </p>
           <div className="fila" style={{ marginTop: 24 }}>
             <Link href="/mini" className="btn">
@@ -48,6 +51,38 @@ export default async function Portada() {
       </section>
 
       <section className="band">
+        <div className="wrap pila">
+          <h2>Áreas generales</h2>
+          <p className="lead">Tu carrera está en una de estas cuatro áreas. Cada una tiene sus carreras, su examen y su propio diagnóstico.</p>
+          <div className="rejilla ag-indice">
+            {AREAS_GENERALES.map((a) => (
+              <Link
+                key={a.slug}
+                href={`/carreras/${a.slug}`}
+                className={`hoja tarjeta-area ag-tarjeta ag-${a.tema}`}
+                style={{ "--acento": a.acento } as React.CSSProperties}
+              >
+                <span className="tarjeta-mini ag-tarjeta-mini">
+                  <DibujoMotivo tema={a.tema} acento={a.acento} className="ilustracion mini" />
+                </span>
+                <span className="fila entre">
+                  <IconoArea nombre={a.icono} />
+                  <span className="xs">{totalCarreras(a)} carreras</span>
+                </span>
+                <h3 className="ag-tarjeta-titulo">{a.nombre}</h3>
+                <p className="small" style={{ marginBottom: 0 }}>
+                  {a.lema}
+                </p>
+              </Link>
+            ))}
+          </div>
+          <p className="small">
+            ¿Vas por Medicina? Tiene su propia evaluación: <Link href="/carreras/medicina">mira la ruta de Medicina</Link>.
+          </p>
+        </div>
+      </section>
+
+      <section className="band" style={{ paddingTop: 0 }}>
         <div className="wrap">
           <h2>Cuatro cuartos, un mismo objetivo</h2>
           <p className="lead">Todo el contenido es de autoría propia y cada pregunta trae la argumentación de sus 3 opciones.</p>
