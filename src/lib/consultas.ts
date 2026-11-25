@@ -1,6 +1,6 @@
 /** Consultas compartidas por varias pantallas. */
 import "server-only";
-import { and, asc, desc, eq } from "drizzle-orm";
+import { and, asc, count, desc, eq, inArray } from "drizzle-orm";
 import { db } from "@/db";
 import * as s from "@/db/schema";
 
@@ -51,4 +51,21 @@ export async function muestrasPublicas(rutaId = "medicina", cuantas = 3) {
     out.push({ id: f.rv.reactivoId, area: f.area, enunciado: f.rv.enunciado, explicacion: f.rv.explicacion, opciones: ops });
   }
   return out;
+}
+
+/** Preguntas y minutos de las plantillas activas de varias rutas, por modo (para las páginas públicas). */
+export async function resumenPlantillas(rutaIds: string[]) {
+  if (rutaIds.length === 0) return [];
+  return db
+    .select({ rutaId: s.plantilla.rutaId, modo: s.plantilla.modo, minutos: s.plantilla.tiempoLimiteMin, preguntas: count(s.plantillaReactivo.reactivoId) })
+    .from(s.plantilla)
+    .innerJoin(s.plantillaReactivo, eq(s.plantillaReactivo.plantillaId, s.plantilla.id))
+    .where(and(inArray(s.plantilla.rutaId, rutaIds), eq(s.plantilla.activa, true)))
+    .groupBy(s.plantilla.id, s.plantilla.rutaId, s.plantilla.modo, s.plantilla.tiempoLimiteMin)
+    .orderBy(desc(s.plantilla.id));
+}
+
+/** La plantilla vigente (la de id mayor, como plantillaActiva) de una ruta y modo dentro de un resumen. */
+export function deResumen(r: Awaited<ReturnType<typeof resumenPlantillas>>, rutaId: string, modo: string) {
+  return r.find((x) => x.rutaId === rutaId && x.modo === modo) ?? null;
 }

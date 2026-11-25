@@ -18,7 +18,8 @@ import "katex/contrib/mhchem";
 const ESCAPES: Record<string, string> = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
 export const escaparHtml = (s: string) => s.replace(/[&<>"']/g, (c) => ESCAPES[c]);
 
-const TOKENS = /\\\$|\$\$([\s\S]+?)\$\$|\$\d[\d,]*(?:\.\d+)?(?![\d,.]\d)(?=[\s,;:)?!]|\.(?!\d)|$)(?!\$)|\$([^$\n]+?)\$/g;
+// Una fórmula que empieza con número («$1 - \cos^2 x$») se distingue del dinero porque trae TeX (\, ^, _, { o }).
+const TOKENS = /\\\$|\$\$([\s\S]+?)\$\$|\$(\d[^$\n]*?[\\^_{}][^$\n]*?)\$|\$\d[\d,]*(?:\.\d+)?(?![\d,.]\d)(?=[\s,;:)?!]|\.(?!\d)|$)(?!\$)|\$([^$\n]+?)\$/g;
 
 function tex(fuente: string, bloque: boolean) {
   return katex.renderToString(fuente, {
@@ -33,7 +34,7 @@ function tex(fuente: string, bloque: boolean) {
 /** ¿El texto trae alguna fórmula? (para no tocar los 80 reactivos que no la usan). */
 export function tieneFormulas(texto: string) {
   TOKENS.lastIndex = 0;
-  for (const m of texto.matchAll(TOKENS)) if (m[1] != null || m[2] != null) return true;
+  for (const m of texto.matchAll(TOKENS)) if (m[1] != null || m[2] != null || m[3] != null) return true;
   return false;
 }
 
@@ -53,7 +54,7 @@ export function componer(texto: string): string {
     }
     out += br(previo);
     if (m[0] === "\\$") out += "$";
-    else if (m[2] != null) out += tex(m[2].trim(), false);
+    else if ((m[2] ?? m[3]) != null) out += tex((m[2] ?? m[3])!.trim(), false);
     else out += escaparHtml(m[0]); // dinero: $1,200
   }
   return out + br(texto.slice(ultimo));
@@ -87,7 +88,7 @@ export function componerExplicacion(explicacion: string) {
 export function erroresFormula(texto: string): string[] {
   const errores: string[] = [];
   for (const m of texto.matchAll(TOKENS)) {
-    const fuente = m[1] ?? m[2];
+    const fuente = m[1] ?? m[2] ?? m[3];
     if (fuente == null) continue;
     try {
       katex.renderToString(fuente, { throwOnError: true, displayMode: m[1] != null, trust: false, strict: "ignore" });

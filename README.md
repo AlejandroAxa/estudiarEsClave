@@ -1,6 +1,6 @@
 # Estudiar es Clave
 
-Simulador del EXANI-II para la ruta de Medicina (BUAP): mini diagnóstico sin registro, diagnóstico por subáreas, práctica diaria con repaso de errores, simulacro con tiempo, liga semanal por alias y pases de pago único.
+Simulador del EXANI-II para la BUAP, por área de conocimiento (Económico Administrativas, Sociales y Humanidades, Naturales y de Salud, Ingenierías y Ciencias Exactas) y Medicina: mini diagnóstico sin registro, diagnóstico por subáreas, práctica diaria con repaso de errores, simulacro con tiempo, liga semanal por alias y pases de pago único.
 
 La calificación es determinista (algoritmo `diag-1`, textos `txt-1`): no hay inteligencia artificial en tiempo de ejecución. Las fuentes de verdad del diseño están en la carpeta del proyecto (`modelado/modelo-ingenieria-software.md`, `identidad/DESIGN-F.md` y el formato del banco en `bancos/LEEME-formato-banco.md`).
 
@@ -52,7 +52,7 @@ Si tienes Docker Desktop, no necesitas instalar nada más ni poner claves:
 docker compose up --build
 ```
 
-Abre http://localhost:3000. La primera vez tarda unos minutos en compilar; luego carga Postgres con el banco semilla. Para entrar con tu cuenta, escribe cualquier correo en «Entrar» y copia el enlace que aparece en la terminal (no se manda correo real). Los pagos son simulados. Para el panel, entra con `admin@ejemplo.mx` y usa la clave TOTP que está en `docker-compose.yml`. Esa configuración es solo para tu computadora: no la uses en producción.
+Abre http://localhost:3000. La primera vez tarda unos minutos en compilar; luego carga Postgres con el banco semilla. Para entrar con tu cuenta, escribe cualquier correo en «Entrar» y abre el enlace desde el **buzón local** en http://localhost:3000/entrar/buzon (también aparece en la terminal; no se manda correo real). Los pagos son simulados. Para el panel, entra con `admin@ejemplo.mx` y usa la clave TOTP que está en `docker-compose.yml`. Esa configuración es solo para tu computadora: no la uses en producción.
 
 Para borrar los datos y empezar de cero: `docker compose down -v`.
 

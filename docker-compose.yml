@@ -33,6 +33,8 @@ services:
       BETTER_AUTH_URL: http://localhost:${PUERTO_WEB:-3000}
       BETTER_AUTH_SECRET: solo-para-docker-local-cambiar-en-produccion-0000
       PASARELA: simulada
+      # Sin servicio de correo: los enlaces para entrar se ven en http://localhost:3000/entrar/buzon
+      CORREO_LOCAL: "1"
       ADMIN_EMAILS: admin@ejemplo.mx
       # Código del panel: agrega esta clave a tu app autenticadora (solo para Docker local).
       ADMIN_TOTP_SECRET: JBSWY3DPEHPK3PXPJBSWY3DPEHPK3PXP

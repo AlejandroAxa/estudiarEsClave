@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AREAS, TIPOS, areaPorSlug } from "@/lib/areas-exani";
 import { BIBLIOGRAFIA } from "@/lib/bibliografia-exani";
+import { areaGeneralPorSlug } from "@/lib/areas-generales";
 import { IconoArea, TrazoArea } from "@/components/area-exani";
 import { IlustracionArea, acentoDe } from "@/components/ilustracion-area";
 
@@ -192,6 +193,11 @@ export default async function PaginaArea({ params }: { params: Promise<{ slug: s
               <li key={c}>{c}</li>
             ))}
           </ul>
+          {areaGeneralPorSlug(a.slug) && (
+            <p>
+              <Link href={`/carreras/${a.slug}`}>Ver las carreras de esta área y hacer su diagnóstico</Link>
+            </p>
+          )}
           {a.carreras && (
             <p className="small">
               <b>Suele pedirse en:</b> {a.carreras} Tu universidad decide los módulos: revísalo en su convocatoria.

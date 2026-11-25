@@ -120,3 +120,18 @@ export async function guardarCuenta(_p: { error?: string; ok?: boolean } | undef
   (await cookies()).set("eec_tema", p.data.tema, { path: "/", maxAge: 60 * 60 * 24 * 365, sameSite: "lax" });
   return { ok: true };
 }
+
+/** Cambia la carrera (ruta) del alumno: el diagnóstico, el simulacro y la práctica salen de su banco. */
+export async function cambiarRuta(form: FormData) {
+  const ses = await sesionActual();
+  if (!ses?.perfil) redirect("/entrar");
+  const rutaId = String(form.get("ruta") ?? "");
+  const [rt] = await db.select().from(s.ruta).where(and(eq(s.ruta.id, rutaId), eq(s.ruta.esGrupo, false)));
+  if (rt) {
+    await db
+      .update(s.perfilAlumno)
+      .set({ rutaId: rt.id, carreraObjetivo: rt.carrera ?? rt.nombre, examenId: rt.examenId, nivel: rt.examenId === "EXANI-I" ? "prepa" : "licenciatura" })
+      .where(eq(s.perfilAlumno.cuentaId, ses.cuenta.id));
+  }
+  redirect("/diagnostico?cambio=1");
+}

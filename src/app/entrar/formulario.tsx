@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { authCliente } from "@/lib/auth/cliente";
 
-export function FormularioEntrar({ destino, google }: { destino: string; google: boolean }) {
+export function FormularioEntrar({ destino, google, buzon = false }: { destino: string; google: boolean; buzon?: boolean }) {
   const [correo, setCorreo] = useState("");
   const [estado, setEstado] = useState<"listo" | "enviando" | "enviado" | "error">("listo");
   const [error, setError] = useState("");
@@ -25,6 +25,11 @@ export function FormularioEntrar({ destino, google }: { destino: string; google:
         <p>
           Mandamos un enlace a <b>{correo}</b>. Ábrelo en este mismo teléfono o computadora. Si no llega en un minuto, busca en Spam o Promociones.
         </p>
+        {buzon && (
+          <p className="aviso">
+            Estás en Docker sin servicio de correo: tu enlace está en el <a href="/entrar/buzon">buzón local</a>.
+          </p>
+        )}
         <button className="btn disc" onClick={() => setEstado("listo")}>
           Usar otro correo
         </button>

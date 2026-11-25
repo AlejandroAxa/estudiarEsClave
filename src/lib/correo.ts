@@ -1,9 +1,27 @@
+export type CorreoLocal = { para: string; asunto: string; texto: string; enlace: string | null; en: Date };
+
+/**
+ * Buzón local: con CORREO_LOCAL=1 (solo Docker o desarrollo, nunca en Vercel) los
+ * correos simulados también se guardan en memoria y se ven en /entrar/buzon, para
+ * poder entrar sin un servicio de correo.
+ */
+export const buzonLocalActivo = () => process.env.CORREO_LOCAL === "1" && !process.env.VERCEL && !process.env.RESEND_API_KEY;
+
+const g = globalThis as unknown as { __buzonLocal?: CorreoLocal[] };
+export function buzonLocal(): CorreoLocal[] {
+  return buzonLocalActivo() ? (g.__buzonLocal ?? []) : [];
+}
+
 /** Correo transaccional con Resend (RESEND_API_KEY). Sin clave, se escribe en la consola (desarrollo). */
 export async function enviarCorreo(p: { para: string; asunto: string; html: string; texto: string }) {
   const clave = process.env.RESEND_API_KEY;
   const de = process.env.CORREO_REMITENTE ?? "Estudiar es Clave <hola@estudiaresclave.mx>";
   if (!clave) {
     console.info(`[correo simulado] Para: ${p.para}\nAsunto: ${p.asunto}\n${p.texto}`);
+    if (buzonLocalActivo()) {
+      const enlace = p.texto.match(/https?:\/\/\S+/)?.[0] ?? null;
+      g.__buzonLocal = [{ para: p.para, asunto: p.asunto, texto: p.texto, enlace, en: new Date() }, ...(g.__buzonLocal ?? [])].slice(0, 20);
+    }
     return;
   }
   const res = await fetch("https://api.resend.com/emails", {

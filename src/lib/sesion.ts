@@ -29,7 +29,7 @@ export type Sesion = NonNullable<Awaited<ReturnType<typeof sesionActual>>>;
 export async function requerirAlumno(siguiente = "/inicio") {
   const ses = await sesionActual();
   if (!ses) redirect(`/entrar?siguiente=${encodeURIComponent(siguiente)}`);
-  if (!ses.perfil) redirect("/bienvenida");
+  if (!ses.perfil) redirect(`/bienvenida?siguiente=${encodeURIComponent(siguiente)}`);
   return ses as Sesion & { perfil: NonNullable<Sesion["perfil"]> };
 }
 
