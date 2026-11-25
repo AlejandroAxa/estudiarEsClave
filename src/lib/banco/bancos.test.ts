@@ -15,10 +15,10 @@ const psicologia = readFileSync("bancos/banco-semilla-psicologia.json", "utf8");
 const leer = (n: string) => readFileSync(`bancos/banco-semilla-${n}.json`, "utf8");
 /** Bancos EPIU de la BUAP en el orden en que se importan: el segundo de cada par reusa el módulo general del primero. */
 const EPIU = [
-  ["epiu-economico-administrativas", 200, 63],
-  ["epiu-sociales-humanidades", 100, 163],
-  ["epiu-naturales-salud", 200, 63],
-  ["epiu-ingenierias-exactas", 100, 163],
+  ["epiu-economico-administrativas", 400, 363],
+  ["epiu-sociales-humanidades", 200, 563],
+  ["epiu-naturales-salud", 400, 363],
+  ["epiu-ingenierias-exactas", 200, 563],
 ] as const;
 let db: Db;
 
@@ -56,7 +56,7 @@ describe("bancos de Medicina, Ciencias Exactas, Psicología, EPIU e Inglés", ()
   it("Medicina validada pone el visto bueno docente a lo que estaba sin validar", async () => {
     const r = await importarBanco(db, medicina, { archivo: "medicina.json" });
     expect(r.errores).toEqual([]);
-    expect(r.versionesNuevas).toBe(298);
+    expect(r.versionesNuevas).toBe(938 - 40);
     expect(r.validadasAhora).toBe(40);
     const sinValidar = await db.select().from(s.reactivoVersion).where(eq(s.reactivoVersion.validadoPor, VALIDADOR_DESARROLLO));
     expect(sinValidar).toHaveLength(0);
@@ -65,10 +65,10 @@ describe("bancos de Medicina, Ciencias Exactas, Psicología, EPIU e Inglés", ()
   it("Exactas y Psicología se importan encima sin duplicar los reactivos compartidos", async () => {
     const e = await importarBanco(db, exactas, { archivo: "exactas.json" });
     expect(e.errores).toEqual([]);
-    expect([e.versionesNuevas, e.sinCambios]).toEqual([51, 63]);
+    expect([e.versionesNuevas, e.sinCambios]).toEqual([351, 363]);
     const p = await importarBanco(db, psicologia, { archivo: "psicologia.json" });
     expect(p.errores).toEqual([]);
-    expect([p.versionesNuevas, p.sinCambios]).toEqual([100, 63]);
+    expect([p.versionesNuevas, p.sinCambios]).toEqual([200, 363]);
     expect(p.plantillas).toContain("mini-psicologia-v1");
   });
 
@@ -81,14 +81,14 @@ describe("bancos de Medicina, Ciencias Exactas, Psicología, EPIU e Inglés", ()
     }
     const i = await importarBanco(db, leer("ingles"), { archivo: "ingles.json" });
     expect(i.errores).toEqual([]);
-    expect(i.versionesNuevas).toBe(100);
+    expect(i.versionesNuevas).toBe(200);
     const [ing] = await db.select().from(s.area).where(eq(s.area.id, "ING"));
     expect(ing.cuentaPuntaje).toBe(false);
   });
 
   it("publica un solo release con todos los bancos", async () => {
     const rel = await publicarRelease(db, { examenId: "EXANI-II", version: "1.0.0-dev" });
-    expect(rel.reactivos).toBe(338 + 51 + 100 + 600 + 100);
+    expect(rel.reactivos).toBe(938 + 351 + 200 + 1200 + 200);
   });
 
   it("cada ruta tiene su diagnóstico y solo ve sus módulos", async () => {
@@ -114,7 +114,7 @@ describe("bancos de Medicina, Ciencias Exactas, Psicología, EPIU e Inglés", ()
     }
     // El diagnóstico es una muestra: el resto del banco queda para Práctica desde el primer día.
     await db.insert(s.cuenta).values({ id: "c-nueva", email: "nueva@ejemplo.mx", name: "nueva" });
-    for (const [rutaId, minimo] of [["medicina", 300], ["exactas-fis", 140], ["exactas-pye", 140], ["psicologia", 200], ...EPIU.map(([b]) => [b, 300] as const)] as const) {
+    for (const [rutaId, minimo] of [["medicina", 1000], ["exactas-fis", 600], ["exactas-pye", 600], ["psicologia", 700], ...EPIU.map(([b]) => [b, 900] as const)] as const) {
       const { items } = await poolPractica(db, "c-nueva", rutaId, {});
       expect(items.length).toBeGreaterThanOrEqual(minimo);
     }
@@ -136,7 +136,7 @@ describe("contenido de los bancos", () => {
       for (const r of b.reactivos) expect([r.id, r.estado, !!r.validado_por, !!r.validado_en]).toEqual([r.id, "validado", true, true]);
   });
 
-  it("un id compartido entre bancos tiene el mismo contenido, y no hay enunciados repetidos nuevos", () => {
+  it("un id compartido entre bancos tiene el mismo contenido, y ninguna pregunta está repetida con otro id", () => {
     const porId = new Map<string, string>();
     const porEnunciado = new Map<string, Set<string>>();
     for (const [f, b] of bancos)
@@ -144,11 +144,11 @@ describe("contenido de los bancos", () => {
         const k = canonico(r);
         if (porId.has(r.id)) expect([f, r.id, porId.get(r.id) === k]).toEqual([f, r.id, true]);
         porId.set(r.id, k);
-        const e = r.enunciado.trim().toLowerCase();
+        // Enunciado y opciones: «Elige la oración correcta» se repite, pero con opciones distintas.
+        const e = [r.enunciado, ...r.opciones.map((o: { texto: string }) => o.texto).sort()].join("|").trim().toLowerCase();
         porEnunciado.set(e, (porEnunciado.get(e) ?? new Set()).add(r.id));
       }
     const repetidos = [...porEnunciado.values()].filter((x) => x.size > 1).map((x) => [...x].sort().join("="));
-    // Preguntas genéricas con opciones distintas («Elige la oración correcta») o sobre textos distintos.
-    expect(repetidos.sort()).toEqual(["ING-036=ING-046", "PRE-068=PSI-001", "RI-011=RI-018"]);
+    expect(repetidos).toEqual([]);
   });
 });

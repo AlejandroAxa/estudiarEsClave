@@ -1,4 +1,30 @@
-# Banco semilla — Ruta Medicina BUAP (v1.3.0)
+# Banco semilla — Ruta Medicina BUAP (v1.4.0)
+
+## Bancos ampliados (25 de noviembre de 2026)
+
+Los ocho bancos crecieron a 2,889 reactivos distintos. Ningún reactivo anterior cambió de id ni de contenido, salvo los cuatro de la tabla de abajo, que subieron de versión.
+
+| Banco | Versión | Reactivos | Nuevos |
+| --- | --- | --- | --- |
+| Medicina | 1.4.0 | 938 | 600 |
+| Ciencias Exactas | 1.2.0 | 714 | 600 |
+| Psicología | 1.1.0 | 563 | 400 |
+| EPIU (cada una de las 4 áreas) | 1.1.0 | 763 | 500 |
+| Inglés | 1.1.0 | 200 | 100 |
+
+- Las áreas comunes (Comprensión lectora, Redacción indirecta y Pensamiento matemático) pasan de 63 a 363 reactivos y de 6 a 21 textos. Son los mismos en los ocho bancos, con el mismo id y contenido. Inglés suma 10 textos.
+- Los reactivos nuevos de Física llevan la etiqueta `exactas-fis`, los de Probabilidad `exactas-pye` y los del módulo general EPIU `epiu-general-sociales` o `epiu-general-experimentales`, igual que los anteriores.
+- Los diagnósticos no cambian: misma muestra, mismas proporciones y mismo tiempo. Todo lo nuevo va a Práctica.
+- Los montos se escriben `$10,000`. En los reactivos nuevos venían como `\$10 000` o dentro de una fórmula (`$\$500$`), y KaTeX no los componía.
+- Subieron a versión 2 los reactivos ICE-047, FIS-005 y QUI-029, y los nuevos CEA-195, ICE-153, FIS-035, FIS-083, FIS-116, PYE-044, PYE-088 y PYE-100 quedaron corregidos antes de importarse. En todos, la respuesta correcta era la única que empezaba con «≈» o «Aproximadamente». Ahora el redondeo se menciona en la argumentación.
+
+| Ruta | Diagnóstico | Para Práctica (más 200 de Inglés) |
+| --- | --- | --- |
+| Medicina | 78 reactivos | 860 |
+| Exactas: Cálculo y Física | 49 reactivos | 550 |
+| Exactas: Cálculo y Probabilidad | 45 reactivos | 547 |
+| Psicología | 43 reactivos | 520 |
+| EPIU (cada una de las 4 áreas) | 55 o 56 reactivos | 707 o 708 |
 
 Archivo: `banco-semilla-medicina.json` (JSON en UTF-8, listo para `fetch()` en la web o para importarse a una base de datos).
 
@@ -68,7 +94,7 @@ Mini diagnóstico, muestra de 20 minutos y simulacro salen de la misma muestra. 
 
 ## Estado de validación
 
-Desde el 24 de noviembre de 2026 todos los reactivos de Medicina, Exactas y Psicología tienen el visto bueno docente, y desde el 25 de noviembre también los de los cuatro bancos EPIU y el de Inglés (las 63 preguntas comunes conservan la fecha del 24): `estado: "validado"`, `validado_por: "Equipo docente de Estudiar es Clave"`, `validado_en: "2026-11-24"` y `origen: "ia"` (los redactó la IA y los aprobó un docente). El importador los acepta en modo estricto, el que se usa en producción. «publicado» no se escribe en el archivo: lo pone el sitio al publicar un release.
+Desde el 24 de noviembre de 2026 todos los reactivos de Medicina, Exactas y Psicología tienen el visto bueno docente, y desde el 25 de noviembre también los de los cuatro bancos EPIU, el de Inglés y todos los de las versiones ampliadas (los 489 anteriores conservan la fecha del 24): `estado: "validado"`, `validado_por: "Equipo docente de Estudiar es Clave"`, `validado_en: "2026-11-24"` y `origen: "ia"` (los redactó la IA y los aprobó un docente). El importador los acepta en modo estricto, el que se usa en producción. «publicado» no se escribe en el archivo: lo pone el sitio al publicar un release.
 
 Si una base ya tenía estos reactivos importados como «SIN VALIDAR», reimportar el archivo validado les pone el visto bueno sin crear versiones nuevas.
 

@@ -15,6 +15,17 @@ describe("componer", () => {
     expect(componer("Pagó $45 y $30.")).toBe("Pagó $45 y $30.");
   });
 
+  it("compone operaciones que empiezan con número aunque no traigan TeX", () => {
+    const h = componer("Se suman al multiplicar ($3 + 5 = 8$) y se restan al dividir ($8 - 4 = 4$).");
+    expect(h.match(/class="katex"/g)).toHaveLength(2);
+    expect(h).toContain("y se restan al dividir (");
+    expect(componer("es $2 : 2$ ($1 : 1$); 4 mol").match(/class="katex"/g)).toHaveLength(2);
+    expect(componer("El plan A cuesta $200 más $2 por minuto.")).toBe("El plan A cuesta $200 más $2 por minuto.");
+    expect(componer("Cuestan $150; 1 caja y 4 de otra cuestan $200. ¿Cuánto?")).toBe("Cuestan $150; 1 caja y 4 de otra cuestan $200. ¿Cuánto?");
+    expect(componer("Quedan $10 - $5 = $5.")).not.toContain("katex");
+    expect(componer("¿Cuánto vale $0!$? Divide entre $3.3 / 4.4$.").match(/class="katex"/g)).toHaveLength(2);
+  });
+
   it("respeta los pesos de los reactivos viejos", () => {
     expect(componer("Una chamarra cuesta $1,200 y luego $900.")).toBe("Una chamarra cuesta $1,200 y luego $900.");
     expect(componer("Cuesta \\$5")).toBe("Cuesta $5");

@@ -35,11 +35,11 @@ describe("importador", () => {
   it("importa en modo estricto (todo validado por docente), crea plantillas y publica un release", async () => {
     const r = await importarBanco(db, banco, { archivo: "semilla.json" });
     expect(r.errores).toEqual([]);
-    expect(r.versionesNuevas).toBe(338);
+    expect(r.versionesNuevas).toBe(938);
     expect(r.plantillas).toContain("mini-medicina-v1");
     await sembrarProductos(db);
     const rel = await publicarRelease(db, { examenId: "EXANI-II", version: "1.0.0-dev" });
-    expect(rel.reactivos).toBe(338);
+    expect(rel.reactivos).toBe(938);
   });
 
   it("reimportar el mismo archivo no duplica nada", async () => {
@@ -61,7 +61,7 @@ describe("importador", () => {
 
   it("exporta el release al mismo formato y se puede volver a importar", async () => {
     const json = await exportarRelease(db, "1.0.0-dev");
-    expect(json.reactivos).toHaveLength(338);
+    expect(json.reactivos).toHaveLength(938);
     const original = JSON.parse(banco).reactivos[5];
     const exportado = json.reactivos.find((r) => r.id === original.id)!;
     expect(exportado.opciones).toEqual(original.opciones);
