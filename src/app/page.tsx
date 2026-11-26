@@ -7,133 +7,276 @@ import { productosActivos } from "@/lib/comercio/comercio";
 import { pesos } from "@/lib/fechas";
 import { AREAS_GENERALES, totalCarreras } from "@/lib/areas-generales";
 import { DibujoMotivo } from "@/components/motivo-area";
-import { Titular } from "@/components/portada/titular";
-import { Servicios } from "@/components/portada/servicios";
+import { Horizonte } from "@/components/portada/horizonte";
+import { Lectura } from "@/components/portada/lectura";
+import { Fases } from "@/components/portada/fases";
 import { Arranque } from "@/components/portada/arranque";
-import { PildoraFlotante } from "@/components/portada/pildora";
+import { NavegacionFlotante } from "@/components/portada/navegacion";
 import { PREGUNTAS } from "@/textos/preguntas";
 import { t } from "@/textos/es-MX";
 
 /**
- * Portada. Dirección: un solo degradado de noche a ciruela y violeta que
- * acompaña todo el recorrido, titulares enormes en Anybody condensada, frases
- * cortas y una acción luminosa siempre a mano. El resto del sitio conserva su
- * sistema; esto solo cambia la primera impresión.
+ * Portada. Dirección: un horizonte de madrugada al abrir y, después, negro y
+ * blanco roto. Sans en negritas con la palabra clave en cursiva serif,
+ * etiquetas en minúscula con guion bajo, frases que se encienden al leerlas y
+ * una barra flotante para moverse. El resto del sitio conserva su sistema.
  */
+const PALABRAS = [
+  "Diagnóstico",
+  "Prioridad",
+  "Porqué",
+  "Práctica",
+  "Repaso",
+  "Racha",
+  "Simulacro",
+  "Liga",
+];
+
+const BENEFICIOS: [string, string, string][] = [
+  [
+    "Saber qué estudiar",
+    "sin adivinar.",
+    "El diagnóstico ordena tus temas por lo que más puntos te puede dar: lo que pesa mucho en el examen y es donde más fallas.",
+  ],
+  [
+    "El porqué de",
+    "cada opción.",
+    "No solo la correcta. Cada respuesta incorrecta explica por qué parecía buena y en qué se equivoca.",
+  ],
+  [
+    "Lo que fallas",
+    "vuelve.",
+    "Tus errores regresan a los 1, 3 y 7 días, justo cuando estás por olvidarlos.",
+  ],
+  [
+    "Precios",
+    "a la vista.",
+    "Un solo pago hasta el día del examen, IVA incluido y sin renovaciones automáticas.",
+  ],
+  [
+    "Una calificación que",
+    "no cambia de humor.",
+    "Mismas reglas para todos, preguntas originales revisadas por docentes y la revisión pregunta por pregunta.",
+  ],
+];
+
 export default async function Portada() {
   const ses = await sesionActual().catch(() => null);
   if (ses?.perfil) redirect("/inicio");
   const productos = await productosActivos(db).catch(() => []);
 
   return (
-    <div className="portada">
-      <section className="portada-hero" id="portada-hero">
-        <div className="wrap">
-          <Titular lineas={["Saber qué", "estudiar es", "la mitad", "del examen."]} etiqueta="Saber qué estudiar es la mitad del examen" />
-          <div className="portada-hero-pie">
-            <p>Simulador del EXANI-II para la BUAP. Diagnóstico, práctica diaria y simulacro para tu área, con el porqué de cada respuesta.</p>
-            <div className="fila">
-              <Link href="/mini" className="btn-luz">
-                Empezar gratis
-              </Link>
-              <Link href="/entrar" className="enlace-flecha">
-                Ya tengo cuenta
-              </Link>
-            </div>
+    <div className="joa">
+      <section className="joa-hero" id="portada-hero">
+        <Horizonte />
+        <div className="joa-hero-centro">
+          <h1>
+            Simulador
+            <br />
+            del EXANI-II
+            <br />
+            para la BUAP
+            <br />
+            que te dice
+            <br />
+            <em>qué estudiar</em>
+            <br />
+            primero.
+          </h1>
+        </div>
+        <div className="wrap joa-hero-pie">
+          <div>
+            <span className="joa-etiqueta">_simulador</span>
+            <p className="joa-hero-frase">
+              Saber qué estudiar es <em>la mitad</em> del examen.
+            </p>
+          </div>
+          <div className="joa-hero-acciones">
+            <Link href="/mini" className="joa-boton">
+              Empezar gratis
+            </Link>
+            <Link href="/entrar" className="joa-enlace">
+              Ya tengo cuenta
+            </Link>
           </div>
         </div>
       </section>
 
-      <section className="portada-banda">
+      <section className="joa-negro joa-manifiesto" id="manifiesto">
         <div className="wrap">
-          <p className="manifiesto">
-            Hay cursos de seis meses, guías de 300 páginas y videos de dos horas. Aquí empiezas por lo que más puntos te da: <b>20 minutos para saber dónde estás</b> y
-            diez preguntas al día para avanzar.
+          <h2 className="joa-etiqueta">_manifiesto</h2>
+          <p className="joa-frase">
+            Practicar visto como <em>el lugar</em> donde un aspirante
+            <br /> deja de <em>adivinar.</em>
           </p>
-        </div>
-      </section>
-
-      <section className="portada-banda">
-        <div className="wrap">
-          <span className="portada-ceja">Cómo funciona</span>
-          <Servicios />
-        </div>
-      </section>
-
-      <section className="portada-banda">
-        <div className="wrap portada-casos">
-          <div className="portada-casos-titulo">
-            <h2>Tu área, tu examen.</h2>
-            <p>Cuatro áreas de conocimiento en la BUAP. Cada una con su diagnóstico, su banco de preguntas y su propio estilo.</p>
-          </div>
-          <ol className="casos">
-            {AREAS_GENERALES.map((a, i) => (
-              <li key={a.slug} className="caso" style={{ "--acento": a.acento } as React.CSSProperties}>
-                <Link href={`/carreras/${a.slug}`} className="caso-imagen" aria-label={`Ver ${a.nombre}`}>
-                  <DibujoMotivo tema={a.tema} acento={a.acento} className="ilustracion mini" />
-                </Link>
-                <div className="caso-texto">
-                  <span className="caso-num">
-                    {i + 1}/{AREAS_GENERALES.length}
-                  </span>
-                  <h3>
-                    <Link href={`/carreras/${a.slug}`}>{a.nombre}</Link>
-                  </h3>
-                  <p>{a.lema}</p>
-                  <div className="caso-dato">
-                    <b>{totalCarreras(a)}</b>
-                    <span>carreras en esta área</span>
-                  </div>
-                </div>
+          <ul className="joa-nube" aria-label="Lo que encuentras aquí">
+            {PALABRAS.map((p, k) => (
+              <li key={p} style={{ "--k": k } as React.CSSProperties}>
+                {p}
               </li>
             ))}
-          </ol>
+          </ul>
         </div>
       </section>
 
-      <section className="portada-banda portada-negro">
+      <section className="joa-claro joa-lectura">
         <div className="wrap">
-          <span className="portada-ceja">Precios</span>
-          <h2 className="portada-h2">Precios públicos. Un pago, hasta el examen.</h2>
-          <div className="precios">
-            <div className="precio">
-              <h3>Gratis</h3>
-              <b className="precio-cifra">$0</b>
-              <p>Un diagnóstico por temporada, 15 preguntas al día y 3 días del pase completo al crear tu cuenta, sin tarjeta.</p>
-              <Link href="/entrar" className="enlace-flecha">
+          <Lectura texto="Hay cursos de seis meses, guías de 300 páginas y videos de dos horas. Aquí empiezas por lo que más puntos te da: veinte minutos para saber dónde estás y diez preguntas al día para avanzar." />
+        </div>
+      </section>
+
+      <section className="joa-claro" id="areas">
+        <div className="wrap">
+          <div className="joa-cabecera">
+            <div>
+              <h2 className="joa-etiqueta">_áreas</h2>
+              <p className="joa-titulo">
+                Cuatro áreas, <em>un mismo</em> examen.
+              </p>
+            </div>
+            <Link href="/carreras" className="joa-enlace">
+              Ver todas
+            </Link>
+          </div>
+          <ul className="joa-casos">
+            {AREAS_GENERALES.map((a) => (
+              <li
+                key={a.slug}
+                style={{ "--acento": a.acento } as React.CSSProperties}
+              >
+                <Link href={`/carreras/${a.slug}`} className="joa-caso">
+                  <span className="joa-caso-imagen">
+                    <DibujoMotivo
+                      tema={a.tema}
+                      acento={a.acento}
+                      className="ilustracion mini"
+                    />
+                  </span>
+                  <span className="joa-caso-pie">
+                    <span className="joa-caso-nombre">
+                      Ver área <b>/{a.corto}</b>
+                    </span>
+                    <span className="joa-caso-dato">
+                      {totalCarreras(a)} carreras
+                    </span>
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section
+        className="joa-claro joa-cifras"
+        aria-label="El examen en cifras"
+      >
+        <div className="wrap">
+          <p>
+            El EXANI-II de la BUAP tiene <b>190</b> preguntas y dura hasta{" "}
+            <b>5</b> horas. Cada una tiene <b>3</b> opciones y equivocarte te
+            resta <b>0</b> puntos.
+          </p>
+          <span className="joa-nota">
+            Guía del sustentante del CENEVAL y su página para la BUAP. Medicina
+            va aparte, en dos etapas.
+          </span>
+        </div>
+      </section>
+
+      <section className="joa-negro" id="proceso">
+        <div className="wrap">
+          <div className="joa-centrado">
+            <h2 className="joa-etiqueta">_proceso</h2>
+            <p className="joa-titulo">
+              Un <em>método</em> para llegar
+              <br /> con el <em>resultado</em> claro.
+            </p>
+          </div>
+          <Fases />
+        </div>
+      </section>
+
+      <section className="joa-negro joa-beneficios">
+        <div className="wrap joa-dos">
+          <h2 className="joa-etiqueta joa-pegajosa">_beneficios</h2>
+          <ul>
+            {BENEFICIOS.map(([a, b, c]) => (
+              <li key={b}>
+                <h3>
+                  {a} <em>{b}</em>
+                </h3>
+                <p>{c}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section className="joa-claro" id="precios">
+        <div className="wrap">
+          <div className="joa-cabecera">
+            <div>
+              <h2 className="joa-etiqueta">_precios</h2>
+              <p className="joa-titulo">
+                Un pago, <em>hasta el examen.</em>
+              </p>
+            </div>
+            <Link href="/planes" className="joa-enlace">
+              Comparar planes
+            </Link>
+          </div>
+          <div className="joa-precios">
+            <div className="joa-precio">
+              <span className="joa-etiqueta">_gratis</span>
+              <b>$0</b>
+              <p>
+                Un diagnóstico por temporada, 15 preguntas al día y 3 días del
+                pase completo al crear tu cuenta, sin tarjeta.
+              </p>
+              <Link href="/entrar" className="joa-enlace">
                 Crear cuenta
               </Link>
             </div>
             {productos.map((p, k) => (
-              <div key={p.sku} className={`precio ${k === productos.length - 1 ? "destacado" : ""}`}>
-                <h3>{p.nombre}</h3>
-                <b className="precio-cifra">{pesos(Number(p.precioMxn))}</b>
+              <div
+                key={p.sku}
+                className={`joa-precio ${k === productos.length - 1 ? "destacado" : ""}`}
+              >
+                <span className="joa-etiqueta">
+                  _{p.nombre.toLowerCase().replaceAll(" ", "_")}
+                </span>
+                <b>{pesos(Number(p.precioMxn))}</b>
                 <p>{p.descripcion}</p>
-                <Link href="/planes" className="enlace-flecha">
+                <Link href="/planes" className="joa-enlace">
                   Ver qué incluye
                 </Link>
               </div>
             ))}
           </div>
-          <p className="portada-nota">IVA incluido. Sin renovaciones automáticas. Tarjeta, OXXO o SPEI.</p>
+          <p className="joa-nota">
+            IVA incluido. Sin renovaciones automáticas. Tarjeta, OXXO o SPEI.
+          </p>
         </div>
       </section>
 
-      <section className="portada-banda portada-negro">
-        <div className="wrap portada-faq">
+      <section className="joa-claro joa-borde">
+        <div className="wrap joa-dos">
           <div>
-            <span className="portada-ceja">Preguntas frecuentes</span>
-            <p className="portada-faq-lema">¿Sigues con dudas? Lo raro sería no tenerlas.</p>
-            <Link href="/preguntas-frecuentes" className="btn-luz">
+            <h2 className="joa-etiqueta">_preguntas</h2>
+            <p className="joa-titulo">
+              ¿Dudas? <em>Lo raro</em> sería no tenerlas.
+            </p>
+            <Link href="/preguntas-frecuentes" className="joa-enlace">
               Ver todas
             </Link>
           </div>
-          <div className="faq-lista">
+          <div className="joa-faq">
             {PREGUNTAS.slice(0, 6).map(([p, r]) => (
-              <details key={p} className="faq">
+              <details key={p}>
                 <summary>
                   <span>{p}</span>
-                  <Plus size={22} strokeWidth={1.5} aria-hidden />
+                  <Plus size={20} strokeWidth={1.5} aria-hidden />
                 </summary>
                 <p>{r}</p>
               </details>
@@ -142,24 +285,26 @@ export default async function Portada() {
         </div>
       </section>
 
-      <section className="portada-banda portada-negro portada-declaracion">
+      <section className="joa-negro joa-cierre">
         <div className="wrap">
-          <p className="declaracion" aria-label="Cero relleno. Puro examen.">
-            <span>Cero relleno.</span>
-            <span>Puro examen.</span>
+          <h2 className="joa-etiqueta">
+            Diagnóstico, práctica diaria y simulacro con el porqué de cada
+            respuesta.
+          </h2>
+          <p className="joa-cierre-frase">
+            Tú pones las ganas.
+            <br />
+            <em>Nosotros, el orden.</em>
           </p>
-          <p className="declaracion-pie">Preguntas originales revisadas por docentes, precios a la vista y una calificación que no cambia de humor. {t.aviso.estimacion}</p>
-        </div>
-      </section>
-
-      <section className="portada-banda portada-arranque">
-        <div className="wrap">
-          <span className="portada-ceja">Empieza</span>
+          <span className="joa-temporada">
+            <i aria-hidden /> Temporada 2027 abierta
+          </span>
           <Arranque />
+          <p className="joa-nota">{t.aviso.estimacion}</p>
         </div>
       </section>
 
-      <PildoraFlotante />
+      <NavegacionFlotante />
     </div>
   );
 }

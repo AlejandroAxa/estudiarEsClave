@@ -11,7 +11,13 @@ export function Arranque() {
         Hola, soy{" "}
         <label className="arranque-campo">
           <span className="sr-only">Tu nombre</span>
-          <input name="nombre-local" form="no-enviar" placeholder="tu nombre" autoComplete="given-name" maxLength={40} />
+          <input
+            name="nombre-local"
+            form="no-enviar"
+            placeholder="tu nombre"
+            autoComplete="given-name"
+            maxLength={40}
+          />
         </label>{" "}
         y voy por{" "}
         <label className="arranque-campo">
@@ -30,8 +36,10 @@ export function Arranque() {
         . Quiero saber qué estudiar primero.
       </p>
       <div className="fila">
-        <button className="btn-luz">Hacer mi mini diagnóstico</button>
-        <span className="arranque-nota">20 minutos, sin cuenta y sin tarjeta.</span>
+        <button className="joa-boton">Hacer mi mini diagnóstico</button>
+        <span className="arranque-nota">
+          20 minutos, sin cuenta y sin tarjeta.
+        </span>
       </div>
     </form>
   );
