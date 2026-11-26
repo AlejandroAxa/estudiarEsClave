@@ -24,12 +24,39 @@ export async function enviarCorreo(p: { para: string; asunto: string; html: stri
     }
     return;
   }
-  const res = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${clave}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ from: de, to: [p.para], subject: p.asunto, html: p.html, text: p.texto }),
-  });
-  if (!res.ok) throw new Error(`No se pudo enviar el correo (${res.status})`);
+  // Una llave de idempotencia por correo: si un reintento llega dos veces, Resend manda uno solo.
+  const llave = crypto.randomUUID();
+  const cuerpo = JSON.stringify({ from: de, to: [p.para], subject: p.asunto, html: p.html, text: p.texto });
+  for (let intento = 1; ; intento++) {
+    let estado = 0;
+    let detalle = "";
+    let espera = 500 * 2 ** (intento - 1);
+    try {
+      const res = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${clave}`, "Content-Type": "application/json", "Idempotency-Key": llave },
+        body: cuerpo,
+      });
+      if (res.ok) {
+        const { id } = (await res.json().catch(() => ({}))) as { id?: string };
+        console.info(`[correo] Enviado con Resend (id ${id ?? "?"})`);
+        return;
+      }
+      estado = res.status;
+      detalle = await res.text().catch(() => "");
+      const reintento = Number(res.headers.get("retry-after"));
+      if (reintento > 0) espera = Math.min(reintento * 1000, 10_000);
+    } catch (e) {
+      detalle = e instanceof Error ? e.message : String(e); // error de red
+    }
+    // Solo se reintenta lo pasajero: red, 429 y 5xx. Un 4xx (clave o remitente mal) no se arregla solo.
+    const pasajero = estado === 0 || estado === 429 || estado >= 500;
+    if (!pasajero || intento >= 3) {
+      console.error(`[correo] Resend rechazó el envío (${estado || "red"}): ${detalle}`);
+      throw new Error(`No se pudo enviar el correo (${estado || "red"})`);
+    }
+    await new Promise((r) => setTimeout(r, espera));
+  }
 }
 
 const escapar = (t: string) => t.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
