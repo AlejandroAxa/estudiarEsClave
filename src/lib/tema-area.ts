@@ -117,13 +117,31 @@ const RUTAS_FUERA_DE_EPIU: Record<string, { tema: TemaArea; area: string; acento
   "exactas-pye": { tema: "plano", area: "Ingenierías y Ciencias Exactas", acento: "#9CC9F5" },
 };
 
+/**
+ * Los nombres de lo que se hace (menú, títulos y botones) son los mismos en las
+ * cinco áreas: en la auditoría de noviembre de 2026, «Pagar mi cuota», «Caja» o
+ * «Farmacia» se leían como cobros o no decían qué hacía la página. El tema del
+ * área se queda en el acento, el motivo, la racha, las frases al acertar y el
+ * saludo («Despacho de Ana»).
+ */
+const FUNCIONAL = {
+  diagnostico: "Diagnóstico",
+  diagnosticoTexto: "Tu primer diagnóstico completo te dice qué estudiar primero.",
+  practica: "Práctica diaria",
+  practicaHoy: "práctica de hoy",
+  practicaTitulo: "Práctica",
+  tomar: "Empezar mis 10 preguntas",
+  tomarOtra: "Hacer 10 preguntas más",
+  bloqueGeneral: "Mezcla del día",
+} satisfies Partial<VocabularioArea>;
+
 /** Vocabulario y tema de una ruta. Sin ruta (o una desconocida) se queda con Salud, el diseño original. */
 export function temaDeRuta(rutaId: string | null | undefined): VocabularioArea {
   const general = rutaId ? areaGeneralPorRuta(rutaId) : undefined;
   const base = general
     ? { tema: general.tema, area: general.nombre, acento: general.acento }
     : (rutaId && RUTAS_FUERA_DE_EPIU[rutaId]) || RUTAS_FUERA_DE_EPIU.medicina;
-  return { ...base, ...VOCABULARIO[base.tema] };
+  return { ...base, ...VOCABULARIO[base.tema], ...FUNCIONAL };
 }
 
 export const plural = (n: number, [uno, varios]: [string, string]) => (n === 1 ? uno : varios);

@@ -8,7 +8,7 @@ export const t = {
     estimacion: "Estimación propia de Estudiar es Clave; no es un puntaje del CENEVAL.",
     sinValidar: "Banco en modo desarrollo: reactivos aún sin validar por un docente.",
   },
-  nav: { inicio: "Inicio", diagnostico: "Diagnóstico", practica: "Dosis diaria", avance: "Avance", liga: "Liga", planes: "Planes", cuenta: "Cuenta", entrar: "Entrar", admin: "Admin" },
+  nav: { inicio: "Inicio", diagnostico: "Diagnóstico", practica: "Práctica", avance: "Avance", liga: "Liga", planes: "Planes", cuenta: "Cuenta", entrar: "Entrar", admin: "Admin" },
   niveles: { Dominas: "Dominas", "En desarrollo": "En desarrollo", "Área de oportunidad": "Área de oportunidad", na: "Datos insuficientes" },
   practica: {
     aciertos: ["¡Eso! Diagnóstico certero.", "Correcto. Así se lee un caso.", "Bien visto. Siguiente paciente.", "Exacto. Pulso firme."],

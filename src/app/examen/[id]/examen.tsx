@@ -62,6 +62,9 @@ export function Examen({ intento, secciones, items, textos, ahoraServidor, vocab
   const [ahora, setAhora] = useState(() => Date.now() + desfase);
   const [ocupado, iniciar] = useTransition();
   const inicioPregunta = useRef(0);
+  /** En celular la lectura y la pregunta van en pestañas para no subir y bajar todo el texto. */
+  const [vista, setVista] = useState<"lectura" | "pregunta">("lectura");
+  const ultimoTexto = useRef<string | null>(null);
 
   const enCurso = secciones.find((s) => s.estado === "en_curso");
   const visibles = useMemo(
@@ -155,6 +158,14 @@ export function Examen({ intento, secciones, items, textos, ahoraServidor, vocab
   useEffect(() => {
     inicioPregunta.current = Date.now();
   }, [actual?.orden]);
+
+  // Al llegar a una lectura nueva se abre en la lectura; las siguientes preguntas del mismo texto, en la pregunta.
+  useEffect(() => {
+    const id = actual?.textoId ?? null;
+    if (id === ultimoTexto.current) return;
+    ultimoTexto.current = id;
+    setVista(id ? "lectura" : "pregunta");
+  }, [actual?.textoId]);
 
   const guardar = (orden: number, letra: Letra | null, marcada: boolean) => {
     // eslint-disable-next-line react-hooks/purity -- se llama desde un evento, no al dibujar
@@ -336,20 +347,46 @@ export function Examen({ intento, secciones, items, textos, ahoraServidor, vocab
             </div>
           </div>
         )}
-        <div className={`consulta ${texto ? "con-lectura" : ""}`}>
+        {texto && (
+          <div className="pestanas-lectura" role="tablist" aria-label="Lectura y pregunta">
+            <button role="tab" aria-selected={vista === "lectura"} aria-controls="panel-lectura" onClick={() => setVista("lectura")}>
+              Lectura
+            </button>
+            <button role="tab" aria-selected={vista === "pregunta"} aria-controls="panel-pregunta" onClick={() => setVista("pregunta")}>
+              Pregunta {idx + 1}
+              {elegida ? <Check size={14} aria-hidden /> : null}
+            </button>
+          </div>
+        )}
+        <div className={`consulta ${texto ? `con-lectura ver-${vista}` : ""}`}>
           {texto && (
-            <article className={`hoja lectura ${texto.esVerso ? "verso" : ""}`} aria-label="Lectura">
-              {texto.titulo && <h3>{texto.titulo}</h3>}
-              {texto.cuerpo.split("\n\n").map((p, k) => (
-                <p key={k}>{p}</p>
-              ))}
-              {texto.autoria && <p className="xs">{texto.autoria}</p>}
+            <article id="panel-lectura" className={`hoja lectura ${texto.esVerso ? "verso" : ""}`} aria-label="Lectura" tabIndex={0}>
+              <header className="lectura-cabeza">
+                <span className="lectura-ceja">Lectura · {texto.cuerpo.split(/\s+/).length} palabras</span>
+                {texto.titulo && <h3>{texto.titulo}</h3>}
+              </header>
+              <div className="lectura-cuerpo">
+                {texto.cuerpo.split("\n\n").map((p, k) => (
+                  <p key={k} data-n={texto.esVerso ? undefined : k + 1}>
+                    {p}
+                  </p>
+                ))}
+              </div>
+              {texto.autoria && <p className="lectura-autoria">{texto.autoria}</p>}
+              <button className="btn chico lectura-ir" onClick={() => setVista("pregunta")}>
+                Ir a la pregunta <ChevronRight size={18} aria-hidden />
+              </button>
             </article>
           )}
-          <section className="hoja" aria-labelledby="enunciado">
+          <section id="panel-pregunta" className="hoja panel-pregunta" aria-labelledby="enunciado">
             <div className="fila entre">
               <span className="small">
                 Pregunta {idx + 1} de {visibles.length}
+                {texto && (
+                  <button className="enlace-lectura" onClick={() => setVista("lectura")}>
+                    Volver a la lectura
+                  </button>
+                )}
               </span>
               {!practica && (
                 <button className="btn disc" onClick={marcar} aria-pressed={!!marc[actual.orden]}>

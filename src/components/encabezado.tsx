@@ -3,16 +3,15 @@ import { Menu } from "lucide-react";
 import { sesionActual } from "@/lib/sesion";
 import { Latido } from "./marca";
 import { t } from "@/textos/es-MX";
-import { temaDeRuta } from "@/lib/tema-area";
+import { NavEnlaces } from "./nav-enlaces";
 
 export async function Encabezado() {
   const ses = await sesionActual().catch(() => null);
-  const tema = ses?.perfil ? temaDeRuta(ses.perfil.rutaId) : null;
   const enlaces = ses
     ? [
         { href: "/inicio", txt: t.nav.inicio },
         { href: "/diagnostico", txt: t.nav.diagnostico },
-        { href: "/practica", txt: tema?.practica ?? t.nav.practica },
+        { href: "/practica", txt: t.nav.practica },
         { href: "/avance", txt: t.nav.avance },
         { href: "/liga", txt: t.nav.liga },
         { href: "/cuenta", txt: t.nav.cuenta },
@@ -26,15 +25,7 @@ export async function Encabezado() {
         { href: "/preguntas-frecuentes", txt: "Preguntas" },
         { href: "/entrar", txt: t.nav.entrar },
       ];
-  const nav = (
-    <>
-      {enlaces.map((e) => (
-        <Link key={e.href} href={e.href}>
-          {e.txt}
-        </Link>
-      ))}
-    </>
-  );
+  const nav = <NavEnlaces enlaces={enlaces} />;
   return (
     <header className="cabeza">
       <div className="wrap">
