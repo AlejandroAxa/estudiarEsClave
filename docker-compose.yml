@@ -35,6 +35,10 @@ services:
       PASARELA: simulada
       # Sin servicio de correo: los enlaces para entrar se ven en http://localhost:3000/entrar/buzon
       CORREO_LOCAL: "1"
+      # Para mandar correos de verdad con Resend, pon RESEND_API_KEY (y CORREO_REMITENTE) en un
+      # archivo .env junto a este compose. Con clave, el buzón local se apaga solo.
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      CORREO_REMITENTE: ${CORREO_REMITENTE:-Estudiar es Clave <onboarding@resend.dev>}
       ADMIN_EMAILS: admin@ejemplo.mx
       # Código del panel: agrega esta clave a tu app autenticadora (solo para Docker local).
       ADMIN_TOTP_SECRET: JBSWY3DPEHPK3PXPJBSWY3DPEHPK3PXP

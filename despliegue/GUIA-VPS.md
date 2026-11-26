@@ -136,7 +136,7 @@ Si más adelante llega un banco corregido, súbelo al repositorio y, después de
 
 ## Paso 9. Conectar los servicios externos
 
-**Resend (correo).** Para que los correos salgan desde tu dominio y no lleguen a spam, en Resend ve a *Domains → Add Domain*, escribe tu dominio y agrega en tu DNS los registros que te muestra (TXT y MX). Cuando Resend diga «Verified», revisa en `.env` que `CORREO_REMITENTE` use ese dominio.
+**Resend (correo).** Para que los correos salgan desde tu dominio y no lleguen a spam, en Resend ve a *Domains → Add Domain* y escribe un subdominio para correo, por ejemplo `mail.tu-dominio.mx` (así la reputación del correo no se mezcla con la del dominio principal). La región no se puede cambiar después. Agrega en tu DNS los registros que te muestra (TXT y MX) y, si tu dominio no tiene registro DMARC, agrega también un TXT en `_dmarc.tu-dominio.mx` con `v=DMARC1; p=none;`. Cuando Resend diga «Verified», crea en *API Keys* una clave con permiso **Sending access** limitada a ese dominio (no la de acceso completo), ponla en `RESEND_API_KEY` y deja `CORREO_REMITENTE="Estudiar es Clave <hola@mail.tu-dominio.mx>"` en `.env`. Reinicia con `docker compose up -d` y prueba entrando con tu correo.
 
 **Mercado Pago (pagos).** En *Tus integraciones → (tu aplicación) → Webhooks → Configurar notificaciones*, modo productivo:
 
