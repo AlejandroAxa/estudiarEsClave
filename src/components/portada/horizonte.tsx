@@ -32,20 +32,20 @@ export function Horizonte() {
       >
         <defs>
           <linearGradient id="mar-1" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stopColor="#8f7aa6" />
-            <stop offset="1" stopColor="#3f1d4a" />
+            <stop offset="0" stopColor="#7a97a6" />
+            <stop offset="1" stopColor="#003b5c" />
           </linearGradient>
           <linearGradient id="mar-2" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stopColor="#5d3f73" />
-            <stop offset="1" stopColor="#24122d" />
+            <stop offset="0" stopColor="#326680" />
+            <stop offset="1" stopColor="#0b2634" />
           </linearGradient>
           <linearGradient id="mar-3" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stopColor="#3a2348" />
-            <stop offset="1" stopColor="#130a18" />
+            <stop offset="0" stopColor="#1a3f51" />
+            <stop offset="1" stopColor="#06141c" />
           </linearGradient>
           <linearGradient id="mar-4" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stopColor="#1f1228" />
-            <stop offset="1" stopColor="#050307" />
+            <stop offset="0" stopColor="#0d222d" />
+            <stop offset="1" stopColor="#020608" />
           </linearGradient>
         </defs>
         {CAPAS.map((c, i) => (

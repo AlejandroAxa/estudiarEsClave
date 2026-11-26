@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   openGraph: { type: "website", locale: "es_MX", siteName: "Estudiar es Clave" },
 };
 
-export const viewport: Viewport = { themeColor: "#17121C", width: "device-width", initialScale: 1 };
+export const viewport: Viewport = { themeColor: "#0B1D2E", width: "device-width", initialScale: 1 };
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const tema = (await cookies()).get("eec_tema")?.value;
