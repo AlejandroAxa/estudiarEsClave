@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { ciclo } from "@/lib/consultas";
 import { formatoFecha } from "@/lib/fechas";
@@ -148,16 +149,29 @@ export default async function Guia() {
               </>
             }
           />
-          <ol className="ed-pasos">
-            {PLAN.map(([b, t], i) => (
-              <li key={b}>
-                <span className="ed-num">{String(i + 1).padStart(2, "0")}</span>
-                <p>
-                  <b>{b}</b> {t}
-                </p>
-              </li>
-            ))}
-          </ol>
+          <div className="ed-con-foto">
+            <figure className="ed-foto">
+              <Image
+                src="/imagenes/practica-en-aula.webp"
+                alt="Estudiantes en un salón resolviendo ejercicios en sus computadoras portátiles"
+                width={474}
+                height={316}
+                sizes="(max-width: 800px) 100vw, 474px"
+              />
+            </figure>
+            <ol className="ed-pasos">
+              {PLAN.map(([b, t], i) => (
+                <li key={b}>
+                  <span className="ed-num">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <p>
+                    <b>{b}</b> {t}
+                  </p>
+                </li>
+              ))}
+            </ol>
+          </div>
         </div>
       </section>
 
