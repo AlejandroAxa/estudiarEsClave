@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AREAS_GENERALES, totalCarreras } from "@/lib/areas-generales";
-import { IconoArea, TrazoArea } from "@/components/area-exani";
+import { IconoArea } from "@/components/area-exani";
+import {
+  Encabezado,
+  HeroEditorial,
+  Marquesina,
+} from "@/components/estilos/editorial";
 import { DibujoMotivo } from "@/components/motivo-area";
 
 export const metadata: Metadata = {
@@ -11,61 +16,98 @@ export const metadata: Metadata = {
 };
 
 export default function AreasGenerales() {
+  const carreras = AREAS_GENERALES.flatMap((a) =>
+    a.grupos.flatMap((g) => g.carreras),
+  );
   return (
-    <>
-      <section className="noche band" style={{ position: "relative", overflow: "hidden" }}>
-        <div className="wrap" style={{ position: "relative", zIndex: 1 }}>
-          <span className="pastilla oscura">BUAP 2027 · 4 áreas de conocimiento</span>
-          <h1 style={{ marginTop: 20, fontSize: "clamp(34px,5.5vw,64px)" }}>Áreas generales</h1>
-          <p className="lead" style={{ maxWidth: "60ch" }}>
-            En la BUAP tu carrera pertenece a una de cuatro áreas, y el área decide qué módulos presentas en el EXANI-II. Busca tu carrera, entra a su
-            área y haz un diagnóstico con preguntas de esa área.
-          </p>
-        </div>
-        <TrazoArea slug="biologia" />
-      </section>
+    <div className="editorial">
+      <HeroEditorial
+        ceja="BUAP 2027 · Áreas de conocimiento"
+        titulo={
+          <>
+            Áreas
+            <br /> generales
+          </>
+        }
+        sub={
+          <>
+            Tu carrera <u>decide tu examen</u>
+          </>
+        }
+        cifras={[
+          ["4", "Áreas de conocimiento"],
+          [String(carreras.length), "Licenciaturas"],
+          ["190", "Reactivos por área"],
+          ["1", "Diagnóstico por área"],
+        ]}
+      />
 
-      <section className="band">
-        <div className="wrap pila">
-          <div className="rejilla ag-indice">
-            {AREAS_GENERALES.map((a) => (
-              <Link
+      <Marquesina
+        etiqueta="Algunas licenciaturas de la BUAP"
+        items={carreras.slice(0, 24)}
+      />
+
+      <section className="ed-papel">
+        <div className="wrap">
+          <Encabezado
+            ceja="Elige la tuya"
+            titulo={
+              <>
+                Busca tu carrera,{" "}
+                <span className="ed-acento">entra a su área.</span>
+              </>
+            }
+          >
+            <p className="ed-intro">
+              En la BUAP tu carrera pertenece a una de cuatro áreas, y el área
+              decide qué módulos presentas en el EXANI-II. Dentro de cada una
+              haces un diagnóstico con preguntas de esa área.
+            </p>
+          </Encabezado>
+          <ol className="ed-tarjetas ed-areas">
+            {AREAS_GENERALES.map((a, i) => (
+              <li
                 key={a.slug}
-                href={`/carreras/${a.slug}`}
-                className={`hoja tarjeta-area ag-tarjeta ag-${a.tema}`}
                 style={{ "--acento": a.acento } as React.CSSProperties}
               >
-                <span className="tarjeta-mini ag-tarjeta-mini">
-                  <DibujoMotivo tema={a.tema} acento={a.acento} className="ilustracion mini" />
-                </span>
-                <span className="fila entre">
-                  <IconoArea nombre={a.icono} />
-                  <span className="xs">{totalCarreras(a)} licenciaturas</span>
-                </span>
-                <h2 className="ag-tarjeta-titulo">{a.nombre}</h2>
-                <p className="small">{a.lema}</p>
-                <p className="xs" style={{ marginBottom: 0 }}>
-                  {a.grupos
-                    .flatMap((g) => g.carreras)
-                    .slice(0, 4)
-                    .join(" · ")}
-                  …
-                </p>
-              </Link>
+                <Link href={`/carreras/${a.slug}`} className="ed-area">
+                  <span className="fila entre">
+                    <span className="ed-num">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <IconoArea nombre={a.icono} color="var(--acento)" />
+                  </span>
+                  <span className="ed-area-dibujo">
+                    <DibujoMotivo
+                      tema={a.tema}
+                      acento={a.acento}
+                      className="ilustracion mini"
+                    />
+                  </span>
+                  <h3>{a.nombre}</h3>
+                  <p>«{a.lema}»</p>
+                  <span className="ed-area-dato">
+                    {totalCarreras(a)} licenciaturas
+                  </span>
+                </Link>
+              </li>
             ))}
-          </div>
-          <aside className="hoja guia-oficial">
-            <h3>¿Vas por Medicina?</h3>
-            <p className="small" style={{ marginBottom: 0 }}>
-              Medicina es del área de Naturales y de Salud, pero tiene su propia evaluación en dos etapas (Premedicina y Razonamiento clínico avanzado
-              primero, áreas comunes después). <Link href="/carreras/medicina">Mira la ruta de Medicina</Link>.
+          </ol>
+          <aside className="ed-nota">
+            <span className="ed-ojo">¿Vas por Medicina?</span>
+            <p>
+              Medicina es del área de Naturales y de Salud, pero tiene su propia
+              evaluación en dos etapas (Premedicina y Razonamiento clínico
+              avanzado primero, áreas comunes después).{" "}
+              <Link href="/carreras/medicina">Mira la ruta de Medicina</Link>.
             </p>
           </aside>
-          <p className="small">
-            ¿Quieres el temario de cada módulo? Está en <Link href="/areas">Áreas del examen</Link>.
+          <p className="ed-letra-chica">
+            ¿Quieres el temario de cada módulo? Está en{" "}
+            <Link href="/areas">Áreas del examen</Link>.
           </p>
         </div>
       </section>
-    </>
+    </div>
   );
 }
