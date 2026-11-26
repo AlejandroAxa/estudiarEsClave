@@ -7,7 +7,7 @@ import { productosActivos } from "@/lib/comercio/comercio";
 import { pesos } from "@/lib/fechas";
 import { AREAS_GENERALES, totalCarreras } from "@/lib/areas-generales";
 import { DibujoMotivo } from "@/components/motivo-area";
-import { Horizonte } from "@/components/portada/horizonte";
+import Image from "next/image";
 import { Lectura } from "@/components/portada/lectura";
 import { Fases } from "@/components/portada/fases";
 import { Arranque } from "@/components/portada/arranque";
@@ -16,7 +16,7 @@ import { PREGUNTAS } from "@/textos/preguntas";
 import { t } from "@/textos/es-MX";
 
 /**
- * Portada. Dirección: un horizonte de madrugada al abrir y, después, negro y
+ * Portada. Dirección: una foto del campus a todo lo ancho al abrir y, después, negro y
  * blanco roto. Sans en negritas con la palabra clave en cursiva serif,
  * etiquetas en minúscula con guion bajo, frases que se encienden al leerlas y
  * una barra flotante para moverse. El resto del sitio conserva su sistema.
@@ -68,7 +68,15 @@ export default async function Portada() {
   return (
     <div className="joa">
       <section className="joa-hero" id="portada-hero">
-        <Horizonte />
+        <div className="joa-hero-foto" aria-hidden>
+          <Image
+            src="/imagenes/campus-multiaulas.webp"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+          />
+        </div>
         <div className="joa-hero-centro">
           <h1>
             Simulador
@@ -124,6 +132,23 @@ export default async function Portada() {
           <Lectura texto="Hay cursos de seis meses, guías de 300 páginas y videos de dos horas. Aquí empiezas por lo que más puntos te da: veinte minutos para saber dónde estás y diez preguntas al día para avanzar." />
         </div>
       </section>
+
+      <figure className="joa-foto">
+        <Image
+          src="/imagenes/aspirantes.webp"
+          alt="Cuatro estudiantes sentados en las escaleras de un edificio, sonriendo y haciendo la señal de amor y paz"
+          width={1600}
+          height={1066}
+          sizes="100vw"
+        />
+        <figcaption className="wrap">
+          <span className="joa-etiqueta">_aspirantes</span>
+          <span>
+            Para quien ya sabe a qué carrera va y quiere llegar al examen
+            sabiendo qué le toca estudiar.
+          </span>
+        </figcaption>
+      </figure>
 
       <section className="joa-claro" id="areas">
         <div className="wrap">
