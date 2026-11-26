@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { planPorSku, SKU_BASICO, SKU_MEDICINA } from "@/lib/planes-area";
 import type { Metadata } from "next";
 import { and, count, desc, eq, gte } from "drizzle-orm";
 import { ArrowRight, Award, Check, ClipboardCheck, Lock, RotateCcw, Target, Timer } from "lucide-react";
@@ -110,7 +111,7 @@ export default async function Inicio({ searchParams }: { searchParams: Promise<{
             </>
           )
         }
-        acciones={<PlanEtiqueta plan={plan.plan} hasta={plan.plan === "prueba" ? plan.pruebaHasta : plan.paseHasta} areas={plan.areas} />}
+        acciones={<PlanEtiqueta plan={plan.plan} hasta={plan.plan === "prueba" ? plan.pruebaHasta : plan.paseHasta} productos={plan.productos} />}
         cifras={[
           { valor: <>{Math.min(hoy, 10)}<small>/10</small></>, etiqueta: "Preguntas hoy" },
           { valor: rachaHoy, etiqueta: plural(rachaHoy, tema.racha), nota: `Mejor: ${racha?.mejor ?? 0}` },
@@ -257,16 +258,19 @@ export default async function Inicio({ searchParams }: { searchParams: Promise<{
   );
 }
 
-function PlanEtiqueta({ plan, hasta, areas }: { plan: string; hasta: Date | null; areas: string[] | null }) {
+function PlanEtiqueta({ plan, hasta, productos }: { plan: string; hasta: Date | null; productos: string[] }) {
+  const nombre = productos.includes(SKU_MEDICINA)
+    ? "Paquete Medicina"
+    : (productos.map((s) => planPorSku(s)?.nombre).find(Boolean) ?? (productos.includes(SKU_BASICO) ? "Pase Básico" : "Pase completo"));
   if (plan === "gratis")
     return (
       <Link href="/planes" className="pastilla enlace">
-        Plan gratis · ver el pase
+        Plan gratis · ver el plan de tu área
       </Link>
     );
   return (
     <span className="pastilla">
-      {plan === "prueba" ? "Prueba del pase" : areas ? "Pase Básico" : "Pase completo"}
+      {plan === "prueba" ? "Prueba de 3 días" : nombre}
       {hasta ? ` hasta el ${formatoFecha(hasta, { day: "numeric", month: "short" })}` : ""}
     </span>
   );

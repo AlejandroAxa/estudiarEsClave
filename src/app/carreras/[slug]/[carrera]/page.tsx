@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { planDeRuta } from "@/lib/planes-area";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight, Check } from "lucide-react";
@@ -219,7 +220,7 @@ export default async function PaginaCarrera({ params }: Params) {
               <span>02</span>
               <h3>Práctica diaria</h3>
               <p>10 preguntas al día empezando por tus prioridades. Cada opción trae su porqué y lo que fallas vuelve a los 1, 3 y 7 días.</p>
-              <Link href="/planes">Qué incluye gratis</Link>
+              <Link href={`/planes#${planDeRuta(a.rutaId)?.sku ?? ""}`}>Ver el plan de {a.corto}</Link>
             </li>
             <li>
               <span>03</span>
@@ -304,6 +305,10 @@ export default async function PaginaCarrera({ params }: Params) {
           <Link className="btn" href={miniHref}>
             Hacer mi mini diagnóstico <ArrowRight size={18} aria-hidden />
           </Link>
+          <p className="small" style={{ marginTop: 16 }}>
+            Cuando quieras todo abierto: <Link href={`/planes#${planDeRuta(a.rutaId)?.sku ?? ""}`}>el plan de {a.corto}</Link> cubre {c.nombre} y las demás
+            carreras de su área.
+          </p>
           <p className="xs" style={{ marginTop: 24, marginInline: "auto" }}>
             Estudiar es Clave no tiene relación con el CENEVAL ni con la BUAP. La convocatoria de tu año es la que manda: una carrera puede cambiar de
             área o de sede.

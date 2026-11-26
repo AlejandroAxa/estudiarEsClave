@@ -1,13 +1,17 @@
 /**
  * Configuración base, segura para producción: exámenes, ciclos, límites del
- * plan, insignias y promoción. No importa preguntas (eso se hace desde el panel).
+ * plan, insignias, promoción y productos (solo los que faltan; los que ya
+ * existen no se tocan). No importa preguntas (eso se hace desde el panel).
  *   npm run db:configurar
  */
 import { migrar } from "./migrar";
-import { sembrarConfiguracion } from "../src/lib/semilla";
+import { sembrarConfiguracion, sembrarProductos } from "../src/lib/semilla";
 
 migrar()
-  .then((db) => sembrarConfiguracion(db, { fechaExamen: null }))
+  .then(async (db) => {
+    await sembrarConfiguracion(db, { fechaExamen: null });
+    await sembrarProductos(db);
+  })
   .then(() => {
     console.log("Configuración base lista.");
     process.exit(0);

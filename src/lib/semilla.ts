@@ -5,6 +5,7 @@
  */
 import type { Db } from "@/db/conexion";
 import * as s from "@/db/schema";
+import { AREAS_COMUNES, PLANES_AREA } from "./planes-area";
 
 export const LIMITES_INICIALES: (typeof s.limitePlan.$inferInsert)[] = [
   // recurso, cantidad (null = ilimitado, 0 = no incluido), periodo
@@ -99,36 +100,53 @@ export async function sembrarConfiguracion(db: Db, opciones: { fechaExamen?: str
     .onConflictDoNothing();
 }
 
-/** Productos: requieren que la ruta medicina ya exista (se crea al importar el banco). */
+/**
+ * Productos. Los que van dirigidos a una ruta solo se crean si esa ruta ya
+ * existe (las rutas se crean al importar el banco), así que se puede llamar en
+ * cada arranque: lo que ya existe no se toca y el precio se edita en el panel.
+ */
 export async function sembrarProductos(db: Db) {
-  await db
-    .insert(s.producto)
-    .values([
-      {
-        sku: "pase-basico-2027",
-        examenId: "EXANI-II",
-        cicloAnio: 2027,
-        nombre: "Pase Básico",
-        descripcion: "Todo abierto en Comprensión lectora, Redacción indirecta y Pensamiento matemático hasta el día del examen.",
-        tipo: "pase",
-        precioMxn: "299.00",
-        areas: "CL,RI,PM",
-        vigenteDesde: "2026-11-24",
-        orden: 1,
-      },
-      {
-        sku: "paquete-medicina-2027",
-        examenId: "EXANI-II",
-        cicloAnio: 2027,
-        nombre: "Paquete Medicina",
-        descripcion: "Todo el Pase Básico más Biología, Química y Premedicina, con simulacros completos ilimitados.",
-        tipo: "paquete",
-        precioMxn: "599.00",
-        areas: null,
-        rutaId: "medicina",
-        vigenteDesde: "2026-11-24",
-        orden: 2,
-      },
-    ])
-    .onConflictDoNothing();
+  const rutas = new Set((await db.select({ id: s.ruta.id }).from(s.ruta)).map((r) => r.id));
+  const productos: (typeof s.producto.$inferInsert)[] = [
+    {
+      sku: "pase-basico-2027",
+      examenId: "EXANI-II",
+      cicloAnio: 2027,
+      nombre: "Pase Básico",
+      descripcion: "Todo abierto en Comprensión lectora, Redacción indirecta y Pensamiento matemático hasta el día del examen.",
+      tipo: "pase",
+      precioMxn: "299.00",
+      areas: "CL,RI,PM",
+      vigenteDesde: "2026-11-24",
+      orden: 1,
+    },
+    ...PLANES_AREA.map((p) => ({
+      sku: p.sku,
+      examenId: "EXANI-II",
+      cicloAnio: 2027,
+      nombre: p.nombre,
+      descripcion: `Todo abierto para las carreras de ${p.area.nombre}: áreas comunes, ${p.incluye.join(", ").toLowerCase()}, con simulacros completos ilimitados hasta el día del examen.`,
+      tipo: "paquete" as const,
+      precioMxn: p.precio,
+      areas: [...AREAS_COMUNES, ...p.modulos].join(","),
+      rutaId: p.rutaId,
+      vigenteDesde: "2026-11-26",
+      orden: p.orden,
+    })),
+    {
+      sku: "paquete-medicina-2027",
+      examenId: "EXANI-II",
+      cicloAnio: 2027,
+      nombre: "Paquete Medicina",
+      descripcion: "Todo el Pase Básico más Biología, Química y Premedicina, con simulacros completos ilimitados.",
+      tipo: "paquete",
+      precioMxn: "599.00",
+      areas: null,
+      rutaId: "medicina",
+      vigenteDesde: "2026-11-24",
+      orden: 6,
+    },
+  ];
+  const listos = productos.filter((p) => !p.rutaId || rutas.has(p.rutaId));
+  if (listos.length) await db.insert(s.producto).values(listos).onConflictDoNothing();
 }

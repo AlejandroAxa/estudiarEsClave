@@ -2,9 +2,9 @@
 import { useActionState, useState } from "react";
 import { crearPedidoFamilia } from "@/app/acciones/compra";
 
-export function PedirFamilia({ productos, alias }: { productos: { sku: string; nombre: string; total: number }[]; alias: string }) {
+export function PedirFamilia({ productos, alias, inicial }: { productos: { sku: string; nombre: string; total: number }[]; alias: string; inicial?: string }) {
   const [estado, accion, enviando] = useActionState(crearPedidoFamilia, undefined);
-  const [sku, setSku] = useState(productos[productos.length - 1]?.sku);
+  const [sku, setSku] = useState(inicial ?? productos[productos.length - 1]?.sku);
   const [copiado, setCopiado] = useState(false);
   const prod = productos.find((p) => p.sku === sku);
   const mensaje = estado?.url

@@ -193,6 +193,42 @@ sh despliegue/actualizar.sh
 
 Hace un respaldo, baja lo último de `main`, recompila y reinicia. Las migraciones de la base se aplican solas al arrancar. El sitio deja de responder uno o dos minutos mientras reinicia; hazlo en horas de poco uso.
 
+## Paso 12. Protegerlo con Cloudflare (contra ataques DDoS)
+
+Cloudflare se pone delante del VPS: las visitas llegan primero a su red, que absorbe los ataques de denegación de servicio (DDoS) sin costo en el plan Free, y solo le pasa al VPS el tráfico legítimo. Calcula 30 minutos más lo que tarde en cambiar el DNS (de minutos a unas horas).
+
+**En Cloudflare**
+
+1. Crea una cuenta en [cloudflare.com](https://dash.cloudflare.com/sign-up), pulsa **Agregar un dominio**, escribe tu dominio y elige el plan **Free**.
+2. Cloudflare copia tus registros de DNS. Revisa que estén así:
+   - `A` de tu dominio (`@`) → `TU-IP`, con la **nube naranja** (Proxied).
+   - `www` → tu dominio o `TU-IP`, con la **nube naranja**.
+   - Los registros de **Resend** (`MX`, `TXT`, `CNAME` de correo) con la **nube gris** (DNS only). Si los pones en naranja, los correos para entrar dejan de llegar.
+3. Cloudflare te da dos **servidores de nombres** (algo como `ana.ns.cloudflare.com`). En el panel donde compraste el dominio, reemplaza los que tiene por esos dos. Cloudflare te avisa por correo cuando el dominio quede activo.
+4. En **SSL/TLS → Información general**, elige **Completo (estricto)**. Caddy ya tiene un certificado válido; con cualquier otro modo el sitio puede quedar en un ciclo de redirecciones o viajar sin cifrar entre Cloudflare y el VPS.
+5. En **SSL/TLS → Certificados perimetrales**, deja **Usar siempre HTTPS** apagado: Caddy ya manda todo a HTTPS y así no se rompe la renovación de su certificado.
+6. En **Seguridad → Reglas de WAF → Reglas de limitación de velocidad**, crea una regla (el plan Free trae una):
+   - Nombre: `Entrar y API`.
+   - Si la ruta de URI **comienza con** `/api/auth`.
+   - Mismas características: IP. Más de **20 solicitudes en 10 segundos**. Acción: **Bloquear** durante 10 segundos.
+7. Deja **Bot Fight Mode** apagado: en el plan Free no se puede hacer excepción y puede bloquear las notificaciones de pago de Mercado Pago.
+
+La protección contra DDoS en las capas 3, 4 y 7 viene encendida sola y no hay que configurarla. Si un día el sitio está bajo ataque, en **Información general** activa **Modo Bajo ataque**: pide a cada visitante una verificación de unos segundos. Apágalo cuando pase, porque también la ve Mercado Pago.
+
+**En el VPS**, cuando el sitio ya abra con la nube naranja (en el navegador, el certificado lo emite Google Trust Services o Let's Encrypt a través de Cloudflare):
+
+```bash
+cd /opt/estudiaresclave
+sh despliegue/actualizar.sh               # trae el Caddyfile que lee la IP real desde Cloudflare
+sudo sh despliegue/solo-cloudflare.sh     # cierra 80 y 443 a todo lo que no sea Cloudflare
+```
+
+El segundo comando es el que de verdad protege: sin él, quien conozca la IP del VPS puede atacarlo directo y saltarse Cloudflare. Queda activo aunque reinicies el servidor; SSH no se toca. Para deshacerlo: `sudo sh despliegue/solo-cloudflare.sh quitar`.
+
+Para comprobar: el sitio abre normal con tu dominio, y `curl -m 5 http://TU-IP` desde tu computadora ya no responde.
+
+> Si la IP del VPS ya estuvo pública mucho tiempo, alguien pudo haberla guardado. El paso del cortafuegos lo resuelve; cambiar de IP en Hostinger es opcional.
+
 ## Si ya tenías datos en Vercel (Neon)
 
 Solo si el sitio ya tuvo alumnos reales en Vercel. Con el sitio del VPS recién encendido y **antes** del paso 7:

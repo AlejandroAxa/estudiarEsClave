@@ -99,12 +99,17 @@ export default async function Practica({ searchParams }: { searchParams: Promise
           </TituloBloque>
           <div className="tarjeta">
             {conPreguntas.map((a) => {
-              const abierta = planParaArea(plan, a.id) !== "gratis" || plan.plan === "gratis";
+              // Con un pase que no abre esta área se practica con la cuota de prueba o gratis.
+              const abierta = planParaArea(plan, a.id) === plan.plan;
               return (
                 <div key={a.id} className="grupo-temas">
                   <h3>
                     {a.nombre}
-                    {!abierta && <Lock size={14} aria-label="Con el pase" />}
+                    {!abierta && (
+                      <span className="dato-meta">
+                        <Lock size={12} aria-hidden /> Fuera de tu plan: cuenta en tu límite diario
+                      </span>
+                    )}
                   </h3>
                   <ul className="lista-temas">
                     {a.subareas
@@ -115,7 +120,7 @@ export default async function Practica({ searchParams }: { searchParams: Promise
                             <b>{x.nombre}</b>
                             <span className="xs">{disponibles.get(x.id)} preguntas</span>
                           </span>
-                          <FormPractica etiqueta="Practicar" subarea={x.id} chico deshabilitado={!c.permitido || !abierta} autoIniciar={subarea === x.id} />
+                          <FormPractica etiqueta="Practicar" subarea={x.id} chico deshabilitado={abierta && !c.permitido} autoIniciar={subarea === x.id} />
                         </li>
                       ))}
                   </ul>
