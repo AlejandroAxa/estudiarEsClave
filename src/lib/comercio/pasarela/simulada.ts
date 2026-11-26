@@ -23,7 +23,7 @@ export const pasarelaSimulada: Pasarela = {
   async verificarWebhook(req) {
     const id = req.headers.get("x-simulada-id");
     const firma = req.headers.get("x-simulada-firma");
-    return id && firma === firmaSimulada(id) ? id : null;
+    return id && firma === firmaSimulada(id) ? { id } : null;
   },
   async consultarPago(id) {
     const p = pagos.get(id);

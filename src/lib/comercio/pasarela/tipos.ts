@@ -21,8 +21,11 @@ export interface PagoExterno {
 export interface Pasarela {
   nombre: string;
   crearCheckout(d: DatosCheckout): Promise<{ url: string; referencia: string }>;
-  /** Verifica la firma del aviso y devuelve el id del pago que hay que consultar, o null si no es válido. */
-  verificarWebhook(req: Request, cuerpo: string): Promise<string | null>;
+  /**
+   * Verifica la firma del aviso. Devuelve el id del pago que hay que consultar, `ignorar`
+   * para avisos válidos que no son de pagos, o null si la firma no es válida.
+   */
+  verificarWebhook(req: Request, cuerpo: string): Promise<{ id: string } | { ignorar: string } | null>;
   /** Consulta el pago en la pasarela (nunca se confía solo en el aviso). */
   consultarPago(id: string): Promise<PagoExterno | null>;
 }
