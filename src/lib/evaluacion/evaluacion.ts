@@ -12,7 +12,7 @@ import { describir, VERSION_TEXTOS } from "../diagnostico/descripcion";
 import { diaMx, inicioDiaMx } from "../fechas";
 import { darInsignia, insigniasPorDiagnostico, otorgarPuntos, PUNTOS, puntosDelDia, registrarDiaEstudiado } from "../motivacion/motivacion";
 import { releaseVigente } from "../banco/publicar";
-import { cuota, estadoPlan, planParaArea, incluido } from "../planes";
+import { cuota, estadoPlan, paseCubre, planParaArea, planParaRuta, incluido } from "../planes";
 
 export type Letra = "A" | "B" | "C";
 export const LETRAS: Letra[] = ["A", "B", "C"];
@@ -105,7 +105,8 @@ export async function crearIntento(db: Db, p: { plantillaId: string } & Dueno) {
   if (!rel) throw new ErrorEvaluacion("Todavía no hay un banco publicado para este examen", "sin_banco");
 
   if (p.cuentaId) {
-    const c = await cuota(db, p.cuentaId, pl.modo as "diagnostico" | "simulacro" | "muestra" | "mini");
+    const plan = planParaRuta(await estadoPlan(db, p.cuentaId), pl.rutaId);
+    const c = await cuota(db, p.cuentaId, pl.modo as "diagnostico" | "simulacro" | "muestra" | "mini", plan);
     if (!c.permitido) throw new ErrorEvaluacion(c.textoMuro ?? "Llegaste al límite de tu plan", "cuota", { recurso: pl.modo });
   }
 
@@ -271,12 +272,19 @@ export async function crearPractica(db: Db, cuentaId: string, f: FiltroPractica,
   const plan = await estadoPlan(db, cuentaId);
   const recurso = f.repaso ? "repaso" : "practica";
   if (f.repaso && !(await incluido(db, plan.plan, "repaso"))) throw new ErrorEvaluacion("El repaso espaciado viene con el pase", "cuota", { recurso });
-  const c = await cuota(db, cuentaId, recurso, plan.plan);
-  if (!c.permitido) throw new ErrorEvaluacion(c.textoMuro ?? "Llegaste a tu límite de hoy", "cuota", { recurso, recargaEn: c.recargaEn });
-
   const { rel, items } = await poolPractica(db, cuentaId, perfil.rutaId, f);
   if (!rel) throw new ErrorEvaluacion("Todavía no hay un banco publicado", "sin_banco");
   let candidatos = items;
+  // Con un pase que abre solo algunas áreas, la práctica sin límite es de esas
+  // áreas; lo demás se practica con la cuota que quede (prueba o gratis).
+  let planUso = plan.plan;
+  if (plan.plan === "pase" && plan.areas && !f.repaso) {
+    const cubiertos = items.filter((i) => paseCubre(plan, i.areaId));
+    if (cubiertos.length) candidatos = cubiertos;
+    else planUso = planParaArea(plan, items[0]?.areaId ?? null);
+  }
+  const c = await cuota(db, cuentaId, recurso, planUso);
+  if (!c.permitido) throw new ErrorEvaluacion(c.textoMuro ?? "Llegaste a tu límite de hoy", "cuota", { recurso, recargaEn: c.recargaEn });
   if (f.repaso) {
     const { pendientes } = await pendientesRepaso(db, cuentaId);
     const set = new Set(pendientes);

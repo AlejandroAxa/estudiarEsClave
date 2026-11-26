@@ -6,6 +6,7 @@
 import { and, count, eq, gte, inArray, isNull, lte, sql } from "drizzle-orm";
 import type { Db } from "@/db/conexion";
 import * as s from "@/db/schema";
+import { rutaCubierta } from "./planes-area";
 import { diaMx, inicioDiaMx, lunesDe, primeroDeMes, sumarDias } from "./fechas";
 
 export type Plan = "anonimo" | "gratis" | "prueba" | "pase";
@@ -27,15 +28,17 @@ export interface EstadoPlan {
   pruebaHasta: Date | null;
   paseHasta: Date | null;
   productos: string[];
+  /** Ruta a la que va cada pase vigente (nulo = sirve para cualquiera). */
+  rutas: (string | null)[];
   /** ¿Ya usó su prueba de 3 días? */
   pruebaUsada: boolean;
 }
 
 export async function estadoPlan(db: Db, cuentaId: string | null | undefined): Promise<EstadoPlan> {
-  if (!cuentaId) return { plan: "anonimo", areas: null, pruebaHasta: null, paseHasta: null, productos: [], pruebaUsada: false };
+  if (!cuentaId) return { plan: "anonimo", areas: null, pruebaHasta: null, paseHasta: null, productos: [], rutas: [], pruebaUsada: false };
   const ahora = new Date();
   const accesos = await db
-    .select({ a: s.acceso, areas: s.producto.areas })
+    .select({ a: s.acceso, areas: s.producto.areas, rutaId: s.producto.rutaId })
     .from(s.acceso)
     .leftJoin(s.producto, eq(s.producto.sku, s.acceso.productoSku))
     .where(eq(s.acceso.cuentaId, cuentaId));
@@ -47,10 +50,10 @@ export async function estadoPlan(db: Db, cuentaId: string | null | undefined): P
     const todas = pases.some((p) => !p.areas);
     const areas = todas ? null : [...new Set(pases.flatMap((p) => p.areas!.split(",").map((x) => x.trim())))];
     const paseHasta = new Date(Math.max(...pases.map((p) => p.a.hasta.getTime())));
-    return { plan: "pase", areas, pruebaHasta: prueba?.a.hasta ?? null, paseHasta, productos: pases.map((p) => p.a.productoSku!).filter(Boolean), pruebaUsada };
+    return { plan: "pase", areas, pruebaHasta: prueba?.a.hasta ?? null, paseHasta, productos: pases.map((p) => p.a.productoSku!).filter(Boolean), rutas: pases.map((p) => p.rutaId), pruebaUsada };
   }
-  if (prueba) return { plan: "prueba", areas: null, pruebaHasta: prueba.a.hasta, paseHasta: null, productos: [], pruebaUsada };
-  return { plan: "gratis", areas: null, pruebaHasta: null, paseHasta: null, productos: [], pruebaUsada };
+  if (prueba) return { plan: "prueba", areas: null, pruebaHasta: prueba.a.hasta, paseHasta: null, productos: [], rutas: [], pruebaUsada };
+  return { plan: "gratis", areas: null, pruebaHasta: null, paseHasta: null, productos: [], rutas: [], pruebaUsada };
 }
 
 /**
@@ -59,8 +62,24 @@ export async function estadoPlan(db: Db, cuentaId: string | null | undefined): P
  */
 export function planParaArea(e: EstadoPlan, areaId: string | null): Plan {
   if (e.plan !== "pase" || !e.areas || !areaId || e.areas.includes(areaId)) return e.plan;
-  return e.pruebaHasta && e.pruebaHasta > new Date() ? "prueba" : "gratis";
+  return sinPase(e);
 }
+
+const sinPase = (e: EstadoPlan): Plan => (e.pruebaHasta && e.pruebaHasta > new Date() ? "prueba" : "gratis");
+
+/**
+ * Plan efectivo para los exámenes completos de una ruta (diagnóstico,
+ * simulacro, muestra). Un plan de área sirve para su ruta; el Pase Básico, que
+ * no va dirigido a ninguna, sirve para todas. Con otra ruta cuenta lo que quede
+ * (prueba o gratis), para que cada área se compre por separado.
+ */
+export function planParaRuta(e: EstadoPlan, rutaId: string | null | undefined): Plan {
+  if (e.plan !== "pase" || !rutaId || e.rutas.some((r) => r == null || rutaCubierta(r, rutaId))) return e.plan;
+  return sinPase(e);
+}
+
+/** ¿El pase abre esta área del banco? Sin pase, la pregunta no aplica. */
+export const paseCubre = (e: EstadoPlan, areaId: string) => e.plan === "pase" && (!e.areas || e.areas.includes(areaId));
 
 export async function limiteDe(db: Db, plan: Plan, recurso: Recurso) {
   const [l] = await db

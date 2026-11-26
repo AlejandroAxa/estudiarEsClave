@@ -4,7 +4,7 @@ import { and, desc, eq, inArray } from "drizzle-orm";
 import { db } from "@/db";
 import * as s from "@/db/schema";
 import { requerirAlumno } from "@/lib/sesion";
-import { cuota } from "@/lib/planes";
+import { cuota, estadoPlan, planParaRuta } from "@/lib/planes";
 import { plantillaActiva } from "@/lib/evaluacion/evaluacion";
 import { formatoFecha } from "@/lib/fechas";
 import { BotonEmpezar } from "./boton";
@@ -31,10 +31,11 @@ export default async function Diagnostico({ searchParams }: { searchParams: Prom
     { modo: "simulacro", titulo: "Simulacro cronometrado", cuando: "Cada 2 o 3 semanas", texto: "Todo seguido y con un solo cronómetro, como el día del examen. Mide tu ritmo y tu resistencia.", icono: <Timer size={20} aria-hidden /> },
     { modo: "muestra", titulo: "Simulacro de muestra", cuando: "Si tienes 20 minutos", texto: "Una probadita del examen real para sentir el ritmo sin apartar toda la tarde.", icono: <Hourglass size={20} aria-hidden /> },
   ] as const;
+  const plan = await estadoPlan(db, ses.cuenta.id);
   const tarjetas = await Promise.all(
     modos.map(async (m) => {
       const pl = await plantillaActiva(db, ruta, m.modo);
-      const c = await cuota(db, ses.cuenta.id, m.modo);
+      const c = await cuota(db, ses.cuenta.id, m.modo, planParaRuta(plan, ruta));
       return { ...m, pl, c };
     }),
   );

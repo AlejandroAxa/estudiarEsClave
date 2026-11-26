@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { planDeRuta } from "@/lib/planes-area";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AREAS_GENERALES, FUENTE_CARRERAS, areaGeneralPorSlug, totalCarreras } from "@/lib/areas-generales";
@@ -167,6 +168,16 @@ export default async function PaginaAreaGeneral({ params }: { params: Promise<{ 
               </p>
               <Link className="btn sec chico" href={diagnosticoHref}>
                 Hacer el diagnóstico completo
+              </Link>
+            </div>
+            <div className="hoja pila ag-diag">
+              <span className="xs">Todo abierto</span>
+              <h3>Plan {a.corto}</h3>
+              <p className="small" style={{ margin: 0 }}>
+                Un solo pago hasta el examen. Abre las preguntas de tu área, simulacros y práctica sin límite, para cualquiera de sus carreras.
+              </p>
+              <Link className="btn disc chico" href={`/planes#${planDeRuta(a.rutaId)?.sku ?? ""}`}>
+                Ver el plan y su precio
               </Link>
             </div>
           </div>
