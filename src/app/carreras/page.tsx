@@ -8,6 +8,8 @@ import {
   Marquesina,
 } from "@/components/estilos/editorial";
 import { DibujoMotivo } from "@/components/motivo-area";
+import { BuscadorCarreras } from "@/components/buscador-carreras";
+import { hrefCarrera } from "@/lib/carreras";
 
 export const metadata: Metadata = {
   title: "Áreas generales de la BUAP: carreras y diagnóstico por área",
@@ -19,6 +21,9 @@ export default function AreasGenerales() {
   const carreras = AREAS_GENERALES.flatMap((a) =>
     a.grupos.flatMap((g) => g.carreras),
   );
+  const indice = AREAS_GENERALES.flatMap((a) =>
+    a.grupos.flatMap((g) => g.carreras.map((c) => ({ nombre: c, href: hrefCarrera(a.slug, c), area: a.corto }))),
+  ).sort((x, y) => x.nombre.localeCompare(y.nombre, "es"));
   return (
     <div className="editorial">
       <HeroEditorial
@@ -102,6 +107,14 @@ export default function AreasGenerales() {
               <Link href="/carreras/medicina">Mira la ruta de Medicina</Link>.
             </p>
           </aside>
+          <section id="todas" className="ed-indice" aria-labelledby="todas-t">
+            <Encabezado ceja="Índice A–Z" titulo={<span id="todas-t">Todas las carreras, una página cada una.</span>}>
+              <p className="ed-intro">
+                Cada licenciatura tiene su página con lo que viene en su examen, qué conviene reforzar y preguntas resueltas.
+              </p>
+            </Encabezado>
+            <BuscadorCarreras carreras={indice} />
+          </section>
           <p className="ed-letra-chica">
             ¿Quieres el temario de cada módulo? Está en{" "}
             <Link href="/areas">Áreas del examen</Link>.

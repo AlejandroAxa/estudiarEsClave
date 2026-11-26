@@ -4394,3 +4394,76 @@ main:has(> .joa, > .editorial, > .producto) + .pie {
   font-size: clamp(22px, 2.4vw, 26px);
   margin: 32px 0 10px;
 }
+
+/* Índice A–Z de carreras (/carreras#todas) */
+.ed-indice {
+  margin-top: clamp(56px, 8vw, 96px);
+  scroll-margin-top: 80px;
+}
+.buscador-campo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 560px;
+  padding: 0 16px;
+  min-height: 52px;
+  border-radius: var(--r-control);
+  border: 1.5px solid #c9d4d9;
+  background: #fff;
+  color: var(--e-gris, var(--gris));
+}
+.buscador-campo:focus-within {
+  border-color: var(--azul);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--azul) 25%, transparent);
+}
+.buscador-campo input {
+  flex: 1;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font: 400 17px var(--sans);
+  color: var(--e-tinta, var(--tinta));
+  min-width: 0;
+}
+.buscador-carreras > .xs {
+  margin: 10px 0 24px;
+}
+.indice-az {
+  columns: 3 260px;
+  column-gap: 40px;
+}
+.indice-az section {
+  break-inside: avoid;
+  margin-bottom: 22px;
+}
+.indice-az h3 {
+  font-size: 22px;
+  color: var(--azul);
+  border-bottom: 2px solid var(--e-tinta, var(--tinta));
+  padding-bottom: 4px;
+  margin: 0 0 6px;
+}
+.indice-az ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.indice-az li {
+  display: flex;
+  flex-direction: column;
+  padding: 7px 0;
+  border-bottom: 1px solid #d3dce0;
+}
+.editorial .indice-az a {
+  font-weight: 700;
+  color: var(--e-tinta);
+  text-decoration: none;
+}
+.editorial .indice-az a:hover {
+  color: var(--azul);
+  text-decoration: underline;
+}
+.indice-az li span {
+  font-size: 12px;
+  color: var(--e-gris, var(--gris));
+}
