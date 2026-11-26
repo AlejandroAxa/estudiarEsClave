@@ -6,6 +6,7 @@ import { COMUNES_BUAP, areaPorSlug } from "@/lib/areas-exani";
 import { deResumen, muestrasPublicas, resumenPlantillas } from "@/lib/consultas";
 import { IconoArea } from "@/components/area-exani";
 import { DibujoMotivo } from "@/components/motivo-area";
+import { hrefCarrera } from "@/lib/carreras";
 import { Enunciado, Explicacion, Formula } from "@/components/formula";
 
 export const dynamicParams = false;
@@ -97,7 +98,7 @@ export default async function PaginaAreaGeneral({ params }: { params: Promise<{ 
                           <span className="ag-folio" aria-hidden>
                             {String(folio).padStart(2, "0")}
                           </span>
-                          {c === "Medicina" ? <Link href="/carreras/medicina">Medicina</Link> : c}
+                          <Link href={hrefCarrera(a.slug, c)}>{c}</Link>
                         </li>
                       );
                     })}

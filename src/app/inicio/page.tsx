@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { and, count, desc, eq, gte } from "drizzle-orm";
-import { Award, Lock } from "lucide-react";
+import { ArrowRight, Award, Check, ClipboardCheck, Lock, RotateCcw, Target, Timer } from "lucide-react";
 import { db } from "@/db";
 import * as s from "@/db/schema";
 import { requerirAlumno } from "@/lib/sesion";
@@ -9,13 +9,12 @@ import { cuota, estadoPlan } from "@/lib/planes";
 import { puntosSemana, puntosTotales, rachaVigente } from "@/lib/motivacion/motivacion";
 import { pendientesRepaso } from "@/lib/evaluacion/evaluacion";
 import { ciclo } from "@/lib/consultas";
-import { diaMx, formatoFecha, formatoHora, inicioDiaMx } from "@/lib/fechas";
+import { diaMx, diasEntre, formatoFecha, formatoHora, inicioDiaMx } from "@/lib/fechas";
 import { Blister } from "@/components/blister";
 import { Pulso } from "@/components/pulso";
-import { CuentaRegresiva } from "@/components/cuenta-regresiva";
 import { Semaforo } from "@/components/semaforo";
-import { DibujoMotivo } from "@/components/motivo-area";
-import { temaDeRuta } from "@/lib/tema-area";
+import { CabeceraApp } from "@/components/cabecera-app";
+import { plural, temaDeRuta } from "@/lib/tema-area";
 
 export const metadata: Metadata = { title: "Inicio" };
 
@@ -63,123 +62,178 @@ export default async function Inicio({ searchParams }: { searchParams: Promise<{
     .from(s.cuentaInsignia)
     .innerJoin(s.insignia, eq(s.insignia.id, s.cuentaInsignia.insigniaId))
     .where(eq(s.cuentaInsignia.cuentaId, id));
+  const [{ simulacros }] = await db
+    .select({ simulacros: count() })
+    .from(s.intento)
+    .where(and(eq(s.intento.cuentaId, id), eq(s.intento.modo, "simulacro"), eq(s.intento.estado, "enviado")));
   const saludo = ses.cuenta.name || ses.perfil.alias;
   const tema = temaDeRuta(ses.perfil.rutaId);
+  const dias = c?.fechaExamen ? Math.max(0, diasEntre(diaMx(), c.fechaExamen)) : null;
+  const rachaHoy = rachaVigente(racha);
+
+  // Un solo siguiente paso, en el orden del método: diagnóstico → práctica diaria → repaso → simulacro.
+  const paso = enCurso[0]
+    ? { icono: <ClipboardCheck size={28} aria-hidden />, ojo: "Lo dejaste a medias", titulo: "Sigue tu diagnóstico", texto: "Tus respuestas están guardadas. Continúa en la sección donde te quedaste.", href: `/examen/${enCurso[0].id}`, boton: "Seguir mi diagnóstico" }
+    : !ultimo
+      ? { icono: <ClipboardCheck size={28} aria-hidden />, ojo: "Paso 1 de 3", titulo: "Haz tu diagnóstico completo", texto: "Va por secciones y puedes pausar entre ellas. Al final sabes qué dominas y tus 3 prioridades para estudiar.", href: "/diagnostico", boton: "Empezar mi diagnóstico" }
+      : hoy < 10
+        ? { icono: <Target size={28} aria-hidden />, ojo: "Para hoy", titulo: top[0] ? `Practica ${top[0].nombre}` : "Haz tus 10 preguntas de hoy", texto: top[0] ? "Es tu prioridad número 1. Diez preguntas con el porqué de cada opción." : "Diez preguntas con el porqué de cada opción, empezando por lo que nunca has practicado.", href: top[0] ? `/practica?subarea=${top[0].id}` : "/practica", boton: hoy > 0 ? `Seguir (${hoy} de 10)` : "Empezar mis 10 preguntas" }
+        : repaso.pendientes.length > 0
+          ? { icono: <RotateCcw size={28} aria-hidden />, ojo: "Ya hiciste tus 10", titulo: `Repasa ${repaso.pendientes.length} ${repaso.pendientes.length === 1 ? "error" : "errores"}`, texto: "Lo que fallaste vuelve justo cuando estás por olvidarlo.", href: "/practica?repaso=1", boton: "Repasar ahora" }
+          : { icono: <Timer size={28} aria-hidden />, ojo: "Ya hiciste tus 10", titulo: "Mide tu ritmo con un simulacro", texto: "Todo seguido y con un solo cronómetro, como el día del examen.", href: "/diagnostico", boton: "Ver simulacros" };
+
+  const pasos = [
+    { titulo: "Diagnóstico", texto: ultimo ? `Hecho · global ${ultimo.global == null ? "—" : Math.round(Number(ultimo.global))}` : "Sabes dónde estás y qué estudiar primero.", hecho: !!ultimo, actual: !ultimo },
+    { titulo: "Práctica diaria", texto: hoy >= 10 ? "Hoy: 10 de 10. ¡Listo!" : `Hoy: ${hoy} de 10 preguntas.`, hecho: hoy >= 10, actual: !!ultimo && hoy < 10 },
+    { titulo: "Simulacro", texto: simulacros ? `${simulacros} ${simulacros === 1 ? "hecho" : "hechos"}. Repítelo cada par de semanas.` : "Con tiempo, como el día del examen.", hecho: simulacros > 0, actual: !!ultimo && hoy >= 10 && simulacros === 0 },
+  ];
 
   return (
-    <div className="wrap band pila" style={{ "--acento": tema.acento } as React.CSSProperties}>
-      {bienvenida && (
-        <p className="aviso ok">
-          Listo, {saludo}. Tienes el pase completo hasta el {plan.pruebaHasta ? formatoFecha(plan.pruebaHasta, { day: "numeric", month: "long" }) : "—"}. Al
-          terminar bajas solo al plan gratis, sin cobro.
-        </p>
-      )}
-      <div className="banda-area">
-        <DibujoMotivo tema={tema.tema} acento={tema.acento} />
-        <div>
-          <span className="ceja">{tema.espacio}</span>
-          <h1 style={{ fontSize: "clamp(32px,5vw,56px)" }}>{saludo}</h1>
-          <p className="area">{tema.area}</p>
-        </div>
-        <PlanEtiqueta plan={plan.plan} hasta={plan.plan === "prueba" ? plan.pruebaHasta : plan.paseHasta} areas={plan.areas} />
-      </div>
-
-      <div className="rejilla-2">
-        <section className="hoja pila" aria-labelledby="dosis">
-          <div className="fila entre">
-            <h2 id="dosis" style={{ fontSize: 26, margin: 0 }}>
-              Tu {tema.practicaHoy}
-            </h2>
-            <span className="small">
-              {Math.min(hoy, 10)}/10
-            </span>
-          </div>
-          <Blister tomadas={hoy} tema={tema.tema} pieza={tema.pieza} />
-          {cuotaPractica.restante != null && (
-            <p className="small" style={{ margin: 0 }}>
-              Te quedan {cuotaPractica.restante} de {cuotaPractica.cantidad} preguntas gratis hoy.
-              {cuotaPractica.recargaEn ? ` Se recargan a las ${formatoHora(cuotaPractica.recargaEn)}.` : ""}
-            </p>
-          )}
-          <div className="fila">
-            <Link href="/practica" className="btn">
-              {hoy >= 10 ? tema.tomarOtra : tema.tomar}
-            </Link>
-            {repaso.pendientes.length > 0 && (
-              <Link href="/practica?repaso=1" className="btn sec">
-                Repaso: {repaso.pendientes.length} {plan.plan === "gratis" && <Lock size={14} aria-hidden />}
-              </Link>
-            )}
-          </div>
-        </section>
-        <section className="pila">
-          <Pulso dias={racha?.dias ? racha.dias.split(",") : []} racha={rachaVigente(racha)} mejor={racha?.mejor ?? 0} tema={tema.tema} textos={tema.racha} />
-          <div className="rejilla">
-            <div className="tarjeta-dato">
-              <span className="small">Puntos totales</span>
-              <span className="cifra">{total.toLocaleString("es-MX")}</span>
-            </div>
-            <div className="tarjeta-dato">
-              <span className="small">Esta semana</span>
-              <span className="cifra">{semana.toLocaleString("es-MX")}</span>
-              <Link href="/liga" className="xs">
-                Ver mi liga
-              </Link>
-            </div>
-          </div>
-        </section>
-      </div>
-
-      <div className="rejilla-2">
-        <section className="hoja pila" aria-labelledby="diag">
-          <h2 id="diag" style={{ fontSize: 26 }}>
-            {tema.diagnostico}
-          </h2>
-          {enCurso[0] ? (
+    <>
+      <CabeceraApp
+        tema={tema.tema}
+        acento={tema.acento}
+        ceja={`${tema.espacio} ${saludo}`}
+        titulo={
+          <>
+            Hola, <em>{saludo}</em>.
+          </>
+        }
+        sub={
+          dias != null ? (
             <>
-              <p>Tienes un diagnóstico a medias. Sigue donde lo dejaste.</p>
-              <Link href={`/examen/${enCurso[0].id}`} className="btn">
-                Seguir mi diagnóstico
-              </Link>
-            </>
-          ) : ultimo ? (
-            <>
-              <p>
-                Último diagnóstico: <b className="cifra">{ultimo.global == null ? "—" : Math.round(Number(ultimo.global))}</b> <Semaforo nivel={ultimo.nivel} />
-              </p>
-              {top.length > 0 && (
-                <ol className="small">
-                  {top.map((p) => (
-                    <li key={p.id}>
-                      <Link href={`/practica?subarea=${p.id}`}>{p.nombre}</Link>
-                    </li>
-                  ))}
-                </ol>
-              )}
-              <div className="fila">
-                <Link href={`/examen/${ultimo.id}/resultado`} className="btn sec chico">
-                  Ver resultados
-                </Link>
-                <Link href="/diagnostico" className="btn disc">
-                  Nuevo diagnóstico o simulacro
-                </Link>
-              </div>
+              Faltan <b>{dias} {dias === 1 ? "día" : "días"}</b> para tu examen ({formatoFecha(c!.fechaExamen!, { day: "numeric", month: "long" })}). {tema.area}.
             </>
           ) : (
             <>
-              <p>{tema.diagnosticoTexto} Va por secciones y puedes pausar entre ellas.</p>
-              <Link href="/diagnostico" className="btn">
-                Hacer mi diagnóstico
-              </Link>
+              {tema.area}. La fecha del examen aparece aquí en cuanto salga la convocatoria.
             </>
-          )}
-        </section>
-        <section className="hoja pila">
-          <CuentaRegresiva fecha={c?.fechaExamen ?? null} examen={ses.perfil.examenId} />
+          )
+        }
+        acciones={<PlanEtiqueta plan={plan.plan} hasta={plan.plan === "prueba" ? plan.pruebaHasta : plan.paseHasta} areas={plan.areas} />}
+        cifras={[
+          { valor: <>{Math.min(hoy, 10)}<small>/10</small></>, etiqueta: "Preguntas hoy" },
+          { valor: rachaHoy, etiqueta: plural(rachaHoy, tema.racha), nota: `Mejor: ${racha?.mejor ?? 0}` },
+          { valor: semana.toLocaleString("es-MX"), etiqueta: "Puntos esta semana", nota: <Link href="/liga">Ver mi liga</Link> },
+          { valor: total.toLocaleString("es-MX"), etiqueta: "Puntos totales" },
+        ]}
+      />
+      <div className="wrap app-cuerpo" style={{ "--acento": tema.acento } as React.CSSProperties}>
+        {bienvenida && (
+          <p className="aviso ok">
+            Listo, {saludo}. Tienes el pase completo hasta el {plan.pruebaHasta ? formatoFecha(plan.pruebaHasta, { day: "numeric", month: "long" }) : "—"}.
+            Al terminar bajas solo al plan gratis, sin cobro.
+          </p>
+        )}
+
+        <section className="siguiente-paso" aria-labelledby="paso">
+          <span className="icono-paso">{paso.icono}</span>
           <div>
-            <h3>
-              <Award size={18} aria-hidden /> Insignias
-            </h3>
+            <span className="app-ojo">{paso.ojo}</span>
+            <h2 id="paso">{paso.titulo}</h2>
+            <p>{paso.texto}</p>
+          </div>
+          <Link href={paso.href} className="btn">
+            {paso.boton} <ArrowRight size={18} aria-hidden />
+          </Link>
+        </section>
+
+        <section className="tarjeta" aria-labelledby="metodo">
+          <div className="tarjeta-cabeza">
+            <h2 id="metodo">Tu método</h2>
+          </div>
+          <ol className="ruta-pasos">
+            {pasos.map((x, i) => (
+              <li key={x.titulo} className={x.hecho ? "hecho" : x.actual ? "actual" : ""}>
+                <span className="num">{x.hecho ? <Check size={14} aria-hidden /> : i + 1}</span>
+                <b>{x.titulo}</b>
+                <span className="small">{x.texto}</span>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <div className="app-rejilla">
+          <section className="tarjeta c-7" aria-labelledby="hoy">
+            <div className="tarjeta-cabeza">
+              <span className="icono-chip">
+                <Target size={20} aria-hidden />
+              </span>
+              <h2 id="hoy">Tu {tema.practicaHoy}</h2>
+              <span className="dato-meta">{Math.min(hoy, 10)} de 10</span>
+            </div>
+            <Blister tomadas={hoy} tema={tema.tema} pieza={tema.pieza} />
+            {cuotaPractica.restante != null && (
+              <p className="small">
+                Plan gratis: te quedan {cuotaPractica.restante} de {cuotaPractica.cantidad} preguntas hoy.
+                {cuotaPractica.recargaEn ? ` Se recargan a las ${formatoHora(cuotaPractica.recargaEn)}.` : ""}
+              </p>
+            )}
+            <div className="pie-tarjeta">
+              <Link href="/practica" className="btn sec chico">
+                {hoy >= 10 ? tema.tomarOtra : "Elegir tema"}
+              </Link>
+              {repaso.pendientes.length > 0 && (
+                <Link href="/practica?repaso=1" className="btn disc">
+                  <RotateCcw size={16} aria-hidden /> Repaso: {repaso.pendientes.length} {plan.plan === "gratis" && <Lock size={14} aria-hidden />}
+                </Link>
+              )}
+            </div>
+          </section>
+          <section className="c-5" aria-label="Racha de estudio">
+            <Pulso dias={racha?.dias ? racha.dias.split(",") : []} racha={rachaHoy} mejor={racha?.mejor ?? 0} tema={tema.tema} textos={tema.racha} />
+          </section>
+
+          <section className="tarjeta c-7" aria-labelledby="prioridades">
+            <div className="tarjeta-cabeza">
+              <span className="icono-chip">
+                <ClipboardCheck size={20} aria-hidden />
+              </span>
+              <h2 id="prioridades">Tus prioridades</h2>
+              {ultimo && (
+                <span className="dato-meta">
+                  Global <b className="cifra">{ultimo.global == null ? "—" : Math.round(Number(ultimo.global))}</b> <Semaforo nivel={ultimo.nivel} />
+                </span>
+              )}
+            </div>
+            {ultimo && top.length > 0 ? (
+              <ol className="lista-prioridades">
+                {top.map((p) => (
+                  <li key={p.id}>
+                    <span>{p.nombre}</span>
+                    <Link href={`/practica?subarea=${p.id}`} className="btn sec chico">
+                      Practicar
+                    </Link>
+                  </li>
+                ))}
+              </ol>
+            ) : ultimo ? (
+              <p>Ninguna subárea quedó por debajo de «Dominas». Mantén el ritmo con tu práctica diaria.</p>
+            ) : (
+              <div className="vacio">
+                <h3>Aún no sabemos qué estudiar primero</h3>
+                <p>{tema.diagnosticoTexto} Aquí aparecerán tus 3 prioridades.</p>
+              </div>
+            )}
+            <div className="pie-tarjeta">
+              {ultimo && (
+                <Link href={`/examen/${ultimo.id}/resultado`} className="btn disc">
+                  Ver resultados completos
+                </Link>
+              )}
+              <Link href="/diagnostico" className="btn disc">
+                {ultimo ? "Nuevo diagnóstico o simulacro" : "Ver el diagnóstico"}
+              </Link>
+            </div>
+          </section>
+          <section className="tarjeta c-5" aria-labelledby="insignias">
+            <div className="tarjeta-cabeza">
+              <span className="icono-chip">
+                <Award size={20} aria-hidden />
+              </span>
+              <h2 id="insignias">Insignias</h2>
+              <span className="dato-meta">{insignias.length} ganadas</span>
+            </div>
             {insignias.length ? (
               <div className="fila">
                 {insignias.map((i) => (
@@ -189,19 +243,24 @@ export default async function Inicio({ searchParams }: { searchParams: Promise<{
                 ))}
               </div>
             ) : (
-              <p className="small">Ganas insignias por aprender: tu primera sección, una subárea que sube de nivel o un error que dejas de cometer.</p>
+              <p className="small">Se ganan por aprender: tu primera sección, una subárea que sube de nivel o un error que dejas de cometer.</p>
             )}
-          </div>
-        </section>
+            <div className="pie-tarjeta">
+              <Link href="/liga" className="btn disc">
+                Ver todas en la liga
+              </Link>
+            </div>
+          </section>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
 function PlanEtiqueta({ plan, hasta, areas }: { plan: string; hasta: Date | null; areas: string[] | null }) {
   if (plan === "gratis")
     return (
-      <Link href="/planes" className="pastilla">
+      <Link href="/planes" className="pastilla enlace">
         Plan gratis · ver el pase
       </Link>
     );

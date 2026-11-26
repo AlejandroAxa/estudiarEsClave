@@ -45,7 +45,7 @@ export function Lectura({
   return (
     <p
       ref={ref}
-      className={`lectura ${className}`}
+      className={`joa-encendido ${className}`}
       style={{ "--n": palabras.length } as React.CSSProperties}
     >
       {palabras.map((w, k) => (
