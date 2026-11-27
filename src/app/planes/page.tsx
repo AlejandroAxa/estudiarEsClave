@@ -71,7 +71,8 @@ export default async function Planes({
   const porSku = new Map(productos.map((p, k) => [p.sku, { p, c: cot[k] }]));
   const miRuta = ses?.perfil?.rutaId;
 
-  // Las tarjetas por área, en el orden de las áreas, y Medicina al final.
+  // Las cuatro tarjetas por área (2 × 2). Medicina va con Gratis y Básico, en la fila de abajo,
+  // para que ninguna fila quede incompleta.
   const tarjetas = [
     ...PLANES_AREA.flatMap((pa) => {
       const x = porSku.get(pa.sku);
@@ -89,20 +90,6 @@ export default async function Planes({
         },
       ];
     }),
-    ...(porSku.get(SKU_MEDICINA)
-      ? [
-          {
-            ...porSku.get(SKU_MEDICINA)!,
-            acento: "#3FD0F5",
-            ojo: "Medicina (EIPM)",
-            paraQuien: "Médico Cirujano",
-            incluye: ["Comprensión lectora, Redacción indirecta y Pensamiento matemático", "Biología, Química y Premedicina", "Simulacros completos de la EIPM"],
-            grupos: [],
-            tuya: miRuta === "medicina",
-            area: "medicina",
-          },
-        ]
-      : []),
   ];
   const basico = porSku.get(SKU_BASICO);
   const otros = productos.filter((p) => p.sku !== SKU_BASICO && !tarjetas.some((t) => t.p.sku === p.sku));
@@ -234,6 +221,8 @@ export default async function Planes({
           {[...(basico ? [basico] : []), ...otros.map((p) => porSku.get(p.sku)!)].map(({ p, c }) => (
             <div key={p.sku} id={p.sku} className="hoja pila">
               <h2 style={{ fontSize: 22 }}>{p.sku === SKU_BASICO ? "¿Solo las áreas comunes?" : p.nombre}</h2>
+              {p.sku === SKU_MEDICINA && <p className="xs">Para Médico Cirujano (EIPM)</p>}
+              {p.sku === SKU_MEDICINA && miRuta === "medicina" && <span className="pastilla">Tu examen</span>}
               {precio(c)}
               <p className="small">
                 {p.sku === SKU_BASICO ? <><b>{p.nombre}</b>: </> : null}

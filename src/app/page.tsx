@@ -6,12 +6,13 @@ import { sesionActual } from "@/lib/sesion";
 import { productosActivos } from "@/lib/comercio/comercio";
 import { pesos } from "@/lib/fechas";
 import { AREAS_GENERALES, totalCarreras } from "@/lib/areas-generales";
+import { PLANES_AREA, SKU_BASICO, SKU_MEDICINA } from "@/lib/planes-area";
 import { DibujoMotivo } from "@/components/motivo-area";
 import Image from "next/image";
 import { Lectura } from "@/components/portada/lectura";
 import { Fases } from "@/components/portada/fases";
 import { Arranque } from "@/components/portada/arranque";
-import { NavegacionFlotante } from "@/components/portada/navegacion";
+import { BarraAvance } from "@/components/portada/navegacion";
 import { Testimonios } from "@/components/portada/testimonios";
 import { FranjaCampus } from "@/components/portada/campus";
 import { BotonTikTok } from "@/components/boton-tiktok";
@@ -22,7 +23,7 @@ import { t } from "@/textos/es-MX";
  * Portada. Dirección: una foto del campus a todo lo ancho al abrir y, después, negro y
  * blanco roto. Sans en negritas con la palabra clave en cursiva serif,
  * etiquetas en minúscula con guion bajo, frases que se encienden al leerlas y
- * una barra flotante para moverse. El resto del sitio conserva su sistema.
+ * una línea de avance arriba. El resto del sitio conserva su sistema.
  */
 const PALABRAS = [
   "Diagnóstico",
@@ -67,6 +68,9 @@ export default async function Portada() {
   const ses = await sesionActual().catch(() => null);
   if (ses?.perfil) redirect("/inicio");
   const productos = await productosActivos(db).catch(() => []);
+  const porSku = new Map(productos.map((p) => [p.sku, p]));
+  const basico = porSku.get(SKU_BASICO);
+  const medicina = porSku.get(SKU_MEDICINA);
 
   return (
     <div className="joa">
@@ -258,33 +262,63 @@ export default async function Portada() {
               Comparar planes
             </Link>
           </div>
+          <h3 className="joa-precios-sub">
+            <span className="joa-etiqueta">_plan_de_tu_área</span>
+            Cada área de la BUAP presenta su propio examen. Su plan abre las
+            áreas comunes y los módulos de tu área.
+          </h3>
           <div className="joa-precios">
+            {PLANES_AREA.flatMap((pa) => {
+              const p = porSku.get(pa.sku);
+              if (!p) return [];
+              return [
+                <div
+                  key={pa.sku}
+                  className="joa-precio"
+                  style={{ "--acento": pa.area.acento } as React.CSSProperties}
+                >
+                  <span className="joa-etiqueta">{pa.area.corto}</span>
+                  <b>{pesos(Number(p.precioMxn))}</b>
+                  <p>{totalCarreras(pa.area)} carreras, simulacros completos ilimitados hasta el examen.</p>
+                  <Link href={`/planes#${pa.sku}`} className="joa-enlace">
+                    Ver qué incluye
+                  </Link>
+                </div>,
+              ];
+            })}
+          </div>
+          <h3 className="joa-precios-sub">
+            <span className="joa-etiqueta">_otras_opciones</span>
+          </h3>
+          <div className="joa-precios tres">
             <div className="joa-precio">
-              <span className="joa-etiqueta">_gratis</span>
+              <span className="joa-etiqueta">Gratis</span>
               <b>$0</b>
-              <p>
-                Un diagnóstico por temporada, 15 preguntas al día y 3 días del
-                pase completo al crear tu cuenta, sin tarjeta.
-              </p>
+              <p>Un diagnóstico por temporada, 15 preguntas al día y 3 días con todo abierto, sin tarjeta.</p>
               <Link href="/entrar" className="joa-enlace">
                 Crear cuenta
               </Link>
             </div>
-            {productos.map((p, k) => (
-              <div
-                key={p.sku}
-                className={`joa-precio ${k === productos.length - 1 ? "destacado" : ""}`}
-              >
-                <span className="joa-etiqueta">
-                  _{p.nombre.toLowerCase().replaceAll(" ", "_")}
-                </span>
-                <b>{pesos(Number(p.precioMxn))}</b>
-                <p>{p.descripcion}</p>
-                <Link href="/planes" className="joa-enlace">
+            {basico && (
+              <div className="joa-precio">
+                <span className="joa-etiqueta">Solo áreas comunes</span>
+                <b>{pesos(Number(basico.precioMxn))}</b>
+                <p>Comprensión lectora, Redacción indirecta y Pensamiento matemático, sin los módulos de tu área.</p>
+                <Link href={`/planes#${basico.sku}`} className="joa-enlace">
                   Ver qué incluye
                 </Link>
               </div>
-            ))}
+            )}
+            {medicina && (
+              <div className="joa-precio">
+                <span className="joa-etiqueta">Medicina (EIPM)</span>
+                <b>{pesos(Number(medicina.precioMxn))}</b>
+                <p>Áreas comunes más Biología, Química y Premedicina, con simulacros completos ilimitados.</p>
+                <Link href={`/planes#${medicina.sku}`} className="joa-enlace">
+                  Ver qué incluye
+                </Link>
+              </div>
+            )}
           </div>
           <p className="joa-nota">
             IVA incluido. Sin renovaciones automáticas. Tarjeta, OXXO o SPEI.
@@ -342,7 +376,7 @@ export default async function Portada() {
         </div>
       </section>
 
-      <NavegacionFlotante />
+      <BarraAvance />
     </div>
   );
 }
