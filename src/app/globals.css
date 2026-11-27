@@ -2376,41 +2376,50 @@ textarea:focus {
   margin: 0;
 }
 
-/* Precios */
+/* Precios: tarjetas del mismo alto, en filas completas (4 áreas, 3 opciones). */
+.joa-precios-sub {
+  font: 400 15px/1.5 var(--sans);
+  color: #454e53;
+  max-width: 62ch;
+  margin: 0 0 18px;
+}
+.joa-precios-sub .joa-etiqueta {
+  margin-bottom: 6px;
+}
 .joa-precios {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
-  border-top: 1px solid var(--j-linea-osc);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 48px;
+}
+.joa-precios.tres {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 0;
 }
 .joa-precio {
-  display: grid;
-  align-content: start;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   gap: 12px;
-  padding: 28px 24px 32px 0;
-}
-.joa-precio + .joa-precio {
-  padding-left: 24px;
-  border-left: 1px solid var(--j-linea-osc);
+  padding: 24px;
+  border: 1px solid var(--j-linea-osc);
+  border-top: 4px solid var(--acento, var(--j-linea-osc));
+  border-radius: 6px;
+  background: #fff;
 }
 .joa-precio > b {
-  font: 400 italic clamp(48px, 5vw, 72px) / 1 var(--serif);
+  font: 400 italic clamp(44px, 4.4vw, 64px) / 1 var(--serif);
 }
 .joa-precio p {
   font-size: 15px;
   color: #454e53;
-  margin: 0 0 6px;
+  margin: 0;
+  flex: 1;
 }
 .joa-precio .joa-etiqueta {
   margin: 0;
-}
-.joa-precio.destacado {
-  background: var(--j-negro);
-  color: var(--j-claro);
-  border-radius: 6px;
-  padding-inline: 24px;
-}
-.joa-precio.destacado p {
-  color: #c7d0d4;
+  font-weight: 700;
+  color: var(--j-negro);
 }
 
 /* Preguntas */
@@ -2540,53 +2549,10 @@ textarea:focus {
   scale: var(--avance) 1;
   pointer-events: none;
 }
-.joa-nav {
-  position: fixed;
-  left: 50%;
-  bottom: max(16px, env(safe-area-inset-bottom));
-  z-index: 40;
-  translate: -50% 0;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 6px 6px 6px 18px;
-  border-radius: 999px;
-  background: rgba(7, 12, 14, 0.82);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: var(--j-claro);
-  font-size: 14px;
-  white-space: nowrap;
-  transition: opacity 0.3s, translate 0.3s;
-}
-.joa-nav.oculta {
-  opacity: 0;
-  translate: -50% 24px;
-  pointer-events: none;
-}
-.joa-nav a {
-  text-decoration: none;
-}
-.joa-nav-marca {
-  font-weight: 800;
-  letter-spacing: 0.02em;
-  margin-right: 10px;
-}
-.joa-nav-enlace {
-  padding: 8px 10px;
-  color: #c7d0d4 !important;
-}
-.joa-nav-enlace:hover {
-  color: #fff !important;
-}
-.joa-nav-accion {
-  margin-left: 6px;
-  padding: 9px 16px;
-  border-radius: 999px;
-  background: var(--cian);
-  color: var(--tinta) !important;
-  font-weight: 700;
+@media (max-width: 1040px) {
+  .joa-precios {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 760px) {
@@ -2603,17 +2569,12 @@ textarea:focus {
   .joa-casos {
     grid-template-columns: minmax(0, 1fr);
   }
-  .joa-precio,
-  .joa-precio + .joa-precio {
-    padding: 24px 0;
-    border-left: 0;
-    border-bottom: 1px solid var(--j-linea-osc);
+  .joa-precios,
+  .joa-precios.tres {
+    grid-template-columns: minmax(0, 1fr);
   }
-  .joa-precio.destacado {
-    padding-inline: 20px;
-  }
-  .joa-nav-enlace {
-    display: none;
+  .joa-precio {
+    padding: 20px;
   }
   .joa-nube {
     display: flex;
@@ -4505,7 +4466,7 @@ main:has(> .joa, > .editorial, > .producto) + .pie {
 }
 .planes-area {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 18px;
 }
 .plan-area {
@@ -4588,8 +4549,27 @@ main:has(> .joa, > .editorial, > .producto) + .pie {
 }
 .planes-extra {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px;
+}
+/* Mismo alto y el botón siempre abajo. */
+.planes-extra > .hoja {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.planes-extra > .hoja > :last-child {
+  margin-top: auto;
+}
+@media (max-width: 900px) {
+  .planes-extra {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 700px) {
+  .planes-area {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 .grupo-temas h3 .dato-meta {
   display: inline-flex;
