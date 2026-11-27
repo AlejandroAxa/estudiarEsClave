@@ -14,6 +14,7 @@ import { rutasElegibles } from "@/lib/consultas";
 import { OPCIONES_MINI, areaGeneralPorRuta } from "@/lib/areas-generales";
 import { cambiarRuta } from "@/app/acciones/perfil";
 import { temaDeRuta } from "@/lib/tema-area";
+import { AvisoPlanArea } from "@/components/aviso-plan-area";
 
 export const metadata: Metadata = { title: "Diagnóstico y simulacros" };
 
@@ -66,6 +67,7 @@ export default async function Diagnostico({ searchParams }: { searchParams: Prom
         }
       />
       <div className="wrap app-cuerpo">
+        <AvisoPlanArea plan={plan} rutaId={ruta} />
         {sugerida && (
           <form action={cambiarRuta} className="aviso pila" style={{ maxWidth: 720 }}>
             <input type="hidden" name="ruta" value={sugerida.id} />

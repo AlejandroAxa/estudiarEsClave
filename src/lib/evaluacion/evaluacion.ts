@@ -283,6 +283,17 @@ export async function crearPractica(db: Db, cuentaId: string, f: FiltroPractica,
     if (cubiertos.length) candidatos = cubiertos;
     else planUso = planParaArea(plan, items[0]?.areaId ?? null);
   }
+  // En la mezcla del día, Inglés (que no cuenta para el puntaje) entra como
+  // mucho una vez; si no, por su tamaño se llevaría un tercio de la sesión.
+  if (!f.repaso && !f.subareaId && !f.temaId) {
+    const sinPuntaje = new Set(
+      (await db.select({ id: s.area.id }).from(s.area).where(eq(s.area.cuentaPuntaje, false))).map((a) => a.id),
+    );
+    if (sinPuntaje.size && candidatos.some((x) => !sinPuntaje.has(x.areaId))) {
+      const [uno] = barajar(candidatos.filter((x) => sinPuntaje.has(x.areaId)), semillaNueva());
+      candidatos = [...candidatos.filter((x) => !sinPuntaje.has(x.areaId)), ...(uno ? [uno] : [])];
+    }
+  }
   const c = await cuota(db, cuentaId, recurso, planUso);
   if (!c.permitido) throw new ErrorEvaluacion(c.textoMuro ?? "Llegaste a tu límite de hoy", "cuota", { recurso, recargaEn: c.recargaEn });
   if (f.repaso) {
@@ -356,6 +367,8 @@ export interface ItemVisible {
   datos: { tex: string; desc: string }[] | null;
   textoId: string | null;
   areaId: string;
+  /** Subárea del reactivo, para que en práctica sepas qué estás estudiando. */
+  materia: string;
   opciones: OpcionVisible[];
   respuesta: Letra | null;
   marcada: boolean;
@@ -364,7 +377,7 @@ export interface ItemVisible {
 /** Ítems de un intento sin la respuesta correcta ni argumentaciones. */
 export async function itemsVisibles(db: Db, intentoId: string): Promise<{ items: ItemVisible[]; textos: Record<string, { titulo: string; cuerpo: string; esVerso: boolean; autoria: string | null }> }> {
   const filas = await db
-    .select({ it: s.itemIntento, rv: s.reactivoVersion, areaId: s.subarea.areaId })
+    .select({ it: s.itemIntento, rv: s.reactivoVersion, areaId: s.subarea.areaId, materia: s.subarea.nombre })
     .from(s.itemIntento)
     .innerJoin(s.reactivoVersion, and(eq(s.reactivoVersion.reactivoId, s.itemIntento.reactivoId), eq(s.reactivoVersion.version, s.itemIntento.version)))
     .innerJoin(s.tema, eq(s.tema.id, s.reactivoVersion.temaId))
@@ -381,7 +394,7 @@ export async function itemsVisibles(db: Db, intentoId: string): Promise<{ items:
   const resp = await db.select().from(s.respuesta).where(eq(s.respuesta.intentoId, intentoId));
   const textoIds = [...new Set(filas.map((f) => f.rv.textoId).filter(Boolean))] as string[];
   const txt = textoIds.length ? await db.select().from(s.texto).where(inArray(s.texto.id, textoIds)) : [];
-  const items = filas.map(({ it, rv, areaId }) => {
+  const items = filas.map(({ it, rv, areaId, materia }) => {
     const r = resp.find((x) => x.orden === it.orden);
     const perm = it.ordenOpciones.split("") as Letra[];
     const opciones = perm.map((orig, pos) => ({
@@ -398,6 +411,7 @@ export async function itemsVisibles(db: Db, intentoId: string): Promise<{ items:
       datos: rv.datos ?? null,
       textoId: rv.textoId,
       areaId,
+      materia,
       opciones,
       respuesta: letraResp,
       marcada: r?.marcadaRevisar ?? false,
@@ -557,7 +571,11 @@ async function retroalimentacion(db: Db, i: typeof s.intento.$inferSelect, orden
   const correcta = det.opciones.find((o) => o.correcta)!;
   const elegida = r?.opcionId?.trim();
   const argumentaciones = Object.fromEntries(
-    det.opciones.map((o) => [letraDe(o.opcionId), completo || o.correcta || o.opcionId.trim() === elegida ? o.argumentacion : null]),
+    det.opciones.map((o) => [
+      letraDe(o.opcionId),
+      // "Por qué sí: Correcta. …" repetía lo que ya dice la etiqueta.
+      completo || o.correcta || o.opcionId.trim() === elegida ? o.argumentacion.replace(/^\s*(?:Correcta|Incorrecta)\.\s*/, "") : null,
+    ]),
   ) as Record<Letra, string | null>;
   const [ev] = r?.correcta
     ? await db.select({ p: s.eventoPuntos.puntos }).from(s.eventoPuntos).where(eq(s.eventoPuntos.idIdempotencia, `acierto:${i.id}:${orden}`))

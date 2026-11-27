@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FormPractica } from "@/app/practica/form";
 import { planPorSku, SKU_BASICO, SKU_MEDICINA } from "@/lib/planes-area";
 import type { Metadata } from "next";
 import { and, count, desc, eq, gte } from "drizzle-orm";
@@ -167,12 +168,17 @@ export default async function Inicio({ searchParams }: { searchParams: Promise<{
             {cuotaPractica.restante != null && (
               <p className="small">
                 Plan gratis: te quedan {cuotaPractica.restante} de {cuotaPractica.cantidad} preguntas hoy.
-                {cuotaPractica.recargaEn ? ` Se recargan a las ${formatoHora(cuotaPractica.recargaEn)}.` : ""}
+                {cuotaPractica.recargaEn ? ` Se recargan a las ${formatoHora(cuotaPractica.recargaEn).replace(/\.$/, "")}.` : ""}
               </p>
             )}
             <div className="pie-tarjeta">
-              <Link href="/practica" className="btn sec chico">
-                {hoy >= 10 ? tema.tomarOtra : "Elegir tema"}
+              <FormPractica
+                etiqueta={hoy >= 10 ? tema.tomarOtra : tema.tomar}
+                deshabilitado={!cuotaPractica.permitido}
+                muro={cuotaPractica.permitido ? null : cuotaPractica.textoMuro}
+              />
+              <Link href="/practica#temas" className="btn sec chico">
+                Elegir tema
               </Link>
               {repaso.pendientes.length > 0 && (
                 <Link href="/practica?repaso=1" className="btn disc">

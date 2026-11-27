@@ -301,6 +301,11 @@ export function Examen({ intento, secciones, items, textos, ahoraServidor, vocab
             <span className="small">
               {respondidas} de {visibles.length} respondidas
             </span>
+            {practica && (
+              <span className="progreso-practica" aria-hidden>
+                <span style={{ width: `${(respondidas / Math.max(1, visibles.length)) * 100}%` }} />
+              </span>
+            )}
           </div>
           <div className="fila" style={{ gap: 16 }}>
             <span className={`estado-red ${pendientes ? "pendiente" : ""}`} aria-live="polite">
@@ -381,6 +386,7 @@ export function Examen({ intento, secciones, items, textos, ahoraServidor, vocab
           <section id="panel-pregunta" className="hoja panel-pregunta" aria-labelledby="enunciado">
             <div className="fila entre">
               <span className="small">
+                {practica && actual.materia && <span className="materia-pregunta">{actual.materia}</span>}
                 Pregunta {idx + 1} de {visibles.length}
                 {texto && (
                   <button className="enlace-lectura" onClick={() => setVista("lectura")}>

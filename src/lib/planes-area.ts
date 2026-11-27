@@ -34,19 +34,19 @@ const DEF: Record<string, Omit<PlanArea, "rutaId" | "nombre" | "orden" | "precio
     sku: "plan-sociales-humanidades-2027",
     rutasExtra: ["psicologia"],
     modulos: ["CSO", "CSH", "PSI"],
-    incluye: ["Módulo general de Ciencias sociales", "Módulo de Ciencias Sociales y Humanidades", "Banco extra de Psicología"],
+    incluye: ["Módulo general de Ciencias sociales", "Módulo de Ciencias Sociales y Humanidades", "Banco de Psicología, si eliges esa carrera en tu cuenta"],
   },
   "epiu-naturales-salud": {
     sku: "plan-naturales-salud-2027",
     rutasExtra: [],
     modulos: ["CEX", "CNS", "BIO", "QUI"],
-    incluye: ["Módulo general de Ciencias experimentales", "Módulo de Ciencias Naturales y de Salud", "Banco extra de Biología y Química"],
+    incluye: ["Módulo general de Ciencias experimentales", "Módulo de Ciencias Naturales y de Salud"],
   },
   "epiu-ingenierias-exactas": {
     sku: "plan-ingenierias-exactas-2027",
     rutasExtra: ["exactas-fis", "exactas-pye"],
     modulos: ["CEX", "ICE", "CAL", "FIS", "PYE"],
-    incluye: ["Módulo general de Ciencias experimentales", "Módulo de Ingenierías y Ciencias Exactas", "Banco extra de Cálculo, Física y Probabilidad"],
+    incluye: ["Módulo general de Ciencias experimentales", "Módulo de Ingenierías y Ciencias Exactas", "Bancos de Cálculo, Física y Probabilidad, si eliges Ciencias exactas en tu cuenta"],
   },
 };
 
