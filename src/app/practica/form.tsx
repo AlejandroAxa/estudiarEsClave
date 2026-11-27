@@ -1,10 +1,10 @@
 "use client";
 import Link from "next/link";
 import { useActionState, useEffect, useRef } from "react";
-import { Lock } from "lucide-react";
+import { ArrowRight, Lock } from "lucide-react";
 import { empezarPractica } from "@/app/acciones/examen";
 
-export function FormPractica(p: { etiqueta: string; subarea?: string; repaso?: boolean; deshabilitado?: boolean; muro?: string | null; chico?: boolean; autoIniciar?: boolean }) {
+export function FormPractica(p: { etiqueta: string; subarea?: string; repaso?: boolean; deshabilitado?: boolean; muro?: string | null; chico?: boolean; autoIniciar?: boolean; enlace?: boolean }) {
   const [estado, accion, enviando] = useActionState(empezarPractica, undefined);
   const ref = useRef<HTMLFormElement>(null);
   const hecho = useRef(false);
@@ -24,9 +24,15 @@ export function FormPractica(p: { etiqueta: string; subarea?: string; repaso?: b
         </p>
       )}
       {estado?.error && <p className="aviso error">{estado.error}</p>}
-      <button className={`btn ${p.chico ? "chico sec" : ""}`} disabled={p.deshabilitado || enviando}>
-        {enviando ? "Preparando…" : p.etiqueta}
-      </button>
+      {p.enlace ? (
+        <button className="btn-enlace" disabled={p.deshabilitado || enviando}>
+          {enviando ? "Preparando…" : p.etiqueta} <ArrowRight size={16} aria-hidden />
+        </button>
+      ) : (
+        <button className={`btn ${p.chico ? "chico sec" : ""}`} disabled={p.deshabilitado || enviando}>
+          {enviando ? "Preparando…" : p.etiqueta}
+        </button>
+      )}
     </form>
   );
 }

@@ -100,7 +100,8 @@ describe("bancos de Medicina, Ciencias Exactas, Psicología, EPIU e Inglés", ()
     expect(await cuantos(psi.id)).toBe(43);
     // Inglés (diagnóstico, no cuenta) es común a todas las rutas y va a Práctica.
     expect(await areasVisibles("exactas-fis")).toEqual(["CAL", "CL", "FIS", "ING", "PM", "RI"]);
-    expect(await areasVisibles("psicologia")).toEqual(["CL", "ING", "PM", "PSI", "RI"]);
+    // Psicología presenta en la BUAP el examen de Sociales y Humanidades: suma sus dos módulos.
+    expect(await areasVisibles("psicologia")).toEqual(["CL", "CSH", "CSO", "ING", "PM", "PSI", "RI"]);
     expect(await areasVisibles("medicina")).toEqual(["BIO", "CL", "ING", "PM", "PRE", "QUI", "RI"]);
     // Cada área EPIU ve su módulo general (Sociales o Experimentales) y su módulo de área, nada más.
     expect(await areasVisibles("epiu-economico-administrativas")).toEqual(["CEA", "CL", "CSO", "ING", "PM", "RI"]);

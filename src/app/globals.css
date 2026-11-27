@@ -4671,3 +4671,402 @@ main:has(> .joa, > .editorial, > .producto) + .pie {
 .resumen-materias b {
   text-align: right;
 }
+
+/* ───────── Meta diaria, dominio y "mañana te toca" ───────── */
+.meta-dia {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 16px 20px;
+  border-radius: 18px;
+  background: var(--papel, #fff);
+  border: 1px solid var(--linea);
+}
+.meta-dia.hecha,
+.meta-dia.cumplida {
+  border-color: color-mix(in srgb, var(--ok, #1f8a4c) 45%, transparent);
+  background: color-mix(in srgb, var(--ok, #1f8a4c) 7%, var(--papel, #fff));
+}
+.meta-dia > div {
+  display: grid;
+  gap: 2px;
+}
+.meta-titulo {
+  font: 700 20px var(--disp, inherit);
+}
+.meta-anillo {
+  width: 72px;
+  height: 72px;
+  flex: none;
+  transform: rotate(-90deg);
+}
+.meta-anillo circle {
+  fill: none;
+  stroke-width: 8;
+}
+.meta-anillo .fondo {
+  stroke: color-mix(in srgb, var(--gris) 22%, transparent);
+}
+.meta-anillo .lleno {
+  stroke: var(--azul);
+  stroke-linecap: round;
+  stroke-dashoffset: var(--hasta);
+  animation: meta-llena 1.1s 0.2s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.meta-dia.hecha .lleno,
+.meta-dia.cumplida .lleno {
+  stroke: var(--ok, #1f8a4c);
+}
+@keyframes meta-llena {
+  from {
+    stroke-dashoffset: var(--desde);
+  }
+  to {
+    stroke-dashoffset: var(--hasta);
+  }
+}
+.meta-dia.cumplida .meta-titulo {
+  animation: meta-pop 0.5s 1.2s cubic-bezier(0.3, 1.6, 0.5, 1) both;
+}
+@keyframes meta-pop {
+  from {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.meta-chispas {
+  position: absolute;
+  left: 56px;
+  top: 50%;
+  pointer-events: none;
+}
+.meta-chispas i {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  background: hsl(calc(var(--k) * 36), 80%, 55%);
+  opacity: 0;
+  animation: meta-chispa 0.9s calc(1.2s + var(--k) * 0.02s) ease-out both;
+}
+@keyframes meta-chispa {
+  0% {
+    transform: rotate(calc(var(--k) * 36deg)) translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(calc(var(--k) * 36deg)) translateX(58px) scale(0.4);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .meta-anillo .lleno,
+  .meta-dia.cumplida .meta-titulo {
+    animation: none;
+  }
+  .meta-chispas {
+    display: none;
+  }
+}
+.manana {
+  padding: 14px 18px;
+  border-radius: 14px;
+  border-left: 4px solid var(--azul);
+  background: color-mix(in srgb, var(--azul) 6%, transparent);
+}
+.manana p {
+  margin: 4px 0 0;
+}
+.dominio-mini {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0 2px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.dominio-mini.sin-datos {
+  color: var(--gris);
+  font-weight: 500;
+}
+.dominio-barra {
+  flex: 0 1 110px;
+  height: 6px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--gris) 22%, transparent);
+  overflow: hidden;
+}
+.dominio-barra > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+}
+.dominio-mini.ok .dominio-barra > span {
+  background: var(--ok, #1f8a4c);
+}
+.dominio-mini.mid .dominio-barra > span {
+  background: #d39b1c;
+}
+.dominio-mini.bad .dominio-barra > span {
+  background: #c8463c;
+}
+
+/* ───────── Práctica: editorial, numerada y con aire ───────── */
+.prac-ojo {
+  font: 600 12px var(--sans);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--azul);
+}
+.prac-num {
+  font: 400 15px var(--serif);
+  font-style: italic;
+  color: var(--gris);
+  letter-spacing: 0.02em;
+}
+.prac-hoy {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: clamp(16px, 2vw, 24px);
+  margin-bottom: clamp(56px, 8vw, 104px);
+}
+.prac-paso {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: clamp(24px, 3.4vw, 44px);
+  border-radius: 28px;
+  background: var(--papel);
+  border: 1px solid var(--linea);
+}
+.prac-paso > * {
+  position: relative;
+}
+.prac-paso h2 {
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-size: clamp(30px, 3.4vw, 46px);
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+}
+.prac-paso p {
+  margin: 0;
+  max-width: 46ch;
+  color: var(--gris);
+  font-size: 17px;
+  line-height: 1.55;
+}
+.prac-paso form {
+  margin-top: auto;
+  padding-top: 8px;
+}
+.prac-paso-cabeza {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+.prac-paso:not(.principal) h2 {
+  font-size: clamp(26px, 2.4vw, 34px);
+}
+.prac-paso.principal {
+  --acento: var(--cian);
+  background: var(--noche);
+  border-color: transparent;
+  color: #fff;
+}
+.prac-paso.principal p {
+  color: #c4d3dd;
+}
+.prac-paso.principal .prac-num {
+  color: #9fb6c4;
+}
+.prac-paso.principal .prac-ojo {
+  color: var(--acento);
+}
+.prac-paso.principal form .small {
+  color: #c4d3dd;
+}
+/* Bruma: dos manchas suaves del color del área, sin imágenes. */
+.prac-bruma {
+  position: absolute !important;
+  inset: -30% -20% auto auto;
+  width: 70%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(closest-side, color-mix(in srgb, var(--acento) 55%, transparent), transparent 70%),
+    radial-gradient(closest-side at 30% 70%, color-mix(in srgb, var(--cian) 35%, transparent), transparent 75%);
+  filter: blur(30px);
+  opacity: 0.55;
+  pointer-events: none;
+}
+.prac-datos {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 18px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 32px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  font-size: 14px;
+  color: #c4d3dd;
+}
+.prac-datos b {
+  display: block;
+  font: 700 26px var(--disp);
+  color: #fff;
+}
+.prac-cifra {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.prac-cifra b {
+  font: 700 56px/1 var(--disp);
+  color: var(--tinta);
+}
+.prac-materias-cabeza {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 18px 48px;
+  align-items: end;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--tinta);
+}
+.prac-materias-cabeza h2 {
+  margin: 6px 0 0;
+  font-size: clamp(32px, 3.8vw, 52px);
+  line-height: 1;
+}
+.prac-materias-cabeza p {
+  margin: 0;
+  color: var(--gris);
+  font-size: 15px;
+}
+.prac-area {
+  display: grid;
+  grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+  gap: 16px 48px;
+  padding: 32px 0;
+  border-bottom: 1px solid var(--linea);
+}
+.prac-area-titulo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+.prac-area-titulo h3 {
+  margin: 0;
+  font-size: 22px;
+  line-height: 1.15;
+}
+.prac-etiqueta {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--linea);
+  font-size: 12px;
+  color: var(--gris);
+}
+.prac-filas {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.prac-filas li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 170px 100px auto;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 0;
+  transition: background 0.2s;
+}
+.prac-filas li + li {
+  box-shadow: inset 0 1px 0 var(--linea);
+}
+.prac-filas li:hover b {
+  color: var(--azul);
+}
+.prac-filas b {
+  font-weight: 600;
+  font-size: 16px;
+}
+.prac-filas .dominio-mini {
+  margin: 0;
+}
+.prac-cuantas {
+  font-size: 13px;
+  color: var(--gris);
+  text-align: right;
+}
+.prac-filas form {
+  gap: 4px !important;
+  align-items: end;
+}
+.btn-enlace {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 0;
+  border: 0;
+  background: none;
+  font: 700 15px var(--sans);
+  color: var(--azul);
+  cursor: pointer;
+}
+.btn-enlace svg {
+  transition: transform 0.2s;
+}
+.prac-filas li:hover .btn-enlace svg,
+.btn-enlace:focus-visible svg {
+  transform: translateX(4px);
+}
+.btn-enlace:disabled {
+  color: var(--gris);
+  cursor: not-allowed;
+}
+:root[data-tema="oscuro"] .prac-paso:not(.principal) {
+  background: #0f1c27;
+}
+:root[data-tema="oscuro"] .prac-cifra b {
+  color: #fff;
+}
+@media (max-width: 860px) {
+  .prac-hoy,
+  .prac-materias-cabeza,
+  .prac-area {
+    grid-template-columns: 1fr;
+  }
+  .prac-filas li {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "n b" "d c";
+    row-gap: 6px;
+  }
+  .prac-filas li > b {
+    grid-area: n;
+  }
+  .prac-filas li > form {
+    grid-area: b;
+  }
+  .prac-filas .dominio-mini {
+    grid-area: d;
+  }
+  .prac-cuantas {
+    grid-area: c;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn-enlace svg {
+    transition: none;
+  }
+}
