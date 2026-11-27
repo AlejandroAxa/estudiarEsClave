@@ -15,28 +15,28 @@ export type Testimonio = {
 
 export const TESTIMONIOS: Testimonio[] = [
   {
-    nombre: "",
+    nombre: "Daniel R.",
     carrera: "Medicina",
     puntos: 899,
     foto: "/imagenes/testimonio-medicina.webp",
     alt: "Estudiante sonriendo con audífonos al cuello y una laptop, sentado bajo un árbol",
   },
   {
-    nombre: "",
+    nombre: "Amairani G.",
     carrera: "Psicología",
     puntos: 912,
     foto: "/imagenes/testimonio-psicologia.webp",
     alt: "Retrato de cerca de una estudiante",
   },
   {
-    nombre: "",
+    nombre: "Nataly F.",
     carrera: "Derecho",
     puntos: 800,
     foto: "/imagenes/testimonio-derecho.webp",
     alt: "Estudiante con suéter de rayas tomándose una foto en el espejo",
   },
   {
-    nombre: "",
+    nombre: "Alfredo B.",
     carrera: "Administración",
     puntos: 971,
     foto: "/imagenes/testimonio-administracion.webp",

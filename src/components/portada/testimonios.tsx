@@ -30,8 +30,14 @@ export function Testimonios() {
                   <small> puntos</small>
                 </b>
                 <span className="testimonio-carrera">
-                  {t.nombre ? `${t.nombre} · ` : "Entró a "}
-                  {t.nombre ? t.carrera : `${t.carrera} en la BUAP`}
+                  {t.nombre ? (
+                    <>
+                      {t.nombre}
+                      <small>Entró a {t.carrera} en la BUAP</small>
+                    </>
+                  ) : (
+                    `Entró a ${t.carrera} en la BUAP`
+                  )}
                 </span>
                 {t.frase ? (
                   <blockquote>“{t.frase}”</blockquote>

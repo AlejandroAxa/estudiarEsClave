@@ -5170,3 +5170,9 @@ main:has(> .joa, > .editorial, > .producto) + .pie {
   color: var(--j-negro, #000);
 }
 .joa-redes { margin: 28px 0 0; }
+.testimonio-carrera small {
+  display: block;
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--j-gris);
+}
