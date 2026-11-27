@@ -15,6 +15,8 @@ import { OPCIONES_MINI, areaGeneralPorRuta } from "@/lib/areas-generales";
 import { cambiarRuta } from "@/app/acciones/perfil";
 import { temaDeRuta } from "@/lib/tema-area";
 import { AvisoPlanArea } from "@/components/aviso-plan-area";
+import { opcionesSelector, puedeCambiarA, reglaCambio } from "@/lib/cambio-area";
+import { planDeRuta } from "@/lib/planes-area";
 
 export const metadata: Metadata = { title: "Diagnóstico y simulacros" };
 
@@ -25,7 +27,12 @@ export default async function Diagnostico({ searchParams }: { searchParams: Prom
   const rutas = (await rutasElegibles()).filter((r) => r.examenId === ses.perfil.examenId);
   const actual = rutas.find((r) => r.id === ruta);
   const pedida = area ? OPCIONES_MINI.find((o) => o.slug === area) : undefined;
-  const sugerida = pedida && pedida.id !== ruta && rutas.some((r) => r.id === pedida.id) ? pedida : undefined;
+  const regla = await reglaCambio(db, ses.cuenta.id, rutas);
+  const opciones = opcionesSelector(rutas, regla, ruta);
+  const pedidaPermitida = pedida && pedida.id !== ruta && rutas.some((r) => r.id === pedida.id);
+  const sugerida = pedidaPermitida && puedeCambiarA(regla, pedida.id, ruta) ? pedida : undefined;
+  // Pidió un área que su plan o la espera no le dejan: se lo explicamos en vez de ignorarlo.
+  const negada = pedidaPermitida && !sugerida ? pedida : undefined;
   const general = areaGeneralPorRuta(ruta);
   const modos = [
     { modo: "diagnostico", titulo: "Diagnóstico completo", cuando: "Empieza aquí", texto: "Por secciones, una por área, con pausa entre ellas. Te da tu nivel por subárea y tus 3 prioridades.", icono: <ClipboardCheck size={20} aria-hidden /> },
@@ -80,7 +87,22 @@ export default async function Diagnostico({ searchParams }: { searchParams: Prom
             </div>
           </form>
         )}
-        {cambio && !sugerida && (
+        {(cambio === "no" || negada) && (
+          <p className="aviso" role="status">
+            {regla.motivo === "plan" ? (
+              <>
+                Tu plan abre las preguntas de {actual?.nombre ?? ruta}
+                {negada ? `, no las de ${negada.nombre}` : ""}. Para estudiar otra área necesitas su plan:{" "}
+                <Link href={`/planes${negada && planDeRuta(negada.id) ? `#${planDeRuta(negada.id)!.sku}` : ""}`}>ver los planes</Link>.
+              </>
+            ) : regla.bloqueadoHasta ? (
+              <>Ya cambiaste de área hace poco. Podrás volver a cambiarla a partir del {formatoFecha(regla.bloqueadoHasta, { day: "numeric", month: "long" })}.</>
+            ) : (
+              <>No se pudo cambiar a esa área.</>
+            )}
+          </p>
+        )}
+        {cambio === "1" && !sugerida && (
           <p className="aviso ok" role="status">
             Listo: tus exámenes ya salen del banco de {actual?.nombre ?? ruta}.
           </p>
@@ -161,21 +183,28 @@ export default async function Diagnostico({ searchParams }: { searchParams: Prom
             <label className="campo" style={{ flex: "1 1 320px" }}>
               Las preguntas salen del banco de esta área
               <span className="ayuda">
+                {regla.motivo === "plan"
+                  ? "Tu plan cubre estas áreas. Para estudiar otra, compra su plan."
+                  : regla.bloqueadoHasta
+                    ? `Puedes cambiar de área una vez cada 30 días. La próxima vez: ${formatoFecha(regla.bloqueadoHasta, { day: "numeric", month: "long" })}.`
+                    : "Puedes cambiar de área una vez cada 30 días, así que elige la de la carrera a la que vas a aplicar."}{" "}
                 {general ? (
                   <Link href={`/carreras/${general.slug}`}>Ver las carreras de {general.corto}</Link>
                 ) : (
                   <Link href="/carreras">Ver las áreas generales</Link>
                 )}
               </span>
-              <select name="ruta" defaultValue={ruta}>
-                {rutas.map((r) => (
+              <select name="ruta" defaultValue={ruta} disabled={!!regla.bloqueadoHasta || opciones.length < 2}>
+                {opciones.map((r) => (
                   <option key={r.id} value={r.id}>
                     {r.nombre}
                   </option>
                 ))}
               </select>
             </label>
-            <button className="btn sec chico">Cambiar de área</button>
+            <button className="btn sec chico" disabled={!!regla.bloqueadoHasta || opciones.length < 2}>
+              Cambiar de área
+            </button>
           </form>
         </section>
       </div>

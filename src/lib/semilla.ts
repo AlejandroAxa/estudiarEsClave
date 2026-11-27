@@ -68,13 +68,13 @@ function textoMuro(recurso: string) {
 }
 
 export const INSIGNIAS: (typeof s.insignia.$inferInsert)[] = [
-  { id: "primer-diagnostico", nombre: "Primera consulta", descripcion: "Terminaste tu primer diagnóstico completo.", condicion: "Enviar un diagnóstico", icono: "stethoscope" },
-  { id: "primera-seccion", nombre: "Signos vitales", descripcion: "Cerraste tu primera sección de diagnóstico.", condicion: "Terminar una sección", icono: "activity" },
-  { id: "dosis-completa", nombre: "Dosis completa", descripcion: "Respondiste 10 preguntas de práctica en un día.", condicion: "10 prácticas en un día", icono: "pill" },
-  { id: "subarea-sube", nombre: "Mejoría", descripcion: "Una subárea subió de nivel entre dos diagnósticos.", condicion: "Subir de nivel una subárea", icono: "trending-up" },
-  { id: "error-corregido", nombre: "Alta médica", descripcion: "Un error que se te repetía dejó de aparecer.", condicion: "Un error frecuente desaparece en el siguiente diagnóstico", icono: "badge-check" },
-  { id: "tema-dominado", nombre: "Especialista", descripcion: "Acertaste 5 seguidas del mismo tema en práctica.", condicion: "5 aciertos seguidos en un tema", icono: "award" },
-  { id: "racha-7", nombre: "Pulso firme", descripcion: "Estudiaste 7 días seguidos.", condicion: "Racha de 7 días", icono: "heart-pulse" },
+  { id: "primer-diagnostico", nombre: "Punto de partida", descripcion: "Terminaste tu primer diagnóstico completo.", condicion: "Enviar un diagnóstico", icono: "flag" },
+  { id: "primera-seccion", nombre: "Primer paso", descripcion: "Cerraste tu primera sección de diagnóstico.", condicion: "Terminar una sección", icono: "footprints" },
+  { id: "dosis-completa", nombre: "Meta del día", descripcion: "Respondiste 10 preguntas de práctica en un día.", condicion: "10 prácticas en un día", icono: "target" },
+  { id: "subarea-sube", nombre: "Subiendo de nivel", descripcion: "Una subárea subió de nivel entre dos diagnósticos.", condicion: "Subir de nivel una subárea", icono: "trending-up" },
+  { id: "error-corregido", nombre: "Error superado", descripcion: "Un error que se te repetía dejó de aparecer.", condicion: "Un error frecuente desaparece en el siguiente diagnóstico", icono: "badge-check" },
+  { id: "tema-dominado", nombre: "Tema dominado", descripcion: "Acertaste 5 seguidas del mismo tema en práctica.", condicion: "5 aciertos seguidos en un tema", icono: "award" },
+  { id: "racha-7", nombre: "Semana completa", descripcion: "Estudiaste 7 días seguidos.", condicion: "Racha de 7 días", icono: "flame" },
 ];
 
 export async function sembrarConfiguracion(db: Db, opciones: { fechaExamen?: string | null } = {}) {

@@ -5,7 +5,8 @@ import { and, eq, ne, sql } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "@/db";
 import * as s from "@/db/schema";
-import { COOKIE_ANONIMA, COOKIE_REF, requerirSesion, sesionActual } from "@/lib/sesion";
+import { auditar, COOKIE_ANONIMA, COOKIE_REF, requerirSesion, sesionActual } from "@/lib/sesion";
+import { puedeCambiarA, reglaCambio } from "@/lib/cambio-area";
 import { darPrueba } from "@/lib/planes";
 import { asegurarCodigoReferido } from "@/lib/comercio/comercio";
 import { adoptarAnonimos } from "@/lib/evaluacion/evaluacion";
@@ -58,7 +59,8 @@ export async function guardarBienvenida(_p: { error?: string } | undefined, form
   await db
     .insert(s.perfilAlumno)
     .values({ cuentaId: ses.cuenta.id, ...valores, llegoConReferido: llego })
-    .onConflictDoUpdate({ target: s.perfilAlumno.cuentaId, set: valores });
+    // Con perfil ya creado, el área solo se cambia desde Diagnóstico (con sus reglas), no aquí.
+    .onConflictDoUpdate({ target: s.perfilAlumno.cuentaId, set: nuevo ? valores : { alias: valores.alias } });
   await db
     .update(s.cuenta)
     .set({ name: p.data.nombre ?? "", avisoVersionAceptada: AVISO_VIGENTE, updatedAt: new Date() })
@@ -127,11 +129,15 @@ export async function cambiarRuta(form: FormData) {
   if (!ses?.perfil) redirect("/entrar");
   const rutaId = String(form.get("ruta") ?? "");
   const [rt] = await db.select().from(s.ruta).where(and(eq(s.ruta.id, rutaId), eq(s.ruta.esGrupo, false)));
-  if (rt) {
-    await db
-      .update(s.perfilAlumno)
-      .set({ rutaId: rt.id, carreraObjetivo: rt.carrera ?? rt.nombre, examenId: rt.examenId, nivel: rt.examenId === "EXANI-I" ? "prepa" : "licenciatura" })
-      .where(eq(s.perfilAlumno.cuentaId, ses.cuenta.id));
-  }
+  if (!rt) redirect("/diagnostico");
+  const rutas = await db.select({ id: s.ruta.id }).from(s.ruta).where(eq(s.ruta.esGrupo, false));
+  const regla = await reglaCambio(db, ses.cuenta.id, rutas);
+  // El servidor decide: el selector solo muestra lo permitido, pero un formulario se puede armar a mano.
+  if (!puedeCambiarA(regla, rt.id, ses.perfil.rutaId)) redirect("/diagnostico?cambio=no#area");
+  await db
+    .update(s.perfilAlumno)
+    .set({ rutaId: rt.id, carreraObjetivo: rt.carrera ?? rt.nombre, examenId: rt.examenId, nivel: rt.examenId === "EXANI-I" ? "prepa" : "licenciatura" })
+    .where(eq(s.perfilAlumno.cuentaId, ses.cuenta.id));
+  await auditar(ses.cuenta.id, "ruta_cambiada", "perfil", `${ses.perfil.rutaId}>${rt.id}`);
   redirect("/diagnostico?cambio=1");
 }
