@@ -5070,3 +5070,109 @@ main:has(> .joa, > .editorial, > .producto) + .pie {
     transition: none;
   }
 }
+
+/* Testimonios de la portada */
+.testimonios {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: clamp(16px, 2.4vw, 28px);
+}
+.testimonio {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+}
+.testimonio img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 6px;
+  background: var(--j-linea-osc);
+}
+.testimonio-texto {
+  display: grid;
+  gap: 4px;
+}
+.testimonio-puntos {
+  font: 400 italic clamp(40px, 4.4vw, 60px) / 1 var(--serif);
+}
+.testimonio-puntos small {
+  font: 600 15px var(--sans);
+  font-style: normal;
+  color: var(--j-gris);
+}
+.testimonio-carrera {
+  font-weight: 600;
+  font-size: 15px;
+}
+.testimonio blockquote {
+  margin: 6px 0 0;
+  font-size: 15px;
+  color: #454e53;
+}
+@media (max-width: 600px) {
+  .testimonios {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Franja de fotos del campus */
+.joa-franja {
+  margin: 0;
+  background: var(--j-negro);
+  color: var(--j-claro);
+}
+.joa-franja img {
+  display: block;
+  width: 100%;
+  height: clamp(200px, 24vw, 360px);
+  object-fit: cover;
+}
+.joa-franja figcaption {
+  display: flex;
+  gap: 8px 32px;
+  flex-wrap: wrap;
+  align-items: baseline;
+  padding-block: 22px 26px;
+  font-size: 15px;
+  color: #c3d0d8;
+}
+.joa-franja figcaption .joa-etiqueta {
+  margin: 0;
+}
+
+/* TikTok */
+.tiktok-enlace,
+.tiktok-boton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  font-weight: 600;
+}
+.tiktok-enlace:hover {
+  opacity: 0.75;
+}
+.tiktok-boton {
+  min-height: 44px;
+  padding: 0 20px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  color: inherit;
+  transition: background 0.2s, color 0.2s;
+}
+.tiktok-boton:hover {
+  background: var(--j-claro, #fff);
+  color: var(--j-negro, #000);
+}
+.joa-redes { margin: 28px 0 0; }
+.testimonio-carrera small {
+  display: block;
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--j-gris);
+}
