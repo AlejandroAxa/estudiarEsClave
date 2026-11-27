@@ -148,6 +148,7 @@ export const RUTAS_CONOCIDAS: Record<string, { nombre: string; grupos: string[];
   estomatologia: { nombre: "Estomatología", grupos: ["salud", "todas"], carrera: "Cirujano Dentista" },
   nutricion: { nombre: "Nutrición", grupos: ["salud", "todas"], carrera: "Nutrición Clínica" },
   fisioterapia: { nombre: "Fisioterapia", grupos: ["salud", "todas"], carrera: "Fisioterapia" },
-  psicologia: { nombre: "Psicología", grupos: ["todas"], carrera: "Psicología" },
+  // En la BUAP, Psicología presenta el examen de Sociales y Humanidades.
+  psicologia: { nombre: "Psicología", grupos: ["epiu-general-sociales", "epiu-sociales-humanidades", "todas"], carrera: "Psicología" },
   prepa: { nombre: "Preparatoria", grupos: ["todas"], carrera: "Bachillerato" },
 };

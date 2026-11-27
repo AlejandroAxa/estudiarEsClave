@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { db } from "@/db";
 import { requerirAlumno } from "@/lib/sesion";
 import { cuota, estadoPlan, incluido, planParaArea } from "@/lib/planes";
-import { pendientesRepaso, poolPractica, taxonomiaDe } from "@/lib/evaluacion/evaluacion";
+import { dominioPractica, pendientesRepaso, poolPractica, taxonomiaDe } from "@/lib/evaluacion/evaluacion";
 import { formatoHora } from "@/lib/fechas";
 import { temaDeRuta } from "@/lib/tema-area";
 import { FormPractica } from "./form";
@@ -26,6 +26,7 @@ export default async function Practica({ searchParams }: { searchParams: Promise
   const { items } = await poolPractica(db, ses.cuenta.id, ses.perfil.rutaId, {});
   const areaIds = (await db.select({ id: s.area.id }).from(s.area).where(eq(s.area.examenId, ses.perfil.examenId))).map((a) => a.id);
   const tax = await taxonomiaDe(db, areaIds);
+  const dominio = await dominioPractica(db, ses.cuenta.id);
   const disponibles = new Map<string, number>();
   for (const i of items) disponibles.set(i.subareaId, (disponibles.get(i.subareaId) ?? 0) + 1);
 
@@ -123,6 +124,7 @@ export default async function Practica({ searchParams }: { searchParams: Promise
                         <li key={x.id}>
                           <span>
                             <b>{x.nombre}</b>
+                            <DominioMini d={dominio.get(x.id)} />
                             <span className="xs">{disponibles.get(x.id)} preguntas</span>
                           </span>
                           <FormPractica etiqueta="Practicar" subarea={x.id} chico deshabilitado={abierta && !c.permitido} autoIniciar={subarea === x.id} />
@@ -142,5 +144,23 @@ export default async function Practica({ searchParams }: { searchParams: Promise
         </section>
       </div>
     </>
+  );
+}
+
+/** Barra de dominio de práctica (aciertos en las últimas 20). Con menos de 3 respuestas todavía no dice nada. */
+function DominioMini({ d }: { d?: { aciertos: number; total: number } }) {
+  if (!d || d.total < 3) return <span className="dominio-mini sin-datos">Sin empezar</span>;
+  const pct = Math.round((d.aciertos / d.total) * 100);
+  const nivel = pct >= 70 ? "ok" : pct >= 45 ? "mid" : "bad";
+  return (
+    <span className={`dominio-mini ${nivel}`} title={`${d.aciertos} de tus últimas ${d.total} bien`}>
+      <span className="dominio-barra" aria-hidden>
+        <span style={{ width: `${pct}%` }} />
+      </span>
+      <span className="dominio-pct">{pct} %</span>
+      <span className="sr-only">
+        de dominio: {d.aciertos} de tus últimas {d.total} respuestas fueron correctas
+      </span>
+    </span>
   );
 }

@@ -236,8 +236,33 @@ export async function poolPractica(db: Db, cuentaId: string, rutaId: string, f: 
   return { rel, items: base.filter((b) => !enPlantillas.has(b.reactivoId) || vistos.has(b.reactivoId)) };
 }
 
+/**
+ * Dominio de práctica por subárea: aciertos en las últimas 20 respuestas de
+ * cada una. Es lo que se mueve día a día, a diferencia del diagnóstico.
+ */
+export async function dominioPractica(db: Db, cuentaId: string) {
+  const filas = await db
+    .select({ subareaId: s.tema.subareaId, correcta: s.respuesta.correcta })
+    .from(s.respuesta)
+    .innerJoin(s.intento, eq(s.intento.id, s.respuesta.intentoId))
+    .innerJoin(s.reactivoVersion, and(eq(s.reactivoVersion.reactivoId, s.respuesta.reactivoId), eq(s.reactivoVersion.version, s.respuesta.version)))
+    .innerJoin(s.tema, eq(s.tema.id, s.reactivoVersion.temaId))
+    .where(and(eq(s.intento.cuentaId, cuentaId), eq(s.intento.modo, "practica"), isNotNull(s.respuesta.opcionId)))
+    .orderBy(desc(s.respuesta.respondidaEn));
+  const m = new Map<string, { aciertos: number; total: number }>();
+  for (const f of filas) {
+    const x = m.get(f.subareaId) ?? { aciertos: 0, total: 0 };
+    if (x.total >= 20) continue;
+    x.total++;
+    if (f.correcta) x.aciertos++;
+    m.set(f.subareaId, x);
+  }
+  return m;
+}
+
 /** Historial de práctica por reactivo, para el repaso espaciado (RF-51) sin tabla nueva. */
-export async function pendientesRepaso(db: Db, cuentaId: string) {
+/** Errores que tocan repasar hoy (o dentro de `enDias` días, para avisar qué viene). */
+export async function pendientesRepaso(db: Db, cuentaId: string, enDias = 0) {
   const filas = await db
     .select({ reactivoId: s.respuesta.reactivoId, correcta: s.respuesta.correcta, en: s.respuesta.respondidaEn })
     .from(s.respuesta)
@@ -253,7 +278,7 @@ export async function pendientesRepaso(db: Db, cuentaId: string) {
     } else if (h.ultimaFalla) h.aciertosDespues++;
     porReactivo.set(f.reactivoId, h);
   }
-  const hoy = inicioDiaMx(diaMx()).getTime();
+  const hoy = inicioDiaMx(diaMx()).getTime() + enDias * 86400000;
   const intervalos = [1, 3, 7];
   const pendientes: string[] = [];
   let enEspera = 0;
