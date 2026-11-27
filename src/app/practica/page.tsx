@@ -7,8 +7,8 @@ import { formatoHora } from "@/lib/fechas";
 import { temaDeRuta } from "@/lib/tema-area";
 import { FormPractica } from "./form";
 import Link from "next/link";
-import { Lock, RotateCcw, Shuffle } from "lucide-react";
-import { CabeceraApp, TituloBloque } from "@/components/cabecera-app";
+import { Lock } from "lucide-react";
+import { CabeceraApp } from "@/components/cabecera-app";
 import { AvisoPlanArea } from "@/components/aviso-plan-area";
 import { eq } from "drizzle-orm";
 import * as s from "@/db/schema";
@@ -63,71 +63,86 @@ export default async function Practica({ searchParams }: { searchParams: Promise
             aquí aparecerán.
           </p>
         )}
-        <div className="app-rejilla">
-          <section className="tarjeta destacada c-7" aria-labelledby="mezcla">
-            <div className="tarjeta-cabeza">
-              <span className="icono-chip">
-                <Shuffle size={20} aria-hidden />
-              </span>
-              <h2 id="mezcla">{tema.bloqueGeneral}</h2>
-              <span className="insignia-recomendada">Recomendado</span>
+        <section className="prac-hoy" aria-label="Para hoy">
+          <article className="prac-paso principal" aria-labelledby="mezcla" style={{ "--acento": tema.acento } as React.CSSProperties}>
+            <span className="prac-bruma" aria-hidden />
+            <div className="prac-paso-cabeza">
+              <span className="prac-num">01</span>
+              <span className="prac-ojo">Recomendado para hoy</span>
             </div>
-            <p className="small">Mezcla de todo tu examen, empezando por lo que nunca has practicado y por tus prioridades.</p>
-            <div className="pie-tarjeta">
-              <FormPractica etiqueta={tema.tomar} deshabilitado={!c.permitido || !items.length} muro={c.permitido ? null : c.textoMuro} />
+            <h2 id="mezcla">{tema.bloqueGeneral}</h2>
+            <p>Diez preguntas de todo tu examen. Empezamos por lo que nunca has visto y por tus prioridades, y al responder ves el porqué de cada opción.</p>
+            <ul className="prac-datos">
+              <li>
+                <b>10</b> preguntas
+              </li>
+              <li>
+                <b>~12</b> minutos
+              </li>
+              <li>
+                <b>{items.length.toLocaleString("es-MX")}</b> en tu banco
+              </li>
+            </ul>
+            <FormPractica etiqueta={tema.tomar} deshabilitado={!c.permitido || !items.length} muro={c.permitido ? null : c.textoMuro} />
+          </article>
+          <article className="prac-paso" aria-labelledby="repaso">
+            <div className="prac-paso-cabeza">
+              <span className="prac-num">02</span>
+              <span className="prac-ojo">Para que no se te olvide</span>
             </div>
-          </section>
-          <section className="tarjeta c-5" aria-labelledby="repaso">
-            <div className="tarjeta-cabeza">
-              <span className="icono-chip">
-                <RotateCcw size={20} aria-hidden />
-              </span>
-              <h2 id="repaso">Repaso espaciado</h2>
-              <span className="dato-meta">{rep.pendientes.length} hoy</span>
-            </div>
-            <p className="small">Lo que fallaste vuelve a los 1, 3 y 7 días, justo cuando estás por olvidarlo.</p>
-            <div className="pie-tarjeta">
-              <FormPractica
-                etiqueta="Repasar ahora"
-                repaso
-                deshabilitado={!repasoIncluido || rep.pendientes.length === 0 || !ses.perfil.repasoEspaciado}
-                muro={!repasoIncluido ? "El repaso espaciado viene con el pase." : !ses.perfil.repasoEspaciado ? "Lo apagaste en tu cuenta." : null}
-                autoIniciar={repaso === "1"}
-              />
-            </div>
-          </section>
-        </div>
+            <h2 id="repaso">Repaso espaciado</h2>
+            <p className="prac-cifra">
+              <b>{rep.pendientes.length}</b>
+              <span>{rep.pendientes.length === 1 ? "pregunta lista hoy" : "preguntas listas hoy"}</span>
+            </p>
+            <p>
+              Lo que fallaste vuelve a los 1, 3 y 7 días.
+              {rep.enEspera ? ` ${rep.enEspera} más esperan su turno.` : ""}
+            </p>
+            <FormPractica
+              etiqueta="Repasar ahora"
+              repaso
+              chico
+              deshabilitado={!repasoIncluido || rep.pendientes.length === 0 || !ses.perfil.repasoEspaciado}
+              muro={!repasoIncluido ? "El repaso espaciado viene con el pase." : !ses.perfil.repasoEspaciado ? "Lo apagaste en tu cuenta." : null}
+              autoIniciar={repaso === "1"}
+            />
+          </article>
+        </section>
 
-        <section aria-labelledby="temas">
-          <TituloBloque ojo="O elige un tema" titulo="Por subárea" id="temas">
-            Solo las materias de tu examen con preguntas abiertas.
-          </TituloBloque>
-          <div className="tarjeta">
-            {conPreguntas.map((a) => {
+        <section className="prac-materias" aria-labelledby="temas">
+          <div className="prac-materias-cabeza">
+            <div>
+              <span className="prac-ojo">O elige una materia</span>
+              <h2 id="temas">Practica por materia</h2>
+            </div>
+            <p>La barra es tu dominio: aciertos en tus últimas 20 respuestas de esa materia. Verde ya está firme; rojo es donde más ganas.</p>
+          </div>
+          <div>
+            {conPreguntas.map((a, k) => {
               // Con un pase que no abre esta área se practica con la cuota de prueba o gratis.
               const abierta = planParaArea(plan, a.id) === plan.plan;
               return (
-                <div key={a.id} className="grupo-temas">
-                  <h3>
-                    {a.nombre}
-                    {!a.cuentaPuntaje && <span className="dato-meta">No cuenta para tu puntaje</span>}
+                <div key={a.id} className="prac-area">
+                  <div className="prac-area-titulo">
+                    <span className="prac-num">{String(k + 1).padStart(2, "0")}</span>
+                    <h3>{a.nombre}</h3>
+                    {!a.cuentaPuntaje && <span className="prac-etiqueta">No cuenta para tu puntaje</span>}
                     {!abierta && (
-                      <span className="dato-meta">
+                      <span className="prac-etiqueta">
                         <Lock size={12} aria-hidden /> Fuera de tu plan: cuenta en tu límite diario
                       </span>
                     )}
-                  </h3>
-                  <ul className="lista-temas">
+                  </div>
+                  <ul className="prac-filas">
                     {a.subareas
                       .filter((x) => (disponibles.get(x.id) ?? 0) > 0)
                       .map((x) => (
                         <li key={x.id}>
-                          <span>
-                            <b>{x.nombre}</b>
-                            <DominioMini d={dominio.get(x.id)} />
-                            <span className="xs">{disponibles.get(x.id)} preguntas</span>
-                          </span>
-                          <FormPractica etiqueta="Practicar" subarea={x.id} chico deshabilitado={abierta && !c.permitido} autoIniciar={subarea === x.id} />
+                          <b>{x.nombre}</b>
+                          <DominioMini d={dominio.get(x.id)} />
+                          <span className="prac-cuantas">{disponibles.get(x.id)} preguntas</span>
+                          <FormPractica etiqueta="Practicar" subarea={x.id} enlace deshabilitado={abierta && !c.permitido} autoIniciar={subarea === x.id} />
                         </li>
                       ))}
                   </ul>
