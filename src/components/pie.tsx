@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BotonInstagram } from "@/components/boton-instagram";
 import { BotonTikTok } from "@/components/boton-tiktok";
 
 export function Pie() {
@@ -12,8 +13,9 @@ export function Pie() {
           <p style={{ maxWidth: "48ch", marginTop: 8 }}>
             Simulador independiente. No está afiliado al CENEVAL ni a la BUAP. Las calificaciones son estimaciones propias.
           </p>
-          <p style={{ marginTop: 14 }}>
-            <BotonTikTok texto="@estudiaresclave" />
+          <p className="redes-fila" style={{ marginTop: 14 }}>
+            <BotonTikTok texto="TikTok" />
+            <BotonInstagram texto="Instagram" />
           </p>
         </div>
         <nav aria-label="Pie" style={{ display: "grid", gap: 6 }}>
