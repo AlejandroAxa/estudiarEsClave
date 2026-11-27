@@ -7,6 +7,7 @@ import type { Db } from "@/db/conexion";
 import * as s from "@/db/schema";
 import { diaMx, diasEntre, inicioDiaMx, lunesDe, primeroDeMes, sumarDias } from "../fechas";
 import { estadoPlan, limiteDe } from "../planes";
+import { idLogro, LOGROS_ACIERTOS, LOGROS_RACHA, type TipoLogro } from "./logros";
 
 export const VERSION_MOTIVACION = "mot-1";
 export const PUNTOS = { seccion: 50, acierto: 10, dia: 20, insignia: 30 } as const;
@@ -264,4 +265,22 @@ export async function revisarMedalla(db: Tx, cuentaId: string, subareaId: string
   const numero = n / MEDALLA_CADA;
   await otorgarPuntos(db, { cuentaId, motivo: "insignia", puntos: PUNTOS.insignia, idem: `medalla:${cuentaId}:${subareaId}:${numero}` });
   return numero;
+}
+
+/**
+ * Medallas de logro: aciertos totales de práctica (20, 50, 100…) y racha de
+ * aciertos seguidos (5, 10, 20…). Se revisan con «al menos», así quien ya
+ * había pasado una meta la recibe con su siguiente acierto. Devuelve las nuevas.
+ */
+export async function revisarLogros(db: Tx, cuentaId: string, racha: number) {
+  const [{ n }] = await db
+    .select({ n: count() })
+    .from(s.respuesta)
+    .innerJoin(s.intento, eq(s.intento.id, s.respuesta.intentoId))
+    .where(and(eq(s.intento.cuentaId, cuentaId), eq(s.intento.modo, "practica"), eq(s.respuesta.correcta, true)));
+  const total = Number(n);
+  const nuevas: { tipo: TipoLogro; meta: number }[] = [];
+  for (const meta of LOGROS_ACIERTOS) if (total >= meta && (await darInsignia(db, cuentaId, idLogro("aciertos", meta)))) nuevas.push({ tipo: "aciertos", meta });
+  for (const meta of LOGROS_RACHA) if (racha >= meta && (await darInsignia(db, cuentaId, idLogro("racha", meta)))) nuevas.push({ tipo: "racha", meta });
+  return { total, nuevas };
 }

@@ -5997,3 +5997,74 @@ main:has(> .joa, > .editorial, > .producto) + .pie {
   font-weight: 700;
 }
 .pila > .profe { margin-bottom: 0; }
+
+/* Medallas de logro: aciertos totales y racha de aciertos */
+.medalla-logro {
+  flex: none;
+  overflow: visible;
+}
+.medalla-logro.bloqueada {
+  color: var(--gris);
+}
+.medalla-logro.ganada .medalla-logro-icono {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+.logros {
+  display: grid;
+  gap: 14px;
+}
+.logros-serie {
+  padding: 16px 18px 18px;
+  border-radius: var(--r-control);
+  border: 1.5px solid var(--linea);
+  background: var(--papel);
+}
+.logros-cabeza {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 16px;
+  margin-bottom: 14px;
+}
+.logros-cabeza h3 {
+  margin: 0;
+  font-size: 18px;
+}
+.logros-fila {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+}
+.logros-fila li {
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: 4px;
+  text-align: center;
+  padding: 10px 4px;
+  border-radius: 12px;
+}
+.logros-fila li b {
+  font-size: 14px;
+  line-height: 1.2;
+}
+.logros-fila li:not(.ganada) b {
+  color: var(--gris);
+}
+.logros-fila li.ganada {
+  background: color-mix(in srgb, #ffd76a 14%, var(--papel));
+}
+.logros-fila .barra-medalla {
+  width: 80%;
+  height: 6px;
+}
+@media (max-width: 640px) {
+  .logros-fila {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

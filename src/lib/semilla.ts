@@ -6,6 +6,7 @@
 import type { Db } from "@/db/conexion";
 import * as s from "@/db/schema";
 import { AREAS_COMUNES, PLANES_AREA } from "./planes-area";
+import { LOGROS_ACIERTOS, LOGROS_RACHA } from "./motivacion/logros";
 
 export const LIMITES_INICIALES: (typeof s.limitePlan.$inferInsert)[] = [
   // recurso, cantidad (null = ilimitado, 0 = no incluido), periodo
@@ -75,6 +76,21 @@ export const INSIGNIAS: (typeof s.insignia.$inferInsert)[] = [
   { id: "error-corregido", nombre: "Error superado", descripcion: "Un error que se te repetía dejó de aparecer.", condicion: "Un error frecuente desaparece en el siguiente diagnóstico", icono: "badge-check" },
   { id: "tema-dominado", nombre: "Tema dominado", descripcion: "Acertaste 5 seguidas del mismo tema en práctica.", condicion: "5 aciertos seguidos en un tema", icono: "award" },
   { id: "racha-7", nombre: "Semana completa", descripcion: "Estudiaste 7 días seguidos.", condicion: "Racha de 7 días", icono: "flame" },
+  // Medallas de logro (mot-2): aciertos totales de práctica y racha de aciertos seguidos.
+  ...LOGROS_ACIERTOS.map((n, i) => ({
+    id: `aciertos-${n}`,
+    nombre: ["Calentando motores", "Medio centenar", "Centenario", "Imparable", "Leyenda del banco"][i],
+    descripcion: `Acertaste ${n} preguntas de práctica.`,
+    condicion: `${n} aciertos en práctica`,
+    icono: "medalla-aciertos",
+  })),
+  ...LOGROS_RACHA.map((n, i) => ({
+    id: `racha-aciertos-${n}`,
+    nombre: ["En racha", "Diez al hilo", "Mano caliente", "Sin fallar", "Perfección"][i],
+    descripcion: `Acertaste ${n} preguntas seguidas sin un error.`,
+    condicion: `Racha de ${n} aciertos`,
+    icono: "medalla-racha",
+  })),
 ];
 
 export async function sembrarConfiguracion(db: Db, opciones: { fechaExamen?: string | null } = {}) {

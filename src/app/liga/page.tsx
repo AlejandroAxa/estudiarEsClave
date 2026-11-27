@@ -8,7 +8,8 @@ import { diaMx, lunesDe, sumarDias, formatoFecha } from "@/lib/fechas";
 import { aciertosPorMateria, MEDALLA_CADA, PUNTOS, puntosSemana, puntosTotales, rachaVigente } from "@/lib/motivacion/motivacion";
 import { Award, ChevronsDown, ChevronsUp, Crown, Flame, Lock, Shield } from "lucide-react";
 import { CabeceraApp, TituloBloque } from "@/components/cabecera-app";
-import { Medalla } from "@/components/medalla";
+import { Medalla, MedallaLogro } from "@/components/medalla";
+import { esLogro, idLogro, LOGROS_ACIERTOS, LOGROS_RACHA } from "@/lib/motivacion/logros";
 import { ProfeTomas } from "@/components/profe";
 import { plural, temaDeRuta } from "@/lib/tema-area";
 
@@ -78,7 +79,16 @@ export default async function Liga() {
   const tema = temaDeRuta(ses.perfil.rutaId);
   const rachaHoy = rachaVigente(racha);
   const miLugar = tabla.findIndex((f) => f.cuentaId === ses.cuenta.id) + 1;
-  const ganadas = insignias.filter((x) => x.en).length;
+  const logros = new Map(insignias.filter((x) => esLogro(x.i.id)).map((x) => [x.i.id, x]));
+  const soloInsignias = insignias.filter((x) => !esLogro(x.i.id));
+  const ganadas = soloInsignias.filter((x) => x.en).length;
+  const aciertosTotales = [...porMateria.values()].reduce((a, b) => a + b, 0);
+  const mejorRacha = racha?.mejorAciertos ?? 0;
+  const series = [
+    { tipo: "aciertos" as const, titulo: "Aciertos totales", metas: LOGROS_ACIERTOS, llevas: aciertosTotales, unidad: "aciertos" },
+    { tipo: "racha" as const, titulo: "Racha de aciertos", metas: LOGROS_RACHA, llevas: mejorRacha, unidad: "seguidos (tu mejor racha)" },
+  ];
+  const logrosGanados = [...logros.values()].filter((x) => x.en).length;
   const lider = Math.max(1, tabla[0]?.puntos ?? 1);
   const bajan = tabla.length > 10 ? tabla.length - 5 : Infinity;
   const divIdx = DIVISIONES.findIndex((d) => d.id === (mia?.division ?? "bronce"));
@@ -250,6 +260,50 @@ export default async function Liga() {
           </ul>
         </section>
 
+        <section aria-labelledby="logros">
+          <TituloBloque ojo="Retos" titulo="Medallas de logro" id="logros">
+            {logrosGanados} de {logros.size} ganadas · +{PUNTOS.insignia} puntos cada una
+          </TituloBloque>
+          <div className="logros">
+            {series.map((serie) => {
+              const siguiente = serie.metas.find((m) => !logros.get(idLogro(serie.tipo, m))?.en);
+              return (
+                <div key={serie.tipo} className="logros-serie">
+                  <div className="logros-cabeza">
+                    <h3>{serie.titulo}</h3>
+                    <span className="small">
+                      Llevas <b>{serie.llevas}</b> {serie.unidad}
+                      {siguiente ? ` · siguiente meta: ${siguiente}` : " · ¡todas ganadas!"}
+                    </span>
+                  </div>
+                  <ol className="logros-fila">
+                    {serie.metas.map((m, k) => {
+                      const x = logros.get(idLogro(serie.tipo, m));
+                      const ganada = !!x?.en;
+                      return (
+                        <li key={m} className={ganada ? "ganada" : undefined}>
+                          <MedallaLogro tipo={serie.tipo} meta={m} escalon={k} ganada={ganada} tamano={64} titulo={`${x?.i.nombre ?? m}${ganada ? ", ganada" : ", bloqueada"}`} />
+                          <b>{x?.i.nombre ?? m}</b>
+                          <span className="xs">
+                            {ganada && x?.en
+                              ? formatoFecha(x.en, { day: "numeric", month: "short" })
+                              : `${Math.min(serie.llevas, m)} / ${m}`}
+                          </span>
+                          {!ganada && m === siguiente && (
+                            <span className="barra-medalla" aria-hidden>
+                              <span style={{ width: `${(Math.min(serie.llevas, m) / m) * 100}%` }} />
+                            </span>
+                          )}
+                        </li>
+                      );
+                    })}
+                  </ol>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
         <section aria-labelledby="medallas">
           <TituloBloque ojo="Por materia" titulo="Medallas" id="medallas">
             {totalMedallas} {totalMedallas === 1 ? "medalla" : "medallas"} · una por cada {MEDALLA_CADA} aciertos en la misma materia
@@ -277,7 +331,7 @@ export default async function Liga() {
                         <span style={{ width: `${(resto / MEDALLA_CADA) * 100}%` }} />
                       </span>
                       <span className="xs">
-                        {m.aciertos} aciertos · faltan {MEDALLA_CADA - resto} para la {n + 1}.ª
+                        {m.aciertos} {m.aciertos === 1 ? "acierto" : "aciertos"} · faltan {MEDALLA_CADA - resto} para la {n + 1}.ª
                       </span>
                     </div>
                   </li>
@@ -289,10 +343,10 @@ export default async function Liga() {
 
         <section aria-labelledby="insignias">
           <TituloBloque ojo="Logros" titulo="Insignias" id="insignias">
-            {ganadas} de {insignias.length} ganadas
+            {ganadas} de {soloInsignias.length} ganadas
           </TituloBloque>
           <ul className="insignias">
-            {insignias.map(({ i, en }) => (
+            {soloInsignias.map(({ i, en }) => (
               <li key={i.id} className={en ? "ganada" : undefined}>
                 <span className="medalla">{en ? <Award size={20} aria-hidden /> : <Lock size={16} aria-hidden />}</span>
                 <b>{i.nombre}</b>
