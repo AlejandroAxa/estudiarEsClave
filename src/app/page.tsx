@@ -15,6 +15,7 @@ import { Arranque } from "@/components/portada/arranque";
 import { BarraAvance } from "@/components/portada/navegacion";
 import { Testimonios } from "@/components/portada/testimonios";
 import { FranjaCampus } from "@/components/portada/campus";
+import { BotonInstagram } from "@/components/boton-instagram";
 import { BotonTikTok } from "@/components/boton-tiktok";
 import { PREGUNTAS } from "@/textos/preguntas";
 import { t } from "@/textos/es-MX";
@@ -366,11 +367,12 @@ export default async function Portada() {
             <i aria-hidden /> Temporada 2027 abierta
           </span>
           <Arranque />
-          <p className="joa-redes">
+          <p className="joa-redes redes-fila">
             <BotonTikTok
               variante="boton"
               texto="Una pregunta al día en TikTok"
             />
+            <BotonInstagram variante="boton" texto="Síguenos en Instagram" />
           </p>
           <p className="joa-nota">{t.aviso.estimacion}</p>
         </div>

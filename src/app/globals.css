@@ -5125,7 +5125,13 @@ main:has(> .joa, > .editorial, > .producto) + .pie {
   margin: 0;
 }
 
-/* TikTok */
+/* Redes: TikTok e Instagram comparten estilo */
+.redes-fila {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  align-items: center;
+}
 .tiktok-enlace,
 .tiktok-boton {
   display: inline-flex;
