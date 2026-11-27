@@ -46,6 +46,8 @@ export const profe = {
   rachaRota: "Se cortó tu racha de {n}, pero tu mejor marca sigue en {m}. ¡Vamos por otra!",
   medallaCerca: "Te faltan {faltan} aciertos en {materia} para tu siguiente medalla.",
   medalla: "¡Medalla de {materia}! Llevas {n} aciertos en esta materia. +30 puntos.",
+  logroRacha: "¡{n} aciertos seguidos! Ganaste la medalla «{nombre}». +30 puntos.",
+  logroAciertos: "¡Ya son {n} aciertos! Medalla «{nombre}» desbloqueada. +30 puntos.",
   espera: [
     "Tómate tu tiempo. Si te atoras, descarta la que menos te convence.",
     "¿Te atoraste? Vuelve a leer la pregunta: a veces la respuesta está en el enunciado.",

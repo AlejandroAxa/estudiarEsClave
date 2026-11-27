@@ -9,7 +9,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Bookmark, BookmarkCheck, ChevronLeft, ChevronRight, CloudOff, Check, Flame, Lock } from "lucide-react";
 import { Profe, type Animo } from "@/components/profe";
-import { Medalla } from "@/components/medalla";
+import { Medalla, MedallaLogro } from "@/components/medalla";
+import { LOGROS_ACIERTOS, LOGROS_RACHA } from "@/lib/motivacion/logros";
 import { frase as fraseProfe, profe as dichos, rellenar } from "@/textos/profe";
 import { accionEnviar, accionIniciarSeccion, accionTerminarSeccion } from "@/app/acciones/examen";
 import type { ItemVisible, Letra, Retroalimentacion } from "@/lib/evaluacion/evaluacion";
@@ -83,7 +84,11 @@ export function Examen({ intento, secciones, items, textos, ahoraServidor, vocab
   // Profe Tomás y la racha de aciertos.
   const [racha, setRacha] = useState(rachaInicial ?? null);
   const rachaRef = useRef(rachaInicial?.actual ?? 0);
-  const [medallaNueva, setMedallaNueva] = useState<{ numero: number; materia: string } | null>(null);
+  const [brindis, setBrindis] = useState<
+    | { clase: "materia"; numero: number; materia: string }
+    | { clase: "logro"; tipo: "aciertos" | "racha"; meta: number; nombre: string; mas: number }
+    | null
+  >(null);
   const [charla, setCharla] = useState<{ animo: Animo; mensaje: string; clave: number }>(() => ({
     animo: "feliz",
     mensaje: practica
@@ -102,9 +107,15 @@ export function Examen({ intento, secciones, items, textos, ahoraServidor, vocab
         rachaRef.current = j.racha;
         setRacha({ actual: j.racha, mejor: j.mejorRacha });
       }
+      const logro = j?.logros?.length ? j.logros[j.logros.length - 1] : null;
+      if (logro) {
+        setBrindis({ clase: "logro", ...logro, mas: j!.logros.length - 1 + (j!.medallaNueva ? 1 : 0) });
+        setTimeout(() => setBrindis(null), 5000);
+        return decir("festejo", rellenar(logro.tipo === "racha" ? dichos.logroRacha : dichos.logroAciertos, { n: logro.meta, nombre: logro.nombre }));
+      }
       if (j?.medallaNueva) {
-        setMedallaNueva({ numero: j.medallaNueva, materia: j.materia });
-        setTimeout(() => setMedallaNueva(null), 5000);
+        setBrindis({ clase: "materia", numero: j.medallaNueva, materia: j.materia });
+        setTimeout(() => setBrindis(null), 5000);
         return decir("festejo", rellenar(dichos.medalla, { materia: j.materia, n: j.aciertosMateria }));
       }
       if (r.correcta) {
@@ -411,13 +422,32 @@ export function Examen({ intento, secciones, items, textos, ahoraServidor, vocab
       </div>
 
       <div className="wrap" style={{ paddingBlock: 24 }}>
-        {medallaNueva && (
+        {brindis?.clase === "materia" && (
           <div className="brindis-medalla" role="status">
-            <Medalla numero={medallaNueva.numero} tamano={64} />
+            <Medalla numero={brindis.numero} tamano={64} />
             <div>
               <span className="brindis-ceja">¡Medalla nueva!</span>
-              <b>{medallaNueva.materia}</b>
-              <span className="small">{medallaNueva.numero * 10} aciertos en esta materia · +30 puntos</span>
+              <b>{brindis.materia}</b>
+              <span className="small">{brindis.numero * 10} aciertos en esta materia · +30 puntos</span>
+            </div>
+          </div>
+        )}
+        {brindis?.clase === "logro" && (
+          <div className="brindis-medalla" role="status">
+            <MedallaLogro
+              tipo={brindis.tipo}
+              meta={brindis.meta}
+              escalon={(brindis.tipo === "racha" ? LOGROS_RACHA : LOGROS_ACIERTOS).indexOf(brindis.meta as never)}
+              ganada
+              tamano={64}
+            />
+            <div>
+              <span className="brindis-ceja">¡Medalla de {brindis.tipo === "racha" ? "racha" : "aciertos"}!</span>
+              <b>{brindis.nombre}</b>
+              <span className="small">
+                {brindis.tipo === "racha" ? `${brindis.meta} aciertos seguidos` : `${brindis.meta} aciertos en práctica`} · +30 puntos
+                {brindis.mas > 0 ? ` · y ${brindis.mas} más` : ""}
+              </span>
             </div>
           </div>
         )}

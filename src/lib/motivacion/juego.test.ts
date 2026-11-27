@@ -76,5 +76,30 @@ describe("racha de aciertos y medallas por materia", () => {
     expect(liga.mejorRachaAciertos).toBe(racha);
     const medallas = await db.select().from(s.eventoPuntos).where(eq(s.eventoPuntos.idIdempotencia, `medalla:${cuentaId}:PRE-AF:1`));
     expect(medallas).toHaveLength(1);
+    // Medalla de logro por racha: la racha final es de 7 o más, así que ya tiene la de 5.
+    const logros = await db.select().from(s.cuentaInsignia).where(eq(s.cuentaInsignia.cuentaId, cuentaId));
+    expect(logros.map((l) => l.insigniaId)).toContain("racha-aciertos-5");
+    expect(logros.map((l) => l.insigniaId)).not.toContain("aciertos-20");
+  });
+
+  it("al llegar a 20 aciertos totales y a 10 seguidos da sus medallas de logro una sola vez", async () => {
+    const cuentaId = await alumnoDePrueba(db);
+    await darPrueba(db, cuentaId);
+    const pl = (await plantillaActiva(db, "medicina", "diagnostico"))!;
+    const d = await crearIntento(db, { plantillaId: pl.id, cuentaId });
+    for (const x of await seccionesDe(db, d.id)) await terminarSeccion(db, d.id, x.sec.numero, { cuentaId });
+    const vistos: string[] = [];
+    let aciertos = 0;
+    while (aciertos < 20) {
+      const pr = await crearPractica(db, cuentaId, {});
+      const { items } = await itemsVisibles(db, pr.id);
+      for (const it of items) {
+        const r = await guardarRespuesta(db, { intentoId: pr.id, orden: it.orden, letra: await letraCorrecta(pr.id, it.orden), idIdempotencia: randomUUID(), cuentaId });
+        aciertos++;
+        for (const l of r.retro!.juego!.logros) vistos.push(`${l.tipo}-${l.meta}:${aciertos}`);
+        if (aciertos >= 20) break;
+      }
+    }
+    expect(vistos).toEqual(["racha-5:5", "racha-10:10", "aciertos-20:20", "racha-20:20"]);
   });
 });
