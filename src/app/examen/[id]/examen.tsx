@@ -7,7 +7,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Bookmark, BookmarkCheck, ChevronLeft, ChevronRight, CloudOff, Check, Lock } from "lucide-react";
+import { Bookmark, BookmarkCheck, ChevronLeft, ChevronRight, CloudOff, Check, Flame, Lock } from "lucide-react";
+import { Profe, type Animo } from "@/components/profe";
+import { Medalla } from "@/components/medalla";
+import { frase as fraseProfe, profe as dichos, rellenar } from "@/textos/profe";
 import { accionEnviar, accionIniciarSeccion, accionTerminarSeccion } from "@/app/acciones/examen";
 import type { ItemVisible, Letra, Retroalimentacion } from "@/lib/evaluacion/evaluacion";
 import { t } from "@/textos/es-MX";
@@ -27,6 +30,8 @@ interface Props {
   ahoraServidor: string;
   /** Palabras del área del alumno (src/lib/tema-area.ts). */
   vocabulario?: { practica: string; aciertos: string[] };
+  /** Racha de aciertos seguidos al abrir la práctica (null fuera de práctica). */
+  rachaInicial?: { actual: number; mejor: number } | null;
 }
 interface Pendiente {
   orden: number;
@@ -46,7 +51,7 @@ function mmss(ms: number) {
   return h ? `${h}:${String(m).padStart(2, "0")}:${ss}` : `${m}:${ss}`;
 }
 
-export function Examen({ intento, secciones, items, textos, ahoraServidor, vocabulario }: Props) {
+export function Examen({ intento, secciones, items, textos, ahoraServidor, vocabulario, rachaInicial }: Props) {
   const voc = vocabulario ?? { practica: "Práctica diaria", aciertos: t.practica.aciertos };
   const router = useRouter();
   const practica = intento.modo === "practica";
@@ -74,6 +79,46 @@ export function Examen({ intento, secciones, items, textos, ahoraServidor, vocab
   const primeraSinResponder = Math.max(0, visibles.findIndex((i) => resp[i.orden] == null));
   const [idx, setIdx] = useState(primeraSinResponder);
   const actual = visibles[Math.min(idx, visibles.length - 1)];
+
+  // Profe Tomás y la racha de aciertos.
+  const [racha, setRacha] = useState(rachaInicial ?? null);
+  const rachaRef = useRef(rachaInicial?.actual ?? 0);
+  const [medallaNueva, setMedallaNueva] = useState<{ numero: number; materia: string } | null>(null);
+  const [charla, setCharla] = useState<{ animo: Animo; mensaje: string; clave: number }>(() => ({
+    animo: "feliz",
+    mensaje: practica
+      ? fraseProfe(dichos.inicioPractica, items.length + (items[0]?.orden ?? 0), { materia: items[0]?.materia ?? "tu examen" })
+      : fraseProfe(dichos.inicioExamen, items.length),
+    clave: 0,
+  }));
+  const decir = useCallback((animo: Animo, mensaje: string) => setCharla((c) => ({ animo, mensaje, clave: c.clave + 1 })), []);
+
+  /** Reacción del profe a la retroalimentación de una respuesta de práctica. */
+  const reaccionar = useCallback(
+    (r: Retroalimentacion, orden: number) => {
+      const j = r.juego;
+      const previa = rachaRef.current;
+      if (j) {
+        rachaRef.current = j.racha;
+        setRacha({ actual: j.racha, mejor: j.mejorRacha });
+      }
+      if (j?.medallaNueva) {
+        setMedallaNueva({ numero: j.medallaNueva, materia: j.materia });
+        setTimeout(() => setMedallaNueva(null), 5000);
+        return decir("festejo", rellenar(dichos.medalla, { materia: j.materia, n: j.aciertosMateria }));
+      }
+      if (r.correcta) {
+        if (j?.bonoRacha) return decir("festejo", rellenar(dichos.bonoRacha, { n: j.racha, b: j.bonoRacha }));
+        const faltan = j ? j.medallaCada - (j.aciertosMateria % j.medallaCada) : 0;
+        if (j && faltan > 0 && faltan <= 3) return decir("feliz", `${fraseProfe(dichos.acierto, orden)} ${rellenar(dichos.medallaCerca, { faltan, materia: j.materia })}`);
+        if (j && j.racha >= 3) return decir("festejo", fraseProfe(dichos.racha, orden, { n: j.racha }));
+        return decir("feliz", fraseProfe(dichos.acierto, orden));
+      }
+      if (previa >= 3 && j) return decir("animo", rellenar(dichos.rachaRota, { n: previa, m: j.mejorRacha }));
+      return decir("animo", fraseProfe(dichos.error, orden));
+    },
+    [decir],
+  );
 
   // Cola local: guarda primero en el teléfono y luego en el servidor.
   const leerCola = useCallback((): Pendiente[] => {
@@ -125,7 +170,10 @@ export function Examen({ intento, secciones, items, textos, ahoraServidor, vocab
       }
       cola = leerCola().filter((x) => x.idIdempotencia !== p.idIdempotencia);
       escribirCola(cola);
-      if (r.ok && r.retro) setRetro((prev) => ({ ...prev, [p.orden]: r.retro! }));
+      if (r.ok && r.retro) {
+        setRetro((prev) => ({ ...prev, [p.orden]: r.retro! }));
+        reaccionar(r.retro, p.orden);
+      }
       if (!r.ok && r.muro) {
         setMuro(r.muro);
         setResp((prev) => ({ ...prev, [p.orden]: null }));
@@ -137,7 +185,7 @@ export function Examen({ intento, secciones, items, textos, ahoraServidor, vocab
     }
     setAviso(null);
     return true;
-  }, [enviarUno, escribirCola, leerCola, router]);
+  }, [enviarUno, escribirCola, leerCola, router, reaccionar]);
 
   useEffect(() => {
     // Sincroniza con la cola guardada en localStorage (sistema externo).
@@ -159,6 +207,29 @@ export function Examen({ intento, secciones, items, textos, ahoraServidor, vocab
     inicioPregunta.current = Date.now();
   }, [actual?.orden]);
 
+  // Al cambiar de pregunta el profe da un consejo; si pasa un rato sin respuesta, te echa la mano.
+  const primeraVista = useRef(true);
+  const respondidaActual = actual ? resp[actual.orden] != null : false;
+  useEffect(() => {
+    if (!actual) return;
+    if (primeraVista.current) {
+      primeraVista.current = false;
+    } else if (!respondidaActual) {
+      const n = visibles.length;
+      const k = visibles.findIndex((x) => x.orden === actual.orden);
+      const mensaje =
+        n >= 10 && k === Math.floor(n / 2) ? dichos.mitad : n >= 10 && k === n - 3 ? dichos.ultimas : fraseProfe(dichos.pregunta, actual.orden * 7 + n);
+      // Reacción a un cambio de pregunta (navegación del alumno).
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      decir("neutral", mensaje);
+    }
+    if (respondidaActual) return;
+    const t = setTimeout(() => decir("pensando", fraseProfe(dichos.espera, actual.orden)), 45000);
+    return () => clearTimeout(t);
+    // Solo al cambiar de pregunta o al responderla.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [actual?.orden, respondidaActual]);
+
   // Al llegar a una lectura nueva se abre en la lectura; las siguientes preguntas del mismo texto, en la pregunta.
   useEffect(() => {
     const id = actual?.textoId ?? null;
@@ -178,6 +249,7 @@ export function Examen({ intento, secciones, items, textos, ahoraServidor, vocab
     if (!actual) return;
     if (practica && (resp[actual.orden] != null || retro[actual.orden])) return;
     setResp((r) => ({ ...r, [actual.orden]: letra }));
+    if (practica) decir("pensando", fraseProfe(dichos.pensando, actual.orden));
     guardar(actual.orden, letra, !!marc[actual.orden]);
   };
   const marcar = () => {
@@ -306,6 +378,16 @@ export function Examen({ intento, secciones, items, textos, ahoraServidor, vocab
                 <span style={{ width: `${(respondidas / Math.max(1, visibles.length)) * 100}%` }} />
               </span>
             )}
+            {racha && (
+              <span className={`chip-racha ${racha.actual >= 3 ? "encendida" : ""}`} key={racha.actual} title={`Mejor racha: ${racha.mejor}`}>
+                <Flame size={16} aria-hidden />
+                <b>{racha.actual}</b>
+                <span className="sr-only">aciertos seguidos</span>
+                <span className="chip-racha-txt" aria-hidden>
+                  {racha.actual === 1 ? "acierto seguido" : "seguidos"}
+                </span>
+              </span>
+            )}
           </div>
           <div className="fila" style={{ gap: 16 }}>
             <span className={`estado-red ${pendientes ? "pendiente" : ""}`} aria-live="polite">
@@ -329,6 +411,16 @@ export function Examen({ intento, secciones, items, textos, ahoraServidor, vocab
       </div>
 
       <div className="wrap" style={{ paddingBlock: 24 }}>
+        {medallaNueva && (
+          <div className="brindis-medalla" role="status">
+            <Medalla numero={medallaNueva.numero} tamano={64} />
+            <div>
+              <span className="brindis-ceja">¡Medalla nueva!</span>
+              <b>{medallaNueva.materia}</b>
+              <span className="small">{medallaNueva.numero * 10} aciertos en esta materia · +30 puntos</span>
+            </div>
+          </div>
+        )}
         {aviso && (
           <p className="aviso" role="status">
             {aviso}
@@ -384,6 +476,8 @@ export function Examen({ intento, secciones, items, textos, ahoraServidor, vocab
             </article>
           )}
           <section id="panel-pregunta" className="hoja panel-pregunta" aria-labelledby="enunciado">
+            {/* Antes de responder, el profe va arriba; con la retroalimentación baja junto a ella para que se lea. */}
+            {!r && <Profe animo={charla.animo} mensaje={charla.mensaje} clave={charla.clave} />}
             <div className="fila entre">
               <span className="small">
                 {practica && actual.materia && <span className="materia-pregunta">{actual.materia}</span>}
@@ -459,10 +553,26 @@ export function Examen({ intento, secciones, items, textos, ahoraServidor, vocab
             {practica && elegida && !r && <p className="small">Revisando…</p>}
             {r && (
               <div className="pila aparece" style={{ marginTop: 18 }} aria-live="polite">
+                <Profe animo={charla.animo} mensaje={charla.mensaje} clave={charla.clave} />
                 <p className={`aviso ${r.correcta ? "ok" : "error"}`}>
                   <b>{r.correcta ? frase(voc.aciertos) : frase(t.practica.errores)}</b>
                   {r.puntos ? ` +${r.puntos} puntos` : ""}
+                  {r.juego?.bonoRacha ? ` · +${r.juego.bonoRacha} por racha` : ""}
                 </p>
+                {r.juego && (
+                  <div className="avance-medalla">
+                    <Medalla numero={r.juego.medallas} tamano={34} />
+                    <span>
+                      <b>{r.juego.materia}</b>
+                      <span className="barra-medalla" aria-hidden>
+                        <span style={{ width: `${((r.juego.aciertosMateria % r.juego.medallaCada) / r.juego.medallaCada) * 100}%` }} />
+                      </span>
+                      <span className="xs">
+                        {r.juego.aciertosMateria % r.juego.medallaCada} de {r.juego.medallaCada} aciertos para la medalla {r.juego.medallas + 1}
+                      </span>
+                    </span>
+                  </div>
+                )}
                 <div>
                   <h3>Procedimiento</h3>
                   <div className="explicacion" dangerouslySetInnerHTML={{ __html: r.explicacion }} />

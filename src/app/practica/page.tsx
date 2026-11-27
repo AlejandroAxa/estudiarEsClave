@@ -3,6 +3,8 @@ import { db } from "@/db";
 import { requerirAlumno } from "@/lib/sesion";
 import { cuota, estadoPlan, incluido, planParaArea } from "@/lib/planes";
 import { dominioPractica, pendientesRepaso, poolPractica, taxonomiaDe } from "@/lib/evaluacion/evaluacion";
+import { aciertosPorMateria, MEDALLA_CADA } from "@/lib/motivacion/motivacion";
+import { Medalla } from "@/components/medalla";
 import { formatoHora } from "@/lib/fechas";
 import { temaDeRuta } from "@/lib/tema-area";
 import { FormPractica } from "./form";
@@ -27,6 +29,7 @@ export default async function Practica({ searchParams }: { searchParams: Promise
   const areaIds = (await db.select({ id: s.area.id }).from(s.area).where(eq(s.area.examenId, ses.perfil.examenId))).map((a) => a.id);
   const tax = await taxonomiaDe(db, areaIds);
   const dominio = await dominioPractica(db, ses.cuenta.id);
+  const aciertos = await aciertosPorMateria(db, ses.cuenta.id);
   const disponibles = new Map<string, number>();
   for (const i of items) disponibles.set(i.subareaId, (disponibles.get(i.subareaId) ?? 0) + 1);
 
@@ -116,7 +119,10 @@ export default async function Practica({ searchParams }: { searchParams: Promise
               <span className="prac-ojo">O elige una materia</span>
               <h2 id="temas">Practica por materia</h2>
             </div>
-            <p>La barra es tu dominio: aciertos en tus últimas 20 respuestas de esa materia. Verde ya está firme; rojo es donde más ganas.</p>
+            <p>
+              La barra es tu dominio: aciertos en tus últimas 20 respuestas de esa materia. Verde ya está firme; rojo es donde más ganas. Cada {MEDALLA_CADA}{" "}
+              aciertos en una materia te dan una medalla.
+            </p>
           </div>
           <div>
             {conPreguntas.map((a, k) => {
@@ -139,7 +145,10 @@ export default async function Practica({ searchParams }: { searchParams: Promise
                       .filter((x) => (disponibles.get(x.id) ?? 0) > 0)
                       .map((x) => (
                         <li key={x.id}>
-                          <b>{x.nombre}</b>
+                          <b>
+                            {x.nombre}
+                            <MedallasMateria aciertos={aciertos.get(x.id) ?? 0} />
+                          </b>
                           <DominioMini d={dominio.get(x.id)} />
                           <span className="prac-cuantas">{disponibles.get(x.id)} preguntas</span>
                           <FormPractica etiqueta="Practicar" subarea={x.id} enlace deshabilitado={abierta && !c.permitido} autoIniciar={subarea === x.id} />
@@ -175,6 +184,22 @@ function DominioMini({ d }: { d?: { aciertos: number; total: number } }) {
       <span className="dominio-pct">{pct} %</span>
       <span className="sr-only">
         de dominio: {d.aciertos} de tus últimas {d.total} respuestas fueron correctas
+      </span>
+    </span>
+  );
+}
+
+/** Medalla que lleva el alumno en la materia, con lo que le falta para la siguiente. */
+function MedallasMateria({ aciertos }: { aciertos: number }) {
+  if (!aciertos) return null;
+  const n = Math.floor(aciertos / MEDALLA_CADA);
+  const faltan = MEDALLA_CADA - (aciertos % MEDALLA_CADA);
+  return (
+    <span className="medallas-fila" title={`${aciertos} aciertos · faltan ${faltan} para la siguiente medalla`}>
+      {n > 0 && <Medalla numero={n} tamano={22} />}
+      <span>
+        {n > 0 ? `×${n} · ` : ""}
+        {faltan} para {n ? "la siguiente" : "tu medalla"}
       </span>
     </span>
   );

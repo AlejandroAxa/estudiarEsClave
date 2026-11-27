@@ -189,3 +189,79 @@ export async function insigniasPorDiagnostico(db: Db, cuentaId: string, intentoI
   const errAhora = new Set((await db.select().from(s.errorFrecuente).where(eq(s.errorFrecuente.intentoId, intentoId))).map((e) => e.errorId));
   if (errAntes.some((e) => !errAhora.has(e.errorId))) await darInsignia(db, cuentaId, "error-corregido");
 }
+
+/* ───────────── Racha de aciertos y medallas por materia (mot-2) ───────────── */
+
+/** Cada cuántos aciertos en una misma materia (subárea) se gana una medalla. */
+export const MEDALLA_CADA = 10;
+/** Puntos extra al llegar a ciertas rachas de aciertos seguidos; después de 20, cada 10 más. */
+const BONOS_RACHA: Record<number, number> = { 3: 5, 5: 10, 10: 25, 15: 30, 20: 50 };
+export function bonoRacha(n: number) {
+  if (BONOS_RACHA[n]) return BONOS_RACHA[n];
+  return n > 20 && n % 10 === 0 ? 50 : 0;
+}
+
+/** Nombre del nivel de la medalla número n de una materia (10, 20, 30… aciertos). */
+export function nivelMedalla(n: number) {
+  if (n <= 0) return null;
+  if (n === 1) return "bronce" as const;
+  if (n === 2) return "plata" as const;
+  if (n === 3) return "oro" as const;
+  return "diamante" as const;
+}
+
+/**
+ * Suma o reinicia la racha de aciertos seguidos de práctica en una sola
+ * sentencia (sin carreras entre pestañas). Si sube, da el bono que toque y
+ * actualiza la mejor racha de la semana en la liga.
+ */
+export async function registrarRachaAciertos(db: Tx, cuentaId: string, correcta: boolean, idem: string, intentoId: string) {
+  const nueva = correcta ? sql`${s.racha.aciertosSeguidos} + 1` : sql`0`;
+  const [r] = await db
+    .insert(s.racha)
+    .values({ cuentaId, aciertosSeguidos: correcta ? 1 : 0, mejorAciertos: correcta ? 1 : 0 })
+    .onConflictDoUpdate({
+      target: s.racha.cuentaId,
+      set: { aciertosSeguidos: nueva, mejorAciertos: sql`greatest(${s.racha.mejorAciertos}, ${nueva})` },
+    })
+    .returning({ actual: s.racha.aciertosSeguidos, mejor: s.racha.mejorAciertos });
+  let bono = 0;
+  if (correcta) {
+    const b = bonoRacha(r.actual);
+    if (b && (await otorgarPuntos(db, { cuentaId, motivo: "racha", puntos: b, idem: `racha-aciertos:${idem}`, intentoId }))) bono = b;
+    await db
+      .update(s.clasificacionSemanal)
+      .set({ mejorRachaAciertos: sql`greatest(${s.clasificacionSemanal.mejorRachaAciertos}, ${r.actual})` })
+      .where(and(eq(s.clasificacionSemanal.semana, lunesDe(diaMx())), eq(s.clasificacionSemanal.cuentaId, cuentaId)));
+  }
+  return { actual: r.actual, mejor: r.mejor, bono };
+}
+
+/** Aciertos de práctica por materia (subárea). Con subareaId, solo esa. */
+export async function aciertosPorMateria(db: Tx, cuentaId: string, subareaId?: string) {
+  const filas = await db
+    .select({ subareaId: s.tema.subareaId, n: count() })
+    .from(s.respuesta)
+    .innerJoin(s.intento, eq(s.intento.id, s.respuesta.intentoId))
+    .innerJoin(s.reactivoVersion, and(eq(s.reactivoVersion.reactivoId, s.respuesta.reactivoId), eq(s.reactivoVersion.version, s.respuesta.version)))
+    .innerJoin(s.tema, eq(s.tema.id, s.reactivoVersion.temaId))
+    .where(
+      and(
+        eq(s.intento.cuentaId, cuentaId),
+        eq(s.intento.modo, "practica"),
+        eq(s.respuesta.correcta, true),
+        subareaId ? eq(s.tema.subareaId, subareaId) : undefined,
+      ),
+    )
+    .groupBy(s.tema.subareaId);
+  return new Map(filas.map((f) => [f.subareaId, Number(f.n)]));
+}
+
+/** Si el acierto completa una decena en la materia, da la medalla (con sus puntos). Devuelve el número de medalla nueva o 0. */
+export async function revisarMedalla(db: Tx, cuentaId: string, subareaId: string) {
+  const n = (await aciertosPorMateria(db, cuentaId, subareaId)).get(subareaId) ?? 0;
+  if (n === 0 || n % MEDALLA_CADA !== 0) return 0;
+  const numero = n / MEDALLA_CADA;
+  await otorgarPuntos(db, { cuentaId, motivo: "insignia", puntos: PUNTOS.insignia, idem: `medalla:${cuentaId}:${subareaId}:${numero}` });
+  return numero;
+}

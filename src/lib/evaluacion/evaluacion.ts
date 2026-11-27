@@ -10,7 +10,18 @@ import { barajar, derivar, semillaNueva } from "../aleatorio";
 import { calificar, type ItemCalificable, type Taxonomia, type Umbrales } from "../diagnostico/calificar";
 import { describir, VERSION_TEXTOS } from "../diagnostico/descripcion";
 import { diaMx, inicioDiaMx } from "../fechas";
-import { darInsignia, insigniasPorDiagnostico, otorgarPuntos, PUNTOS, puntosDelDia, registrarDiaEstudiado } from "../motivacion/motivacion";
+import {
+  aciertosPorMateria,
+  darInsignia,
+  insigniasPorDiagnostico,
+  MEDALLA_CADA,
+  otorgarPuntos,
+  PUNTOS,
+  puntosDelDia,
+  registrarDiaEstudiado,
+  registrarRachaAciertos,
+  revisarMedalla,
+} from "../motivacion/motivacion";
 import { releaseVigente } from "../banco/publicar";
 import { cuota, estadoPlan, paseCubre, planParaArea, planParaRuta, incluido } from "../planes";
 
@@ -486,6 +497,23 @@ export interface Retroalimentacion {
   recomendacion: string | null;
   referencias: { fuente: string; ubicacion: string }[];
   puntos: number;
+  /** Racha de aciertos y avance hacia la siguiente medalla de la materia (solo práctica con cuenta). */
+  juego?: Juego;
+}
+
+export interface Juego {
+  /** Aciertos seguidos después de esta respuesta. */
+  racha: number;
+  mejorRacha: number;
+  /** Puntos extra que dio la racha con esta respuesta. */
+  bonoRacha: number;
+  materia: string;
+  /** Aciertos totales de práctica en la materia. */
+  aciertosMateria: number;
+  medallas: number;
+  medallaCada: number;
+  /** Número de la medalla que se acaba de ganar (0 si ninguna). */
+  medallaNueva: number;
 }
 
 export async function guardarRespuesta(
@@ -566,7 +594,17 @@ export async function guardarRespuesta(
     await darInsignia(db, cuentaId, "dosis-completa");
   }
   if (valores.correcta) await revisarTemaDominado(db, cuentaId, it.reactivoId, it.version);
-  return { ok: true, retro: await retroalimentacion(db, i, p.orden) };
+  const racha = await registrarRachaAciertos(db, cuentaId, valores.correcta, `${i.id}:${p.orden}`, i.id);
+  let medallaNueva = 0;
+  if (valores.correcta) {
+    const [t] = await db
+      .select({ subareaId: s.tema.subareaId })
+      .from(s.reactivoVersion)
+      .innerJoin(s.tema, eq(s.tema.id, s.reactivoVersion.temaId))
+      .where(and(eq(s.reactivoVersion.reactivoId, it.reactivoId), eq(s.reactivoVersion.version, it.version)));
+    medallaNueva = await revisarMedalla(db, cuentaId, t.subareaId);
+  }
+  return { ok: true, retro: await retroalimentacion(db, i, p.orden, { racha: racha.actual, mejorRacha: racha.mejor, bonoRacha: racha.bono, medallaNueva }) };
 }
 
 async function revisarTemaDominado(db: Db, cuentaId: string, reactivoId: string, version: number) {
@@ -585,7 +623,12 @@ async function revisarTemaDominado(db: Db, cuentaId: string, reactivoId: string,
   if (ultimas.length === 5 && ultimas.every((u) => u.correcta)) await darInsignia(db, cuentaId, "tema-dominado");
 }
 
-async function retroalimentacion(db: Db, i: typeof s.intento.$inferSelect, orden: number): Promise<Retroalimentacion> {
+async function retroalimentacion(
+  db: Db,
+  i: typeof s.intento.$inferSelect,
+  orden: number,
+  momento?: { racha: number; mejorRacha: number; bonoRacha: number; medallaNueva: number },
+): Promise<Retroalimentacion> {
   const [it] = await db.select().from(s.itemIntento).where(and(eq(s.itemIntento.intentoId, i.id), eq(s.itemIntento.orden, orden)));
   const [r] = await db.select().from(s.respuesta).where(and(eq(s.respuesta.intentoId, i.id), eq(s.respuesta.orden, orden)));
   const det = await detalleReactivo(db, it.reactivoId, it.version);
@@ -614,7 +657,28 @@ async function retroalimentacion(db: Db, i: typeof s.intento.$inferSelect, orden
     recomendacion: r?.errorId ? (det.errores[r.errorId] ?? null) : null,
     referencias: completo ? det.referencias : [],
     puntos: ev?.p ?? 0,
+    juego: i.cuentaId ? await juegoDe(db, i, orden, det.subareaId, det.subareaNombre, momento) : undefined,
   };
+}
+
+async function juegoDe(
+  db: Db,
+  i: typeof s.intento.$inferSelect,
+  orden: number,
+  subareaId: string,
+  materia: string,
+  momento?: { racha: number; mejorRacha: number; bonoRacha: number; medallaNueva: number },
+): Promise<Juego> {
+  const cuentaId = i.cuentaId!;
+  const aciertosMateria = (await aciertosPorMateria(db, cuentaId, subareaId)).get(subareaId) ?? 0;
+  let m = momento;
+  if (!m) {
+    // Reenvío: se arma con lo guardado (sin volver a anunciar medallas).
+    const [r] = await db.select({ a: s.racha.aciertosSeguidos, m: s.racha.mejorAciertos }).from(s.racha).where(eq(s.racha.cuentaId, cuentaId));
+    const [b] = await db.select({ p: s.eventoPuntos.puntos }).from(s.eventoPuntos).where(eq(s.eventoPuntos.idIdempotencia, `racha-aciertos:${i.id}:${orden}`));
+    m = { racha: r?.a ?? 0, mejorRacha: r?.m ?? 0, bonoRacha: b?.p ?? 0, medallaNueva: 0 };
+  }
+  return { ...m, materia, aciertosMateria, medallas: Math.floor(aciertosMateria / MEDALLA_CADA), medallaCada: MEDALLA_CADA };
 }
 
 export async function detalleReactivo(db: Db, reactivoId: string, version: number) {

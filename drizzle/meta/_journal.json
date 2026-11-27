@@ -36,6 +36,13 @@
       "when": 1795739529619,
       "tag": "0004_insignias_neutrales",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1795818303318,
+      "tag": "0005_racha_aciertos",
+      "breakpoints": true
     }
   ]
 }
