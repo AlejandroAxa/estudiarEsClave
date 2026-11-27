@@ -12,6 +12,9 @@ import { Lectura } from "@/components/portada/lectura";
 import { Fases } from "@/components/portada/fases";
 import { Arranque } from "@/components/portada/arranque";
 import { NavegacionFlotante } from "@/components/portada/navegacion";
+import { Testimonios } from "@/components/portada/testimonios";
+import { FranjaCampus } from "@/components/portada/campus";
+import { BotonTikTok } from "@/components/boton-tiktok";
 import { PREGUNTAS } from "@/textos/preguntas";
 import { t } from "@/textos/es-MX";
 
@@ -238,6 +241,10 @@ export default async function Portada() {
         </div>
       </section>
 
+      <FranjaCampus />
+
+      <Testimonios />
+
       <section className="joa-claro" id="precios">
         <div className="wrap">
           <div className="joa-cabecera">
@@ -325,6 +332,12 @@ export default async function Portada() {
             <i aria-hidden /> Temporada 2027 abierta
           </span>
           <Arranque />
+          <p className="joa-redes">
+            <BotonTikTok
+              variante="boton"
+              texto="Una pregunta al día en TikTok"
+            />
+          </p>
           <p className="joa-nota">{t.aviso.estimacion}</p>
         </div>
       </section>
