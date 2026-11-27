@@ -9,6 +9,7 @@ import { FormPractica } from "./form";
 import Link from "next/link";
 import { Lock, RotateCcw, Shuffle } from "lucide-react";
 import { CabeceraApp, TituloBloque } from "@/components/cabecera-app";
+import { AvisoPlanArea } from "@/components/aviso-plan-area";
 import { eq } from "drizzle-orm";
 import * as s from "@/db/schema";
 
@@ -30,7 +31,9 @@ export default async function Practica({ searchParams }: { searchParams: Promise
 
   const conPreguntas = tax
     .map((a) => ({ ...a, total: a.subareas.reduce((n, x) => n + (disponibles.get(x.id) ?? 0), 0) }))
-    .filter((a) => a.total > 0);
+    .filter((a) => a.total > 0)
+    // Lo que no cuenta para el puntaje (Inglés) va al final.
+    .sort((a, b) => Number(b.cuentaPuntaje) - Number(a.cuentaPuntaje));
   const sinPreguntas = tax.length - conPreguntas.length;
 
   return (
@@ -52,6 +55,7 @@ export default async function Practica({ searchParams }: { searchParams: Promise
         ]}
       />
       <div className="wrap app-cuerpo">
+        <AvisoPlanArea plan={plan} rutaId={ses.perfil.rutaId} />
         {items.length === 0 && (
           <p className="aviso">
             Para cuidar tu diagnóstico, las preguntas del banco se abren a la práctica cuando las ves en tu revisión. Presenta tu diagnóstico completo y
@@ -105,6 +109,7 @@ export default async function Practica({ searchParams }: { searchParams: Promise
                 <div key={a.id} className="grupo-temas">
                   <h3>
                     {a.nombre}
+                    {!a.cuentaPuntaje && <span className="dato-meta">No cuenta para tu puntaje</span>}
                     {!abierta && (
                       <span className="dato-meta">
                         <Lock size={12} aria-hidden /> Fuera de tu plan: cuenta en tu límite diario

@@ -1,13 +1,15 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { and, eq, sql } from "drizzle-orm";
+import { and, asc, eq, sql } from "drizzle-orm";
 import { db } from "@/db";
 import * as s from "@/db/schema";
 import { duenoActual } from "@/lib/dueno";
 import { intentoDe } from "@/lib/evaluacion/evaluacion";
-import { cuota } from "@/lib/planes";
+import { cuota, estadoPlan } from "@/lib/planes";
 import { formatoHora } from "@/lib/fechas";
 import { temaActual } from "@/lib/tema-sesion";
+import { sesionActual } from "@/lib/sesion";
+import { planDeRuta } from "@/lib/planes-area";
 
 export default async function ResumenPractica({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -18,29 +20,76 @@ export default async function ResumenPractica({ params }: { params: Promise<{ id
     .select({ total: sql<number>`count(*)::int`, aciertos: sql<number>`count(*) filter (where ${s.respuesta.correcta})::int` })
     .from(s.respuesta)
     .where(and(eq(s.respuesta.intentoId, id)));
+  // Cómo te fue en cada materia de esta sesión.
+  const porMateria = await db
+    .select({
+      materia: s.subarea.nombre,
+      total: sql<number>`count(*)::int`,
+      aciertos: sql<number>`count(*) filter (where ${s.respuesta.correcta})::int`,
+    })
+    .from(s.respuesta)
+    .innerJoin(s.itemIntento, and(eq(s.itemIntento.intentoId, s.respuesta.intentoId), eq(s.itemIntento.orden, s.respuesta.orden)))
+    .innerJoin(s.reactivoVersion, and(eq(s.reactivoVersion.reactivoId, s.itemIntento.reactivoId), eq(s.reactivoVersion.version, s.itemIntento.version)))
+    .innerJoin(s.tema, eq(s.tema.id, s.reactivoVersion.temaId))
+    .innerJoin(s.subarea, eq(s.subarea.id, s.tema.subareaId))
+    .where(eq(s.respuesta.intentoId, id))
+    .groupBy(s.subarea.nombre, s.subarea.orden)
+    .orderBy(asc(s.subarea.orden));
   const [p] = await db
     .select({ puntos: sql<number>`coalesce(sum(${s.eventoPuntos.puntos}),0)::int` })
     .from(s.eventoPuntos)
     .where(eq(s.eventoPuntos.intentoId, id));
   const tema = await temaActual();
   const c = await cuota(db, i.cuentaId, i.filtro === "repaso" ? "repaso" : "practica");
+  const ses = await sesionActual();
+  const plan = i.cuentaId ? await estadoPlan(db, i.cuentaId) : null;
+  const suyo = planDeRuta(ses?.perfil?.rutaId);
+  const sinPreguntas = c.restante === 0;
+  const pct = r.total ? r.aciertos / r.total : 0;
+  const titular = pct >= 0.8 ? "Sesión redonda." : pct >= 0.5 ? "Vas bien." : "Hoy aprendiste más de lo que acertaste.";
   return (
     <div className="angosto band pila">
       <span className="pastilla">{tema.practica}: terminada</span>
       <h1 style={{ fontSize: "clamp(32px,5vw,56px)" }}>
         {r.aciertos} de {r.total}
       </h1>
-      <p className="lead">Ganaste {p.puntos} puntos. Lo que fallaste vuelve a tu repaso en 1, 3 y 7 días.</p>
+      <p className="lead">
+        {titular} Ganaste {p.puntos} puntos y lo que fallaste vuelve a tu repaso en 1, 3 y 7 días.
+      </p>
+      {porMateria.length > 1 && (
+        <ul className="resumen-materias" aria-label="Aciertos por materia">
+          {porMateria.map((m) => (
+            <li key={m.materia}>
+              <span>{m.materia}</span>
+              <span className="resumen-barra" aria-hidden>
+                <span style={{ width: `${(m.aciertos / m.total) * 100}%` }} />
+              </span>
+              <b>
+                {m.aciertos}/{m.total}
+              </b>
+            </li>
+          ))}
+        </ul>
+      )}
       {c.restante != null && (
         <p className="small">
-          Te quedan {c.restante} preguntas hoy{c.recargaEn ? `; se recargan a las ${formatoHora(c.recargaEn)} (hora del centro)` : ""}.
+          {sinPreguntas ? "Ya usaste tus preguntas de hoy" : `Te quedan ${c.restante} preguntas hoy`}
+          {c.recargaEn ? `; se recargan a las ${formatoHora(c.recargaEn)} (hora del centro)` : ""}.
         </p>
       )}
       <div className="fila">
-        <Link href="/practica" className="btn">
-          {tema.tomarOtra}
-        </Link>
-        <Link href={`/examen/${id}/revision`} className="btn sec">
+        {sinPreguntas ? (
+          plan?.plan !== "pase" && suyo ? (
+            <Link href={`/planes#${suyo.sku}`} className="btn">
+              Seguir sin límite con el {suyo.nombre}
+            </Link>
+          ) : null
+        ) : (
+          <Link href="/practica" className="btn">
+            {tema.tomarOtra}
+          </Link>
+        )}
+        <Link href={`/examen/${id}/revision`} className={sinPreguntas && !(plan?.plan !== "pase" && suyo) ? "btn" : "btn sec"}>
           Repasar estas preguntas
         </Link>
         <Link href="/inicio" className="btn disc">
