@@ -5162,3 +5162,838 @@ main:has(> .joa, > .editorial, > .producto) + .pie {
   font-size: 14px;
   color: var(--j-gris);
 }
+
+/* ───────────────────────────────────────────────────────────────
+   Gamificación (mot-2): Profe Tomás, racha de aciertos, medallas por
+   materia y marcador semanal.
+   ─────────────────────────────────────────────────────────────── */
+
+/* Profe Tomás */
+.profe-trazo {
+  stroke: #0b1d2e;
+  stroke-width: 4;
+}
+.profe-detalle,
+.profe-linea,
+.profe-ceja,
+.profe-ojo-feliz,
+.profe-borla {
+  fill: none;
+  stroke: #0b1d2e;
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+.profe-detalle {
+  stroke: rgba(255, 255, 255, 0.45);
+  stroke-width: 3;
+}
+.profe-ojo-feliz {
+  stroke-width: 6;
+}
+.profe-borla {
+  stroke: #00c5f4;
+  stroke-width: 3;
+}
+.profe-boca {
+  fill: #0b1d2e;
+}
+.profe-svg {
+  display: block;
+  overflow: visible;
+}
+.profe-ojos {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: profe-parpadeo 5s infinite;
+}
+.profe-birrete {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+.profe-cuerpo {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+.profe-feliz .profe-cuerpo {
+  animation: profe-salto 0.5s ease-out;
+}
+.profe-festejo .profe-cuerpo {
+  animation: profe-festejo 0.9s ease-out;
+}
+.profe-festejo .profe-birrete {
+  animation: profe-birrete 0.9s ease-out;
+}
+.profe-animo .profe-cuerpo {
+  animation: profe-ladeo 0.7s ease-in-out;
+}
+.profe-pensando .profe-cuerpo {
+  animation: profe-mece 1.6s ease-in-out infinite;
+}
+.profe-chispas {
+  animation: profe-chispas 1.2s ease-out both;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+@keyframes profe-parpadeo {
+  0%,
+  92%,
+  100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.1);
+  }
+}
+@keyframes profe-salto {
+  40% {
+    transform: translateY(-8px) scaleY(1.03);
+  }
+}
+@keyframes profe-festejo {
+  20% {
+    transform: translateY(-14px) rotate(-4deg);
+  }
+  45% {
+    transform: translateY(0) rotate(3deg) scaleY(0.96);
+  }
+  65% {
+    transform: translateY(-6px) rotate(-2deg);
+  }
+}
+@keyframes profe-birrete {
+  25% {
+    transform: translateY(-14px) rotate(-12deg);
+  }
+  55% {
+    transform: translateY(0) rotate(4deg);
+  }
+}
+@keyframes profe-ladeo {
+  30% {
+    transform: rotate(-4deg);
+  }
+  65% {
+    transform: rotate(2deg);
+  }
+}
+@keyframes profe-mece {
+  50% {
+    transform: rotate(2deg) translateY(-2px);
+  }
+}
+@keyframes profe-chispas {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  to {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+}
+
+.profe {
+  position: relative;
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  margin: -4px 0 18px;
+  padding: 10px 40px 10px 10px;
+  border-radius: var(--r-control);
+  background: color-mix(in srgb, var(--cian) 9%, var(--papel));
+  border: 1.5px solid color-mix(in srgb, var(--cian) 35%, var(--linea));
+}
+.profe-mascota {
+  width: 76px;
+  height: auto;
+}
+.profe-globo {
+  position: relative;
+  background: var(--papel);
+  border: 1.5px solid var(--linea);
+  border-radius: 14px;
+  padding: 8px 14px 10px;
+  animation: profe-globo 0.35s ease-out;
+}
+.profe-globo::before {
+  content: "";
+  position: absolute;
+  left: -8px;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  background: var(--papel);
+  border-left: 1.5px solid var(--linea);
+  border-bottom: 1.5px solid var(--linea);
+  transform: translateY(-50%) rotate(45deg);
+}
+.profe-globo p {
+  margin: 0;
+  font-weight: 600;
+  line-height: 1.4;
+  text-wrap: pretty;
+}
+.profe-nombre {
+  display: block;
+  font: 800 11px/1 var(--sans);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--azul);
+  margin-bottom: 4px;
+}
+.profe-estado-festejo {
+  background: color-mix(in srgb, var(--okf) 16%, var(--papel));
+  border-color: color-mix(in srgb, var(--okf) 55%, var(--linea));
+}
+.profe-estado-animo {
+  background: color-mix(in srgb, var(--midf) 14%, var(--papel));
+  border-color: color-mix(in srgb, var(--midf) 45%, var(--linea));
+}
+.profe-cerrar {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  border: 0;
+  background: transparent;
+  color: var(--gris);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.profe-cerrar:hover {
+  background: color-mix(in srgb, var(--tinta) 8%, transparent);
+}
+.profe-mostrar {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: -4px 0 14px;
+  padding: 4px 12px 4px 6px;
+  border-radius: 999px;
+  border: 1.5px solid var(--linea);
+  background: var(--papel);
+  color: var(--tinta);
+  font: 700 13px var(--sans);
+  cursor: pointer;
+}
+.profe-mostrar svg {
+  width: 30px;
+  height: auto;
+}
+@keyframes profe-globo {
+  from {
+    opacity: 0;
+    transform: translateY(4px) scale(0.98);
+  }
+}
+@media (max-width: 560px) {
+  .profe {
+    grid-template-columns: 54px minmax(0, 1fr);
+    gap: 10px;
+    padding: 8px 34px 8px 8px;
+  }
+  .profe-mascota {
+    width: 54px;
+  }
+  .profe-globo {
+    padding: 6px 10px 8px;
+    font-size: 15px;
+  }
+}
+
+/* Racha de aciertos en la barra del examen */
+.chip-racha {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px 3px 8px;
+  border-radius: 999px;
+  border: 1.5px solid var(--linea);
+  background: var(--papel);
+  color: var(--gris);
+  font: 700 13px var(--sans);
+  white-space: nowrap;
+}
+.chip-racha b {
+  font-family: var(--disp);
+  font-stretch: 120%;
+  font-size: 16px;
+  color: var(--tinta);
+}
+.chip-racha.encendida {
+  border-color: #f08a24;
+  background: color-mix(in srgb, #f2b35a 22%, var(--papel));
+  color: #c2410c;
+  animation: racha-pop 0.5s ease-out;
+}
+.chip-racha.encendida svg {
+  fill: #f2b35a;
+  animation: flama 1.2s ease-in-out infinite;
+}
+@media (max-width: 560px) {
+  .chip-racha-txt {
+    display: none;
+  }
+}
+@keyframes racha-pop {
+  40% {
+    transform: scale(1.18);
+  }
+}
+@keyframes flama {
+  50% {
+    transform: scale(1.12) rotate(-6deg);
+  }
+}
+
+/* Medallas */
+.medalla-svg {
+  flex: none;
+  overflow: visible;
+}
+.medalla-vacia {
+  color: var(--gris);
+}
+.avance-medalla {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: var(--r-control);
+  border: 1.5px dashed var(--linea);
+}
+.avance-medalla > span {
+  display: grid;
+  gap: 4px;
+  flex: 1;
+}
+.barra-medalla {
+  display: block;
+  height: 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--tinta) 9%, transparent);
+  overflow: hidden;
+}
+.barra-medalla span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #f2b35a, #ffd76a);
+  transition: width 0.6s ease;
+}
+.brindis-medalla {
+  position: fixed;
+  z-index: 60;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: max-content;
+  max-width: calc(100vw - 32px);
+  padding: 14px 22px 14px 16px;
+  border-radius: 18px;
+  background: var(--noche);
+  color: #fff;
+  box-shadow: 0 18px 40px -12px rgba(0, 0, 0, 0.5), 0 0 0 3px #ffd76a;
+  animation: brindis 5s ease-in-out both;
+}
+.brindis-medalla div {
+  display: grid;
+  gap: 2px;
+}
+.brindis-medalla b {
+  font-family: var(--disp);
+  font-stretch: 115%;
+  font-size: 20px;
+  line-height: 1.1;
+}
+.brindis-medalla .small {
+  color: var(--lc);
+}
+.brindis-ceja {
+  font: 800 11px/1 var(--sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #ffd76a;
+}
+.brindis-medalla .medalla-svg {
+  animation: medalla-gira 1s ease-out;
+}
+@keyframes brindis {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 20px) scale(0.9);
+  }
+  8%,
+  88% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+}
+@keyframes medalla-gira {
+  from {
+    transform: rotateY(180deg) scale(0.5);
+  }
+}
+
+.medallas {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+  gap: 12px;
+}
+.medallas li {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 14px;
+  border-radius: var(--r-control);
+  border: 1.5px solid var(--linea);
+  background: var(--papel);
+}
+.medallas li > div {
+  display: grid;
+  gap: 4px;
+  flex: 1;
+}
+.medallas li.ganada {
+  border-color: color-mix(in srgb, #f2b35a 60%, var(--linea));
+}
+.medallas-fila {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font: 700 12px var(--sans);
+  color: var(--gris);
+}
+
+/* Liga: divisiones, podio y marcador */
+.liga {
+  display: grid;
+  gap: 18px;
+}
+.liga > .titulo-bloque,
+.liga > header {
+  margin-bottom: 0;
+}
+.liga-divisiones {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.liga-divisiones li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px 6px 10px;
+  border-radius: 999px;
+  border: 1.5px solid var(--linea);
+  color: var(--gris);
+  font: 700 14px var(--sans);
+  opacity: 0.7;
+}
+.liga-divisiones li + li::before {
+  content: "";
+  width: 18px;
+  height: 2px;
+  background: var(--linea);
+  margin-left: -26px;
+  margin-right: 8px;
+}
+.liga-divisiones li.actual,
+.liga-divisiones li.pasada {
+  opacity: 1;
+}
+.liga-divisiones li.actual {
+  color: var(--tinta);
+  border-width: 2px;
+  transform: scale(1.06);
+}
+.div-bronce svg {
+  color: #a8622c;
+  fill: #e3a36b;
+}
+.div-plata svg {
+  color: #6f848e;
+  fill: #e6eef2;
+}
+.div-oro svg {
+  color: #c9961a;
+  fill: #ffd76a;
+}
+.liga-divisiones li.div-bronce.actual {
+  border-color: #a8622c;
+  background: color-mix(in srgb, #e3a36b 18%, var(--papel));
+}
+.liga-divisiones li.div-plata.actual {
+  border-color: #8fa3ad;
+  background: color-mix(in srgb, #e6eef2 50%, var(--papel));
+}
+.liga-divisiones li.div-oro.actual {
+  border-color: #c9961a;
+  background: color-mix(in srgb, #ffd76a 25%, var(--papel));
+}
+
+.liga-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 18px 12px 12px;
+  border-radius: var(--r-control);
+  background: color-mix(in srgb, var(--cian) 10%, var(--papel));
+  border: 1.5px solid color-mix(in srgb, var(--cian) 40%, var(--linea));
+}
+.liga-meta.sube {
+  background: color-mix(in srgb, var(--okf) 15%, var(--papel));
+  border-color: color-mix(in srgb, var(--okf) 55%, var(--linea));
+}
+.liga-meta p {
+  margin: 0;
+}
+.liga-meta-profe {
+  width: 64px;
+  flex: none;
+}
+.liga-vacio {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  text-align: left;
+}
+.liga-vacio-profe {
+  width: 110px;
+  flex: none;
+}
+
+.podio {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: end;
+  gap: 10px;
+}
+.podio li {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  text-align: center;
+  padding: 14px 8px 0;
+}
+.podio-1 {
+  order: 2;
+}
+.podio-2 {
+  order: 1;
+}
+.podio-3 {
+  order: 3;
+}
+.podio-corona {
+  color: #c9961a;
+  fill: #ffd76a;
+  position: absolute;
+  top: -8px;
+  animation: flama 2.4s ease-in-out infinite;
+}
+.podio-avatar,
+.marcador-avatar {
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  font-family: var(--disp);
+  font-stretch: 120%;
+  color: var(--noche);
+  background: var(--lc);
+  border: 3px solid var(--papel);
+  box-shadow: 0 0 0 2px var(--linea);
+}
+.podio-avatar {
+  width: 58px;
+  height: 58px;
+  font-size: 24px;
+}
+.podio-1 .podio-avatar {
+  width: 70px;
+  height: 70px;
+  font-size: 28px;
+  background: #ffd76a;
+  box-shadow: 0 0 0 3px #c9961a;
+}
+.podio-2 .podio-avatar {
+  background: #e6eef2;
+  box-shadow: 0 0 0 3px #8fa3ad;
+}
+.podio-3 .podio-avatar {
+  background: #e3a36b;
+  box-shadow: 0 0 0 3px #a8622c;
+}
+.podio-alias {
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+.podio-puntos {
+  font: 800 14px var(--sans);
+  color: var(--gris);
+}
+.podio-escalon {
+  width: 100%;
+  margin-top: 6px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px 12px 0 0;
+  font-family: var(--disp);
+  font-stretch: 130%;
+  font-size: 34px;
+  color: #fff;
+  background: var(--ciruela);
+}
+.podio-1 .podio-escalon {
+  height: 92px;
+  background: linear-gradient(180deg, #003b5c, #0b1d2e);
+  box-shadow: inset 0 4px 0 #ffd76a;
+}
+.podio-2 .podio-escalon {
+  height: 66px;
+  box-shadow: inset 0 4px 0 #8fa3ad;
+}
+.podio-3 .podio-escalon {
+  height: 48px;
+  box-shadow: inset 0 4px 0 #a8622c;
+}
+.podio li[aria-current="true"] .podio-alias {
+  color: var(--azul);
+}
+.podio li[aria-current="true"] .podio-escalon {
+  outline: 3px solid var(--cian);
+  outline-offset: -3px;
+}
+
+.marcador {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.marcador li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 34px 38px minmax(0, 1fr) auto auto;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 14px 8px 10px;
+  border-radius: var(--r-control);
+  background: var(--papel);
+  border: 1.5px solid var(--linea);
+}
+.marcador li.zona-sube {
+  box-shadow: inset 4px 0 0 var(--ok);
+}
+.marcador li.zona-baja {
+  box-shadow: inset 4px 0 0 var(--bad);
+}
+.marcador li[aria-current="true"] {
+  border-color: var(--cian);
+  background: color-mix(in srgb, var(--cian) 12%, var(--papel));
+  transform: scale(1.01);
+  font-weight: 700;
+}
+.marcador-corte {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 10px;
+  border-radius: 999px;
+  font: 800 10px/1.6 var(--sans);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  z-index: 1;
+}
+.marcador-corte.sube {
+  background: var(--ok);
+  color: #fff;
+}
+.marcador-corte.baja {
+  background: var(--bad);
+  color: #fff;
+}
+.marcador li:has(.marcador-corte) {
+  margin-top: 12px;
+}
+.marcador-lugar {
+  font-family: var(--disp);
+  font-stretch: 120%;
+  font-size: 18px;
+  text-align: center;
+  color: var(--gris);
+}
+.marcador-avatar {
+  width: 36px;
+  height: 36px;
+  font-size: 15px;
+  border-width: 2px;
+}
+.marcador-alias {
+  display: grid;
+  gap: 5px;
+  overflow-wrap: anywhere;
+}
+.marcador-barra {
+  display: block;
+  height: 5px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--tinta) 7%, transparent);
+  overflow: hidden;
+}
+.marcador-barra span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--cian);
+}
+.marcador-puntos {
+  font-family: var(--disp);
+  font-stretch: 115%;
+  font-size: 18px;
+  text-align: right;
+  min-width: 64px;
+}
+.marcador-puntos small {
+  font: 700 11px var(--sans);
+  color: var(--gris);
+}
+.racha-liga {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 9px 2px 6px;
+  border-radius: 999px;
+  font: 800 13px var(--sans);
+  color: #c2410c;
+  background: color-mix(in srgb, #f2b35a 18%, var(--papel));
+  border: 1.5px solid color-mix(in srgb, #f08a24 45%, var(--linea));
+}
+.racha-liga.apagada {
+  color: var(--gris);
+  background: transparent;
+  border-color: var(--linea);
+}
+.racha-liga.encendida svg {
+  fill: #f2b35a;
+  animation: flama 1.2s ease-in-out infinite;
+}
+:root[data-tema="oscuro"] .racha-liga:not(.apagada),
+:root[data-tema="oscuro"] .chip-racha.encendida {
+  color: #ffb27a;
+}
+@media (prefers-color-scheme: dark) {
+  :root[data-tema="sistema"] .racha-liga:not(.apagada),
+  :root[data-tema="sistema"] .chip-racha.encendida {
+    color: #ffb27a;
+  }
+}
+.liga-leyenda {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  color: var(--gris);
+}
+.liga-puntos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.liga-puntos li {
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--tinta) 5%, transparent);
+  font-size: 14px;
+}
+.liga-puntos b {
+  color: var(--ok);
+}
+@media (max-width: 560px) {
+  .podio {
+    gap: 6px;
+  }
+  .podio-avatar {
+    width: 46px;
+    height: 46px;
+    font-size: 19px;
+  }
+  .podio-1 .podio-avatar {
+    width: 56px;
+    height: 56px;
+  }
+  .podio-alias {
+    font-size: 13px;
+  }
+  .marcador li {
+    grid-template-columns: 26px minmax(0, 1fr) auto auto;
+    gap: 8px;
+    padding: 8px 10px 8px 8px;
+  }
+  .marcador-avatar {
+    display: none;
+  }
+  .marcador-puntos {
+    min-width: 0;
+    font-size: 16px;
+  }
+  .liga-vacio {
+    flex-direction: column;
+    text-align: center;
+  }
+  .liga-divisiones li + li::before {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .profe-svg *,
+  .chip-racha,
+  .chip-racha svg,
+  .racha-liga svg,
+  .podio-corona,
+  .brindis-medalla,
+  .brindis-medalla .medalla-svg {
+    animation: none !important;
+  }
+}
+.prac-filas b .medallas-fila {
+  display: flex;
+  margin-top: 4px;
+  font-weight: 700;
+}
+.pila > .profe { margin-bottom: 0; }

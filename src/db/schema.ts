@@ -931,6 +931,9 @@ export const racha = pgTable(
     proteccionUsada: date("proteccion_usada", { mode: "string" }),
     /** Días estudiados, para dibujar el pulso (últimos 60, AAAA-MM-DD). */
     dias: text("dias").notNull().default(""),
+    /** Aciertos seguidos en práctica (se reinicia con el primer error). */
+    aciertosSeguidos: smallint("aciertos_seguidos").notNull().default(0),
+    mejorAciertos: smallint("mejor_aciertos").notNull().default(0),
   },
   (t) => [check("racha_mejor_ck", sql`${t.mejor} >= ${t.actual}`)],
 );
@@ -968,6 +971,8 @@ export const clasificacionSemanal = pgTable(
     grupo: smallint("grupo").notNull().default(1),
     puntos: integer("puntos").notNull().default(0),
     posicion: smallint("posicion"),
+    /** Racha de aciertos más larga de la semana, para el marcador. */
+    mejorRachaAciertos: smallint("mejor_racha_aciertos").notNull().default(0),
   },
   (t) => [
     primaryKey({ columns: [t.semana, t.cuentaId] }),

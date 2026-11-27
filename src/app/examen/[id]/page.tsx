@@ -6,6 +6,8 @@ import { intentoDe, itemsVisibles, seccionesDe } from "@/lib/evaluacion/evaluaci
 import { componer, componerDatos } from "@/lib/formulas";
 import { Examen } from "./examen";
 import { temaActual } from "@/lib/tema-sesion";
+import { eq } from "drizzle-orm";
+import * as s from "@/db/schema";
 
 export const metadata: Metadata = { title: "Examen en curso", robots: { index: false } };
 
@@ -19,6 +21,9 @@ export default async function PaginaExamen({ params }: { params: Promise<{ id: s
   const secciones = await seccionesDe(db, id);
   const { items, textos } = await itemsVisibles(db, id);
   const tema = await temaActual();
+  const [racha] = i.cuentaId && i.modo === "practica"
+    ? await db.select({ a: s.racha.aciertosSeguidos, m: s.racha.mejorAciertos }).from(s.racha).where(eq(s.racha.cuentaId, i.cuentaId))
+    : [];
   return (
     <Examen
       intento={{ id: i.id, modo: i.modo, venceEn: i.venceEn.toISOString(), global: i.modo !== "diagnostico" }}
@@ -39,6 +44,7 @@ export default async function PaginaExamen({ params }: { params: Promise<{ id: s
       textos={textos}
       vocabulario={{ practica: tema.practica, aciertos: tema.aciertos }}
       ahoraServidor={new Date().toISOString()}
+      rachaInicial={i.cuentaId && i.modo === "practica" ? { actual: racha?.a ?? 0, mejor: racha?.m ?? 0 } : null}
     />
   );
 }
